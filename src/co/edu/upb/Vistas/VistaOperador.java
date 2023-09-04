@@ -42,7 +42,7 @@ public class VistaOperador extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
         jSeparator3 = new javax.swing.JSeparator();
         jLabel8 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        TextFieldBuscador = new javax.swing.JTextField();
         jLabel21 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jPanel4 = new javax.swing.JPanel();
@@ -122,7 +122,7 @@ public class VistaOperador extends javax.swing.JFrame {
         jSeparator1.setBackground(new java.awt.Color(255, 255, 255));
         jSeparator1.setForeground(new java.awt.Color(255, 255, 255));
         jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
-        jPanel2.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1010, 20, 10, 20));
+        jPanel2.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1010, 10, 10, 40));
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1180, 70));
 
@@ -141,6 +141,7 @@ public class VistaOperador extends javax.swing.JFrame {
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Confirmar");
         jButton1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         TextAreaTotal.setBackground(new java.awt.Color(255, 255, 255));
@@ -232,9 +233,14 @@ public class VistaOperador extends javax.swing.JFrame {
         jLabel8.setText("Buscar producto");
         AddProduct.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(21, 79, -1, -1));
 
-        jTextField1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jTextField1.setText(" Buscar...");
-        AddProduct.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(21, 110, 341, 41));
+        TextFieldBuscador.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        TextFieldBuscador.setText(" Buscar...");
+        TextFieldBuscador.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TextFieldBuscadorMouseClicked(evt);
+            }
+        });
+        AddProduct.add(TextFieldBuscador, new org.netbeans.lib.awtextra.AbsoluteConstraints(21, 110, 341, 41));
 
         jLabel21.setFont(new java.awt.Font("Bahnschrift", 1, 24)); // NOI18N
         jLabel21.setForeground(new java.awt.Color(0, 0, 0));
@@ -534,6 +540,10 @@ public class VistaOperador extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void TextFieldBuscadorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TextFieldBuscadorMouseClicked
+        TextFieldBuscador.setText("");
+    }//GEN-LAST:event_TextFieldBuscadorMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel AddProduct;
@@ -544,6 +554,7 @@ public class VistaOperador extends javax.swing.JFrame {
     private javax.swing.JTabbedPane TabbebPaneMain;
     private javax.swing.JTextArea TextAreaCarritoCompras;
     private javax.swing.JTextArea TextAreaTotal;
+    private javax.swing.JTextField TextFieldBuscador;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JComboBox<String> jComboBox1;
@@ -586,7 +597,6 @@ public class VistaOperador extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator4;
     private javax.swing.JSeparator jSeparator5;
     private javax.swing.JTabbedPane jTabbedPane2;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField6;
