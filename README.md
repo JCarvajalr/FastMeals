@@ -1,2 +1,2 @@
 # FoodUPB
-Proyecto de aula de terce semestre para Estructuras de datos
+Proyecto de aula de tercer semestre para Estructuras de datos
