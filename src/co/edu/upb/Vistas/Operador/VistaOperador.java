@@ -1,4 +1,4 @@
-package co.edu.upb.Vistas;
+package co.edu.upb.Vistas.Operador;
 
 import co.edu.upb.Estructuras.Lista.Doble.LinkedList;
 

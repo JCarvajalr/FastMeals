@@ -1,5 +1,7 @@
 package co.edu.upb.Vistas;
 
+import co.edu.upb.Vistas.Operador.VistaOperador;
+import co.edu.upb.Vistas.Entrega.VistaEntrega;
 import javax.swing.*;
 
 import java.awt.*;
