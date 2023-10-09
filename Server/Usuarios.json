@@ -1,0 +1,22 @@
+[
+  {
+    "username": "operador",
+    "password": "operador",
+    "tipoUsuario": "OPERADOR"
+  },
+  {
+    "username": "entrega",
+    "password": "entrega",
+    "tipoUsuario": "ENTREGA"
+  },
+  {
+    "username": "admin",
+    "password": "admin",
+    "tipoUsuario": "ADMIN"
+  },
+  {
+    "username": "cocina",
+    "password": "cocina",
+    "tipoUsuario": "COCINA"
+  }
+]

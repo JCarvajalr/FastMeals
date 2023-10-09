@@ -1,0 +1,72 @@
+[
+  {
+    "precio": 12000,
+    "nombre": "Hamburguesa Clásica",
+    "tiempoCoccion": 1,
+    "id": "001",
+    "descripcion": ""
+  },
+  {
+    "precio": 6000,
+    "nombre": "Papas fritas",
+    "tiempoCoccion": 0,
+    "id": "002",
+    "descripcion": "Porción de papas a la francesa."
+  },
+  {
+    "precio": 7000,
+    "nombre": "Nuggets de Pollo",
+    "tiempoCoccion": 0,
+    "id": "003",
+    "descripcion": ""
+  },
+  {
+    "precio": 10000,
+    "nombre": "Tacos de Carne Asada",
+    "tiempoCoccion": 0,
+    "id": "004",
+    "descripcion": ""
+  },
+  {
+    "precio": 10000,
+    "nombre": "Hot Dog con Chili",
+    "tiempoCoccion": 0,
+    "id": "005",
+    "descripcion": ""
+  },
+  {
+    "precio": 8000,
+    "nombre": "Aros de Cebolla",
+    "tiempoCoccion": 0,
+    "id": "006",
+    "descripcion": ""
+  },
+  {
+    "precio": 18000,
+    "nombre": "Pizza de Pepperoni",
+    "tiempoCoccion": 1,
+    "id": "007",
+    "descripcion": ""
+  },
+  {
+    "precio": 10000,
+    "nombre": "Burrito de Pollo",
+    "tiempoCoccion": 0,
+    "id": "008",
+    "descripcion": ""
+  },
+  {
+    "precio": 10000,
+    "nombre": "Sándwich BLT",
+    "tiempoCoccion": 0,
+    "id": "009",
+    "descripcion": ""
+  },
+  {
+    "precio": 25000,
+    "nombre": "Picada",
+    "tiempoCoccion": 1,
+    "id": "010",
+    "descripcion": ""
+  }
+]
