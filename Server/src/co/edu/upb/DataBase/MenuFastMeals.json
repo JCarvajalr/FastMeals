@@ -1,0 +1,80 @@
+[
+  {
+    "precio": 14000,
+    "nombre": "Hamburguesa Clásica",
+    "tiempoCoccion": 0,
+    "id": "001",
+    "descripcion": "Carne a la parrilla, lechuga, tomate y salsa en un pan suave."
+  },
+  {
+    "precio": 18000,
+    "nombre": "Hamburguesa Especial",
+    "tiempoCoccion": 1,
+    "id": "002",
+    "descripcion": "Carne de res premium a la parrilla, queso cheddar, cebolla caramelizada y lechuga en pan de brioche."
+  },
+  {
+    "precio": 6000,
+    "nombre": "Papas fritas",
+    "tiempoCoccion": 0,
+    "id": "003",
+    "descripcion": "Porción de papas a la francesa."
+  },
+  {
+    "precio": 7000,
+    "nombre": "Nuggets de Pollo",
+    "tiempoCoccion": 0,
+    "id": "004",
+    "descripcion": "Trozos de pollo empanizado, ideales como aperitivo o complemento."
+  },
+  {
+    "precio": 12000,
+    "nombre": "Tacos de Carne Asada",
+    "tiempoCoccion": 0,
+    "id": "005",
+    "descripcion": "Tacos rellenos de carne asada, cebolla, cilantro y salsa."
+  },
+  {
+    "precio": 10000,
+    "nombre": "Hot Dog con Chili",
+    "tiempoCoccion": 0,
+    "id": "006",
+    "descripcion": "Hot dog con salchicha, pan suave y chili con carne, cebolla y queso."
+  },
+  {
+    "precio": 8000,
+    "nombre": "Aros de Cebolla",
+    "tiempoCoccion": 0,
+    "id": "007",
+    "descripcion": "Aros de cebolla crujientes, ideales como aperitivo o acompañamiento."
+  },
+  {
+    "precio": 18000,
+    "nombre": "Pizza de Pepperoni",
+    "tiempoCoccion": 1,
+    "id": "008",
+    "descripcion": "Pizza con salsa de tomate, queso derretido y rodajas de pepperoni."
+  },
+  {
+    "precio": 10000,
+    "nombre": "Burrito de Pollo",
+    "tiempoCoccion": 0,
+    "id": "009",
+    "descripcion": "Burrito relleno de pollo a la parrilla, arroz, frijoles y salsa."
+  },
+  {
+    "precio": 10000,
+    "nombre": "Sándwich BLT",
+    "tiempoCoccion": 0,
+    "id": "0010",
+    "descripcion": "Sándwich con tocino, lechuga y tomate en pan tostado."
+  },
+  {
+    "precio": 30000,
+    "nombre": "Picada",
+    "tiempoCoccion": 1,
+    "id": "011",
+    "descripcion": "Una variedad de carnes y acompañamientos para 2 personas."
+
+  }
+]

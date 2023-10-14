@@ -1,4 +1,6 @@
-package co.edu.upb;
+package co.edu.upb.Cocina;
+
+import co.edu.upb.Cocina.VistaCocina;
 
 public class Main {
     public static void main(String[] args) {
