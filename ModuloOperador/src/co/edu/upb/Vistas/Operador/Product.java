@@ -20,4 +20,8 @@ public class Product {
         return nombre;
     }
     
+    public String getId(){
+        return id;
+    }
+    
 }

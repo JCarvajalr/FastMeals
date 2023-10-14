@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
+<Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
   </Properties>
@@ -110,7 +110,7 @@
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="1070" y="0" width="-1" height="70"/>
+                  <AbsoluteConstraints x="1230" y="0" width="-1" height="70"/>
                 </Constraint>
               </Constraints>
             </Component>
@@ -144,7 +144,7 @@
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="1170" y="10" width="-1" height="-1"/>
+                  <AbsoluteConstraints x="1330" y="10" width="-1" height="-1"/>
                 </Constraint>
               </Constraints>
             </Component>
@@ -160,7 +160,7 @@
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="1060" y="10" width="10" height="40"/>
+                  <AbsoluteConstraints x="1220" y="10" width="10" height="40"/>
                 </Constraint>
               </Constraints>
             </Component>
@@ -347,7 +347,7 @@
                   </Properties>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                      <AbsoluteConstraints x="0" y="0" width="1390" height="80"/>
+                      <AbsoluteConstraints x="0" y="0" width="1390" height="90"/>
                     </Constraint>
                   </Constraints>
 
@@ -381,7 +381,7 @@
                   </Properties>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                      <AbsoluteConstraints x="0" y="49" width="1190" height="760"/>
+                      <AbsoluteConstraints x="0" y="50" width="1190" height="790"/>
                     </Constraint>
                   </Constraints>
 
@@ -480,6 +480,7 @@
                           </Properties>
                           <Events>
                             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="TextFieldBuscadorMouseClicked"/>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="TextFieldBuscadorActionPerformed"/>
                           </Events>
                           <Constraints>
                             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
@@ -521,6 +522,9 @@
                               </Border>
                             </Property>
                           </Properties>
+                          <AuxValues>
+                            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jScrollPane2.getVerticalScrollBar().setUnitIncrement(20);"/>
+                          </AuxValues>
                           <Constraints>
                             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
                               <AbsoluteConstraints x="0" y="230" width="1180" height="540"/>
@@ -571,7 +575,7 @@
                                     <Component class="javax.swing.JLabel" name="imagenProducto3">
                                       <Properties>
                                         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                                          <Image iconType="3" name="/co/edu/upb/Iconos/Hamburguesa.png"/>
+                                          <Image iconType="3" name="/co/edu/upb/Iconos/Productos/TacosDeCarneAsada.png"/>
                                         </Property>
                                       </Properties>
                                       <Constraints>
@@ -606,6 +610,9 @@
                                             <EmptyBorder/>
                                           </Border>
                                         </Property>
+                                        <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+                                          <Color id="Hand Cursor"/>
+                                        </Property>
                                         <Property name="pressedIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                                           <Image iconType="3" name="/co/edu/upb/Iconos/Buttoms/BotonEliminarPressed (Custom).png"/>
                                         </Property>
@@ -634,6 +641,9 @@
                                           <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
                                             <EmptyBorder/>
                                           </Border>
+                                        </Property>
+                                        <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+                                          <Color id="Hand Cursor"/>
                                         </Property>
                                         <Property name="pressedIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                                           <Image iconType="3" name="/co/edu/upb/Iconos/Buttoms/BotonA&#xf1;adirPressed (Custom).png"/>
@@ -715,6 +725,9 @@
                                             <EmptyBorder/>
                                           </Border>
                                         </Property>
+                                        <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+                                          <Color id="Hand Cursor"/>
+                                        </Property>
                                         <Property name="pressedIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                                           <Image iconType="3" name="/co/edu/upb/Iconos/Buttoms/BotonEliminarPressed (Custom).png"/>
                                         </Property>
@@ -743,6 +756,9 @@
                                           <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
                                             <EmptyBorder/>
                                           </Border>
+                                        </Property>
+                                        <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+                                          <Color id="Hand Cursor"/>
                                         </Property>
                                         <Property name="pressedIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                                           <Image iconType="3" name="/co/edu/upb/Iconos/Buttoms/BotonA&#xf1;adirPressed (Custom).png"/>
@@ -972,7 +988,7 @@
                                     <Component class="javax.swing.JLabel" name="imagenProducto2">
                                       <Properties>
                                         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                                          <Image iconType="3" name="/co/edu/upb/Iconos/Hamburguesa.png"/>
+                                          <Image iconType="3" name="/co/edu/upb/Iconos/Productos/HamburguesaEspecial.png"/>
                                         </Property>
                                       </Properties>
                                       <Constraints>
@@ -997,6 +1013,9 @@
                                             <EmptyBorder/>
                                           </Border>
                                         </Property>
+                                        <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+                                          <Color id="Hand Cursor"/>
+                                        </Property>
                                         <Property name="pressedIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                                           <Image iconType="3" name="/co/edu/upb/Iconos/Buttoms/BotonA&#xf1;adirPressed (Custom).png"/>
                                         </Property>
@@ -1020,6 +1039,9 @@
                                             <EmptyBorder/>
                                           </Border>
                                         </Property>
+                                        <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+                                          <Color id="Hand Cursor"/>
+                                        </Property>
                                         <Property name="pressedIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                                           <Image iconType="3" name="/co/edu/upb/Iconos/Buttoms/BotonEliminarPressed (Custom).png"/>
                                         </Property>
@@ -1036,7 +1058,7 @@
                                     <Component class="javax.swing.JLabel" name="imagenProducto1">
                                       <Properties>
                                         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                                          <Image iconType="3" name="/co/edu/upb/Iconos/Hamburguesa.png"/>
+                                          <Image iconType="3" name="/co/edu/upb/Iconos/Productos/HamburguesaClasica.png"/>
                                         </Property>
                                       </Properties>
                                       <Constraints>
@@ -1048,7 +1070,7 @@
                                     <Component class="javax.swing.JLabel" name="imagenProducto4">
                                       <Properties>
                                         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                                          <Image iconType="3" name="/co/edu/upb/Iconos/Hamburguesa.png"/>
+                                          <Image iconType="3" name="/co/edu/upb/Iconos/Productos/HotDog.png"/>
                                         </Property>
                                       </Properties>
                                       <Constraints>
@@ -1073,6 +1095,9 @@
                                             <EmptyBorder/>
                                           </Border>
                                         </Property>
+                                        <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+                                          <Color id="Hand Cursor"/>
+                                        </Property>
                                         <Property name="pressedIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                                           <Image iconType="3" name="/co/edu/upb/Iconos/Buttoms/BotonA&#xf1;adirPressed (Custom).png"/>
                                         </Property>
@@ -1096,6 +1121,9 @@
                                             <EmptyBorder/>
                                           </Border>
                                         </Property>
+                                        <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+                                          <Color id="Hand Cursor"/>
+                                        </Property>
                                         <Property name="pressedIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                                           <Image iconType="3" name="/co/edu/upb/Iconos/Buttoms/BotonEliminarPressed (Custom).png"/>
                                         </Property>
@@ -1112,7 +1140,7 @@
                                     <Component class="javax.swing.JLabel" name="imagenProducto5">
                                       <Properties>
                                         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                                          <Image iconType="3" name="/co/edu/upb/Iconos/Hamburguesa.png"/>
+                                          <Image iconType="3" name="/co/edu/upb/Iconos/Productos/Burrito.png"/>
                                         </Property>
                                       </Properties>
                                       <Constraints>
@@ -1137,6 +1165,9 @@
                                             <EmptyBorder/>
                                           </Border>
                                         </Property>
+                                        <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+                                          <Color id="Hand Cursor"/>
+                                        </Property>
                                         <Property name="pressedIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                                           <Image iconType="3" name="/co/edu/upb/Iconos/Buttoms/BotonA&#xf1;adirPressed (Custom).png"/>
                                         </Property>
@@ -1160,6 +1191,9 @@
                                             <EmptyBorder/>
                                           </Border>
                                         </Property>
+                                        <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+                                          <Color id="Hand Cursor"/>
+                                        </Property>
                                         <Property name="pressedIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                                           <Image iconType="3" name="/co/edu/upb/Iconos/Buttoms/BotonEliminarPressed (Custom).png"/>
                                         </Property>
@@ -1176,7 +1210,7 @@
                                     <Component class="javax.swing.JLabel" name="imagenProducto6">
                                       <Properties>
                                         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                                          <Image iconType="3" name="/co/edu/upb/Iconos/Hamburguesa.png"/>
+                                          <Image iconType="3" name="/co/edu/upb/Iconos/Productos/S&#xe1;ndwichBLT.png"/>
                                         </Property>
                                       </Properties>
                                       <Constraints>
@@ -1258,6 +1292,9 @@
                                             <EmptyBorder/>
                                           </Border>
                                         </Property>
+                                        <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+                                          <Color id="Hand Cursor"/>
+                                        </Property>
                                         <Property name="pressedIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                                           <Image iconType="3" name="/co/edu/upb/Iconos/Buttoms/BotonA&#xf1;adirPressed (Custom).png"/>
                                         </Property>
@@ -1280,6 +1317,9 @@
                                           <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
                                             <EmptyBorder/>
                                           </Border>
+                                        </Property>
+                                        <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+                                          <Color id="Hand Cursor"/>
                                         </Property>
                                         <Property name="pressedIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                                           <Image iconType="3" name="/co/edu/upb/Iconos/Buttoms/BotonEliminarPressed (Custom).png"/>
@@ -1411,7 +1451,7 @@
                                     <Component class="javax.swing.JLabel" name="imagenProducto7">
                                       <Properties>
                                         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                                          <Image iconType="3" name="/co/edu/upb/Iconos/Hamburguesa.png"/>
+                                          <Image iconType="3" name="/co/edu/upb/Iconos/Productos/PizzaDePepperoni.png"/>
                                         </Property>
                                       </Properties>
                                       <Constraints>
@@ -1436,6 +1476,9 @@
                                             <EmptyBorder/>
                                           </Border>
                                         </Property>
+                                        <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+                                          <Color id="Hand Cursor"/>
+                                        </Property>
                                         <Property name="pressedIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                                           <Image iconType="3" name="/co/edu/upb/Iconos/Buttoms/BotonA&#xf1;adirPressed (Custom).png"/>
                                         </Property>
@@ -1458,6 +1501,9 @@
                                           <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
                                             <EmptyBorder/>
                                           </Border>
+                                        </Property>
+                                        <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+                                          <Color id="Hand Cursor"/>
                                         </Property>
                                         <Property name="pressedIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                                           <Image iconType="3" name="/co/edu/upb/Iconos/Buttoms/BotonEliminarPressed (Custom).png"/>
@@ -1516,7 +1562,7 @@
                                     <Component class="javax.swing.JLabel" name="imagenProducto8">
                                       <Properties>
                                         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                                          <Image iconType="3" name="/co/edu/upb/Iconos/Hamburguesa.png"/>
+                                          <Image iconType="3" name="/co/edu/upb/Iconos/Productos/Picada.jpg"/>
                                         </Property>
                                       </Properties>
                                       <Constraints>
@@ -1541,6 +1587,9 @@
                                             <EmptyBorder/>
                                           </Border>
                                         </Property>
+                                        <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+                                          <Color id="Hand Cursor"/>
+                                        </Property>
                                         <Property name="pressedIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                                           <Image iconType="3" name="/co/edu/upb/Iconos/Buttoms/BotonA&#xf1;adirPressed (Custom).png"/>
                                         </Property>
@@ -1563,6 +1612,9 @@
                                           <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
                                             <EmptyBorder/>
                                           </Border>
+                                        </Property>
+                                        <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+                                          <Color id="Hand Cursor"/>
                                         </Property>
                                         <Property name="pressedIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                                           <Image iconType="3" name="/co/edu/upb/Iconos/Buttoms/BotonEliminarPressed (Custom).png"/>
@@ -1694,7 +1746,7 @@
                                     <Component class="javax.swing.JLabel" name="imagenProducto9">
                                       <Properties>
                                         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                                          <Image iconType="3" name="/co/edu/upb/Iconos/Hamburguesa.png"/>
+                                          <Image iconType="3" name="/co/edu/upb/Iconos/Productos/HamburguesaEspecial.png"/>
                                         </Property>
                                       </Properties>
                                       <Constraints>
@@ -1719,6 +1771,9 @@
                                             <EmptyBorder/>
                                           </Border>
                                         </Property>
+                                        <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+                                          <Color id="Hand Cursor"/>
+                                        </Property>
                                         <Property name="pressedIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                                           <Image iconType="3" name="/co/edu/upb/Iconos/Buttoms/BotonA&#xf1;adirPressed (Custom).png"/>
                                         </Property>
@@ -1741,6 +1796,9 @@
                                           <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
                                             <EmptyBorder/>
                                           </Border>
+                                        </Property>
+                                        <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+                                          <Color id="Hand Cursor"/>
                                         </Property>
                                         <Property name="pressedIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                                           <Image iconType="3" name="/co/edu/upb/Iconos/Buttoms/BotonEliminarPressed (Custom).png"/>
@@ -1783,7 +1841,7 @@
                                     <Component class="javax.swing.JLabel" name="imagenProducto10">
                                       <Properties>
                                         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                                          <Image iconType="3" name="/co/edu/upb/Iconos/Hamburguesa.png"/>
+                                          <Image iconType="3" name="/co/edu/upb/Iconos/Productos/HamburguesaEspecial.png"/>
                                         </Property>
                                       </Properties>
                                       <Constraints>
@@ -1808,6 +1866,9 @@
                                             <EmptyBorder/>
                                           </Border>
                                         </Property>
+                                        <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+                                          <Color id="Hand Cursor"/>
+                                        </Property>
                                         <Property name="pressedIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                                           <Image iconType="3" name="/co/edu/upb/Iconos/Buttoms/BotonA&#xf1;adirPressed (Custom).png"/>
                                         </Property>
@@ -1830,6 +1891,9 @@
                                           <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
                                             <EmptyBorder/>
                                           </Border>
+                                        </Property>
+                                        <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+                                          <Color id="Hand Cursor"/>
                                         </Property>
                                         <Property name="pressedIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                                           <Image iconType="3" name="/co/edu/upb/Iconos/Buttoms/BotonEliminarPressed (Custom).png"/>
@@ -1904,7 +1968,7 @@
                                     <Component class="javax.swing.JLabel" name="imagenProducto11">
                                       <Properties>
                                         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                                          <Image iconType="3" name="/co/edu/upb/Iconos/Hamburguesa.png"/>
+                                          <Image iconType="3" name="/co/edu/upb/Iconos/Productos/ArosDeCebolla.png"/>
                                         </Property>
                                       </Properties>
                                       <Constraints>
@@ -1929,6 +1993,9 @@
                                             <EmptyBorder/>
                                           </Border>
                                         </Property>
+                                        <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+                                          <Color id="Hand Cursor"/>
+                                        </Property>
                                         <Property name="pressedIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                                           <Image iconType="3" name="/co/edu/upb/Iconos/Buttoms/BotonA&#xf1;adirPressed (Custom).png"/>
                                         </Property>
@@ -1951,6 +2018,9 @@
                                           <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
                                             <EmptyBorder/>
                                           </Border>
+                                        </Property>
+                                        <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+                                          <Color id="Hand Cursor"/>
                                         </Property>
                                         <Property name="pressedIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                                           <Image iconType="3" name="/co/edu/upb/Iconos/Buttoms/BotonEliminarPressed (Custom).png"/>

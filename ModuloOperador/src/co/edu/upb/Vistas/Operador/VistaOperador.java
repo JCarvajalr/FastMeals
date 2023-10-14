@@ -9,11 +9,10 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 public class VistaOperador extends javax.swing.JFrame {
-    LinkedList<String> productos = new LinkedList<>();
     LinkedList<Product> menu = new LinkedList<>();
     ColaPrioridad<Order> colaDePedidos = new ColaPrioridad<>(2);
     Order pedidoActual;
-    
+    ElementosVisualesProducto[] gruposSwingMenu = new ElementosVisualesProducto[11];
     
     public VistaOperador(){
         pedidoActual = new Order();
@@ -25,6 +24,7 @@ public class VistaOperador extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         setResizable(false);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+        agruparElementos();
     }
     
     @SuppressWarnings("unchecked")
@@ -187,7 +187,7 @@ public class VistaOperador extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Bahnschrift", 0, 20)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Operador");
-        jPanelUpBar.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(1070, 0, -1, 70));
+        jPanelUpBar.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(1230, 0, -1, 70));
 
         jLabel4.setFont(new java.awt.Font("Bahnschrift", 0, 20)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
@@ -201,12 +201,12 @@ public class VistaOperador extends javax.swing.JFrame {
         jPanelUpBar.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 0, -1, 70));
 
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/IconoOperador.png"))); // NOI18N
-        jPanelUpBar.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(1170, 10, -1, -1));
+        jPanelUpBar.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(1330, 10, -1, -1));
 
         jSeparator1.setBackground(new java.awt.Color(255, 255, 255));
         jSeparator1.setForeground(new java.awt.Color(255, 255, 255));
         jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
-        jPanelUpBar.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1060, 10, 10, 40));
+        jPanelUpBar.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1220, 10, 10, 40));
 
         jPanel1.add(jPanelUpBar, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1390, 70));
 
@@ -295,7 +295,7 @@ public class VistaOperador extends javax.swing.JFrame {
         jLabel5.setText("Nuevo Pedido");
         jPanel3.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(21, 23, -1, -1));
 
-        PanelNuevoPedido.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1390, 80));
+        PanelNuevoPedido.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1390, 90));
 
         jTabbedPane2.setBackground(new java.awt.Color(245, 245, 245));
 
@@ -333,6 +333,11 @@ public class VistaOperador extends javax.swing.JFrame {
                 TextFieldBuscadorMouseClicked(evt);
             }
         });
+        TextFieldBuscador.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TextFieldBuscadorActionPerformed(evt);
+            }
+        });
         AddProduct.add(TextFieldBuscador, new org.netbeans.lib.awtextra.AbsoluteConstraints(21, 110, 341, 41));
 
         jLabel21.setFont(new java.awt.Font("Bahnschrift", 1, 24)); // NOI18N
@@ -351,7 +356,7 @@ public class VistaOperador extends javax.swing.JFrame {
         jPanel5.setBackground(new java.awt.Color(245, 245, 245));
         jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        imagenProducto3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Hamburguesa.png"))); // NOI18N
+        imagenProducto3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Productos/TacosDeCarneAsada.png"))); // NOI18N
         jPanel5.add(imagenProducto3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 450, 290, 190));
 
         precioProducto1.setFont(new java.awt.Font("Bahnschrift", 1, 24)); // NOI18N
@@ -363,6 +368,7 @@ public class VistaOperador extends javax.swing.JFrame {
 
         removeProducto1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonEliminar (Custom).png"))); // NOI18N
         removeProducto1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        removeProducto1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         removeProducto1.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonEliminarPressed (Custom).png"))); // NOI18N
         removeProducto1.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonEliminarHover (Custom).png"))); // NOI18N
         jPanel5.add(removeProducto1, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 70, 25, 25));
@@ -371,6 +377,7 @@ public class VistaOperador extends javax.swing.JFrame {
         addProducto1.setForeground(new java.awt.Color(245, 245, 245));
         addProducto1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonAñadir (Custom).png"))); // NOI18N
         addProducto1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        addProducto1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         addProducto1.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonAñadirPressed (Custom).png"))); // NOI18N
         addProducto1.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonAñadirHover (Custom).png"))); // NOI18N
         jPanel5.add(addProducto1, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 40, 25, 25));
@@ -401,6 +408,7 @@ public class VistaOperador extends javax.swing.JFrame {
 
         removeProducto3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonEliminar (Custom).png"))); // NOI18N
         removeProducto3.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        removeProducto3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         removeProducto3.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonEliminarPressed (Custom).png"))); // NOI18N
         removeProducto3.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonEliminarHover (Custom).png"))); // NOI18N
         jPanel5.add(removeProducto3, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 480, 25, 25));
@@ -409,6 +417,7 @@ public class VistaOperador extends javax.swing.JFrame {
         addProducto3.setForeground(new java.awt.Color(245, 245, 245));
         addProducto3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonAñadir (Custom).png"))); // NOI18N
         addProducto3.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        addProducto3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         addProducto3.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonAñadirPressed (Custom).png"))); // NOI18N
         addProducto3.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonAñadirHover (Custom).png"))); // NOI18N
         jPanel5.add(addProducto3, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 450, 25, 25));
@@ -502,61 +511,67 @@ public class VistaOperador extends javax.swing.JFrame {
         descProducto2.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         jPanel5.add(descProducto2, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 300, -1, 86));
 
-        imagenProducto2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Hamburguesa.png"))); // NOI18N
+        imagenProducto2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Productos/HamburguesaEspecial.png"))); // NOI18N
         jPanel5.add(imagenProducto2, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 40, 290, 190));
 
         addProducto2.setBackground(new java.awt.Color(245, 245, 245));
         addProducto2.setForeground(new java.awt.Color(245, 245, 245));
         addProducto2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonAñadir (Custom).png"))); // NOI18N
         addProducto2.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        addProducto2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         addProducto2.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonAñadirPressed (Custom).png"))); // NOI18N
         addProducto2.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonAñadirHover (Custom).png"))); // NOI18N
         jPanel5.add(addProducto2, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 40, 25, 25));
 
         removeProducto2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonEliminar (Custom).png"))); // NOI18N
         removeProducto2.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        removeProducto2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         removeProducto2.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonEliminarPressed (Custom).png"))); // NOI18N
         removeProducto2.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonEliminarHover (Custom).png"))); // NOI18N
         jPanel5.add(removeProducto2, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 70, 25, 25));
 
-        imagenProducto1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Hamburguesa.png"))); // NOI18N
+        imagenProducto1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Productos/HamburguesaClasica.png"))); // NOI18N
         jPanel5.add(imagenProducto1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 40, 290, 190));
 
-        imagenProducto4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Hamburguesa.png"))); // NOI18N
+        imagenProducto4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Productos/HotDog.png"))); // NOI18N
         jPanel5.add(imagenProducto4, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 450, 290, 190));
 
         addProducto4.setBackground(new java.awt.Color(245, 245, 245));
         addProducto4.setForeground(new java.awt.Color(245, 245, 245));
         addProducto4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonAñadir (Custom).png"))); // NOI18N
         addProducto4.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        addProducto4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         addProducto4.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonAñadirPressed (Custom).png"))); // NOI18N
         addProducto4.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonAñadirHover (Custom).png"))); // NOI18N
         jPanel5.add(addProducto4, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 450, 25, 25));
 
         removeProducto4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonEliminar (Custom).png"))); // NOI18N
         removeProducto4.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        removeProducto4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         removeProducto4.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonEliminarPressed (Custom).png"))); // NOI18N
         removeProducto4.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonEliminarHover (Custom).png"))); // NOI18N
         jPanel5.add(removeProducto4, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 480, 25, 25));
 
-        imagenProducto5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Hamburguesa.png"))); // NOI18N
+        imagenProducto5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Productos/Burrito.png"))); // NOI18N
         jPanel5.add(imagenProducto5, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 450, 290, 190));
 
         addProducto5.setBackground(new java.awt.Color(245, 245, 245));
         addProducto5.setForeground(new java.awt.Color(245, 245, 245));
         addProducto5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonAñadir (Custom).png"))); // NOI18N
         addProducto5.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        addProducto5.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         addProducto5.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonAñadirPressed (Custom).png"))); // NOI18N
         addProducto5.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonAñadirHover (Custom).png"))); // NOI18N
         jPanel5.add(addProducto5, new org.netbeans.lib.awtextra.AbsoluteConstraints(1070, 450, 25, 25));
 
         removeProducto5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonEliminar (Custom).png"))); // NOI18N
         removeProducto5.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        removeProducto5.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         removeProducto5.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonEliminarPressed (Custom).png"))); // NOI18N
         removeProducto5.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonEliminarHover (Custom).png"))); // NOI18N
         jPanel5.add(removeProducto5, new org.netbeans.lib.awtextra.AbsoluteConstraints(1070, 480, 25, 25));
 
-        imagenProducto6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Hamburguesa.png"))); // NOI18N
+        imagenProducto6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Productos/SándwichBLT.png"))); // NOI18N
         jPanel5.add(imagenProducto6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 860, 290, 190));
 
         nombreProducto6.setFont(new java.awt.Font("Bahnschrift", 1, 22)); // NOI18N
@@ -587,12 +602,14 @@ public class VistaOperador extends javax.swing.JFrame {
         addProducto6.setForeground(new java.awt.Color(245, 245, 245));
         addProducto6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonAñadir (Custom).png"))); // NOI18N
         addProducto6.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        addProducto6.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         addProducto6.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonAñadirPressed (Custom).png"))); // NOI18N
         addProducto6.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonAñadirHover (Custom).png"))); // NOI18N
         jPanel5.add(addProducto6, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 860, 25, 25));
 
         removeProducto6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonEliminar (Custom).png"))); // NOI18N
         removeProducto6.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        removeProducto6.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         removeProducto6.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonEliminarPressed (Custom).png"))); // NOI18N
         removeProducto6.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonEliminarHover (Custom).png"))); // NOI18N
         jPanel5.add(removeProducto6, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 890, 25, 25));
@@ -637,19 +654,21 @@ public class VistaOperador extends javax.swing.JFrame {
         nombreProducto7.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         jPanel5.add(nombreProducto7, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 1060, -1, 30));
 
-        imagenProducto7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Hamburguesa.png"))); // NOI18N
+        imagenProducto7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Productos/PizzaDePepperoni.png"))); // NOI18N
         jPanel5.add(imagenProducto7, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 860, 290, 190));
 
         addProducto7.setBackground(new java.awt.Color(245, 245, 245));
         addProducto7.setForeground(new java.awt.Color(245, 245, 245));
         addProducto7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonAñadir (Custom).png"))); // NOI18N
         addProducto7.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        addProducto7.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         addProducto7.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonAñadirPressed (Custom).png"))); // NOI18N
         addProducto7.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonAñadirHover (Custom).png"))); // NOI18N
         jPanel5.add(addProducto7, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 860, 25, 25));
 
         removeProducto7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonEliminar (Custom).png"))); // NOI18N
         removeProducto7.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        removeProducto7.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         removeProducto7.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonEliminarPressed (Custom).png"))); // NOI18N
         removeProducto7.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonEliminarHover (Custom).png"))); // NOI18N
         jPanel5.add(removeProducto7, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 890, 25, 25));
@@ -671,19 +690,21 @@ public class VistaOperador extends javax.swing.JFrame {
         descProducto7.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         jPanel5.add(descProducto7, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 1120, 290, 70));
 
-        imagenProducto8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Hamburguesa.png"))); // NOI18N
+        imagenProducto8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Productos/Picada.jpg"))); // NOI18N
         jPanel5.add(imagenProducto8, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 860, 290, 190));
 
         addProducto8.setBackground(new java.awt.Color(245, 245, 245));
         addProducto8.setForeground(new java.awt.Color(245, 245, 245));
         addProducto8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonAñadir (Custom).png"))); // NOI18N
         addProducto8.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        addProducto8.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         addProducto8.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonAñadirPressed (Custom).png"))); // NOI18N
         addProducto8.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonAñadirHover (Custom).png"))); // NOI18N
         jPanel5.add(addProducto8, new org.netbeans.lib.awtextra.AbsoluteConstraints(1070, 860, 25, 25));
 
         removeProducto8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonEliminar (Custom).png"))); // NOI18N
         removeProducto8.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        removeProducto8.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         removeProducto8.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonEliminarPressed (Custom).png"))); // NOI18N
         removeProducto8.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonEliminarHover (Custom).png"))); // NOI18N
         jPanel5.add(removeProducto8, new org.netbeans.lib.awtextra.AbsoluteConstraints(1070, 890, 25, 25));
@@ -736,19 +757,21 @@ public class VistaOperador extends javax.swing.JFrame {
         descProducto9.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         jPanel5.add(descProducto9, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 1510, 290, 70));
 
-        imagenProducto9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Hamburguesa.png"))); // NOI18N
+        imagenProducto9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Productos/HamburguesaEspecial.png"))); // NOI18N
         jPanel5.add(imagenProducto9, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 1250, 290, 190));
 
         addProducto9.setBackground(new java.awt.Color(245, 245, 245));
         addProducto9.setForeground(new java.awt.Color(245, 245, 245));
         addProducto9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonAñadir (Custom).png"))); // NOI18N
         addProducto9.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        addProducto9.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         addProducto9.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonAñadirPressed (Custom).png"))); // NOI18N
         addProducto9.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonAñadirHover (Custom).png"))); // NOI18N
         jPanel5.add(addProducto9, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 1250, 25, 25));
 
         removeProducto9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonEliminar (Custom).png"))); // NOI18N
         removeProducto9.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        removeProducto9.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         removeProducto9.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonEliminarPressed (Custom).png"))); // NOI18N
         removeProducto9.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonEliminarHover (Custom).png"))); // NOI18N
         jPanel5.add(removeProducto9, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 1280, 25, 25));
@@ -760,19 +783,21 @@ public class VistaOperador extends javax.swing.JFrame {
         jSeparator8.setForeground(new java.awt.Color(187, 187, 187));
         jPanel5.add(jSeparator8, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 1220, 700, 10));
 
-        imagenProducto10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Hamburguesa.png"))); // NOI18N
+        imagenProducto10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Productos/HamburguesaEspecial.png"))); // NOI18N
         jPanel5.add(imagenProducto10, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 1250, 290, 190));
 
         addProducto10.setBackground(new java.awt.Color(245, 245, 245));
         addProducto10.setForeground(new java.awt.Color(245, 245, 245));
         addProducto10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonAñadir (Custom).png"))); // NOI18N
         addProducto10.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        addProducto10.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         addProducto10.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonAñadirPressed (Custom).png"))); // NOI18N
         addProducto10.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonAñadirHover (Custom).png"))); // NOI18N
         jPanel5.add(addProducto10, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 1250, 25, 25));
 
         removeProducto10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonEliminar (Custom).png"))); // NOI18N
         removeProducto10.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        removeProducto10.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         removeProducto10.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonEliminarPressed (Custom).png"))); // NOI18N
         removeProducto10.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonEliminarHover (Custom).png"))); // NOI18N
         jPanel5.add(removeProducto10, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 1280, 25, 25));
@@ -801,19 +826,21 @@ public class VistaOperador extends javax.swing.JFrame {
         descProducto10.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         jPanel5.add(descProducto10, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 1510, 290, 70));
 
-        imagenProducto11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Hamburguesa.png"))); // NOI18N
+        imagenProducto11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Productos/ArosDeCebolla.png"))); // NOI18N
         jPanel5.add(imagenProducto11, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 1250, 290, 190));
 
         addProducto11.setBackground(new java.awt.Color(245, 245, 245));
         addProducto11.setForeground(new java.awt.Color(245, 245, 245));
         addProducto11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonAñadir (Custom).png"))); // NOI18N
         addProducto11.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        addProducto11.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         addProducto11.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonAñadirPressed (Custom).png"))); // NOI18N
         addProducto11.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonAñadirHover (Custom).png"))); // NOI18N
         jPanel5.add(addProducto11, new org.netbeans.lib.awtextra.AbsoluteConstraints(1070, 1250, 25, 25));
 
         removeProducto11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonEliminar (Custom).png"))); // NOI18N
         removeProducto11.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        removeProducto11.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         removeProducto11.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonEliminarPressed (Custom).png"))); // NOI18N
         removeProducto11.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonEliminarHover (Custom).png"))); // NOI18N
         jPanel5.add(removeProducto11, new org.netbeans.lib.awtextra.AbsoluteConstraints(1070, 1280, 25, 25));
@@ -862,6 +889,7 @@ public class VistaOperador extends javax.swing.JFrame {
         jScrollPane2.setViewportView(jPanel4);
 
         AddProduct.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 230, 1180, 540));
+        jScrollPane2.getVerticalScrollBar().setUnitIncrement(20);
 
         jTabbedPane2.addTab("Agregar productos", AddProduct);
 
@@ -981,7 +1009,7 @@ public class VistaOperador extends javax.swing.JFrame {
 
         jTabbedPane2.addTab("Llenar informacion", Fillinfo);
 
-        PanelNuevoPedido.add(jTabbedPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 49, 1190, 760));
+        PanelNuevoPedido.add(jTabbedPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 1190, 790));
 
         TabbebPaneMain.addTab("Crear Pedido", PanelNuevoPedido);
 
@@ -1100,6 +1128,16 @@ public class VistaOperador extends javax.swing.JFrame {
         confirmarPedido();
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void TextFieldBuscadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TextFieldBuscadorActionPerformed
+        
+        String[] resultados = buscarProductosHamming(TextFieldBuscador.getText());
+        
+        
+        
+        
+        
+    }//GEN-LAST:event_TextFieldBuscadorActionPerformed
+
     private boolean verificarPedido(){
         String camposInvalidos = "";
         boolean validate = true;
@@ -1203,19 +1241,67 @@ public class VistaOperador extends javax.swing.JFrame {
         
     }
     
-    public void buscarProductosHamming(){
-        
-        
-        
-        
-        
-        
-        
+    public String[] buscarProductosHamming(String stringBusqueda){
+        LinkedList<String> resultadoBusqueda = new LinkedList();
+        Iterator<NodeInterface<Product>> iterator = menu.iterator();
+
+        while (iterator.hasNext()){
+            Product productoActual = iterator.next().getObject();
+            String stringActual = productoActual.nombre;
+ 
+            int igualdades = 0;
+            int pos1 = 0;
+            int pos2 = 0;
+            stringActual = stringActual.toLowerCase().replace(" ", "");
+            stringBusqueda = stringBusqueda.toLowerCase().replace(" ", "");
+
+            while (pos1 < stringBusqueda.length()){
+                if (stringBusqueda.charAt(pos1) == stringActual.charAt(pos2)){
+                    igualdades++;
+                    pos1++;
+                    pos2++;
+                } else {
+                    if ((pos2 + 1) < stringActual.length()){
+                        if (stringBusqueda.charAt(pos1) == stringActual.charAt(pos2 + 1)) {
+                            igualdades++;
+                            pos1++;
+                            pos2 += 2;
+                        } else{
+                            pos1++;
+                            pos2++;
+                        }
+                    } else{
+                        pos1+= 9999999;
+                    }
+                }
+            }
+            //Determinar si la busqueda se parece al producto y agregarlo a los resultados
+            /*
+                Similitud = Dividir la cantidad de caracteres en las iguales para tener una proporción
+                Sí la similitud es menor o igual a 2, si son similares.
+             */
+            if (stringBusqueda.length() / igualdades >= 2){
+                resultadoBusqueda.add(productoActual.getId());
+            }
+            
+            System.out.println(stringBusqueda + "  :  " + productoActual.nombre);
+            System.out.println("\t" + igualdades);
+        }
+        return resultadoBusqueda.toArray();        
     }
     
     private void agruparElementos(){
-        
-        
+        gruposSwingMenu[0] = new ElementosVisualesProducto(imagenProducto1, nombreProducto1, precioProducto1, descProducto1, "001");
+        gruposSwingMenu[1] = new ElementosVisualesProducto(imagenProducto2, nombreProducto2, precioProducto2, descProducto2, "002");
+        gruposSwingMenu[2] = new ElementosVisualesProducto(imagenProducto3, nombreProducto3, precioProducto3, descProducto3, "003");
+        gruposSwingMenu[3] = new ElementosVisualesProducto(imagenProducto4, nombreProducto4, precioProducto4, descProducto4, "004");
+        gruposSwingMenu[4] = new ElementosVisualesProducto(imagenProducto5, nombreProducto5, precioProducto5, descProducto5, "005");
+        gruposSwingMenu[5] = new ElementosVisualesProducto(imagenProducto6, nombreProducto6, precioProducto6, descProducto6, "006");
+        gruposSwingMenu[6] = new ElementosVisualesProducto(imagenProducto7, nombreProducto7, precioProducto7, descProducto7, "007");
+        gruposSwingMenu[7] = new ElementosVisualesProducto(imagenProducto8, nombreProducto8, precioProducto8, descProducto8, "008");
+        gruposSwingMenu[8] = new ElementosVisualesProducto(imagenProducto9, nombreProducto9, precioProducto9, descProducto9, "009");
+        gruposSwingMenu[9] = new ElementosVisualesProducto(imagenProducto10, nombreProducto10, precioProducto10, descProducto10, "010");
+        gruposSwingMenu[10] = new ElementosVisualesProducto(imagenProducto11, nombreProducto11, precioProducto11, descProducto11, "011");
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
