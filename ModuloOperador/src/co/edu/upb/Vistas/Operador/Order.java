@@ -1,8 +1,9 @@
 package co.edu.upb.Vistas.Operador;
 
 import co.edu.upb.Estructuras.Lista.Doble.LinkedList;
+import java.io.Serializable;
 
-public class Order {
+public class Order implements Serializable{
     LinkedList<Product> listaProductos = new LinkedList<>();
     String nombres;
     String apellidos;

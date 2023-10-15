@@ -1,8 +1,7 @@
 package co.edu.upb.Server;
 
-import co.edu.upb.Interfaces.Operador.VistaOperadorInterface;
+import co.edu.upb.Vistas.Operador.Interfaces.VistaOperadorInterface;
 import co.edu.upb.Services.ServicioOperador;
-import java.io.Serializable;
 
 import java.net.MalformedURLException;
 import java.rmi.Naming;
@@ -27,7 +26,7 @@ public class Server {
     
     public boolean deployServices() {
         try {
-            deployServiceOperador("Operador", "5000", "serviceOperador");
+            deployServiceOperador();
             
             return true;
         } catch (Exception e) {
@@ -36,19 +35,18 @@ public class Server {
         }
     }
     
-    public boolean deployServiceOperador(String serviceType, String port, String serviceName) {
+    public boolean deployServiceOperador() {
         boolean result = false;
-        if (ip == null | port == null | serviceName == null) 
-            return false;
+        if (ip == null | port == null | serviceName == null) return false;
         try {
             System.setProperty( "java.rmi.server.hostname", ip);
-            String url = "//" + ip + ":" + port + "/" + serviceName;
+            //String url = "//" + ip + ":" + port + "/" + serviceName;
             //port
             LocateRegistry.createRegistry(Integer.parseInt(port));
             VistaOperadorInterface service = new ServicioOperador();
             
             Naming.rebind(url, service);
-            System.out.println("Service:" +serviceType +": on");
+            System.out.println("Service: " + serviceName +": on");
             result = true;
         } catch (RemoteException | MalformedURLException e) {
             e.printStackTrace();
@@ -56,6 +54,4 @@ public class Server {
             return result;
         }
     }
-    
-    
 }

@@ -5,18 +5,13 @@
     "tipoUsuario": "OPERADOR"
   },
   {
-    "username": "entrega",
-    "password": "entrega",
-    "tipoUsuario": "ENTREGA"
-  },
-  {
-    "username": "admin",
-    "password": "admin",
-    "tipoUsuario": "ADMIN"
-  },
-  {
     "username": "cocina",
     "password": "cocina",
     "tipoUsuario": "COCINA"
+  },
+  {
+    "username": "entrega",
+    "password": "entrega",
+    "tipoUsuario": "ENTREGA"
   }
 ]

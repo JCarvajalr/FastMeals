@@ -1,6 +1,8 @@
 package co.edu.upb.Vistas.Operador;
 
-public class Product {
+import java.io.Serializable;
+
+public class Product implements Serializable{
     int precio;
     String nombre;
     int tiempoCoccion; //0 -> Rapida, 1 -> Lenta

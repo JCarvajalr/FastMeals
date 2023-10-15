@@ -1,10 +1,13 @@
 package co.edu.upb.Services;
 
-import co.edu.upb.Interfaces.Operador.ProductInterface;
-import co.edu.upb.Interfaces.Operador.VistaOperadorInterface;
+import co.edu.upb.Clases.TipoUsuario;
+import co.edu.upb.Server.UserValidation;
+import co.edu.upb.Vistas.Operador.Interfaces.VistaOperadorInterface;
+import co.edu.upb.Vistas.Operador.Order;
+import co.edu.upb.Vistas.Operador.Product;
+
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.Iterator;
 
 public class ServicioOperador extends UnicastRemoteObject implements VistaOperadorInterface {
 
@@ -13,27 +16,21 @@ public class ServicioOperador extends UnicastRemoteObject implements VistaOperad
     
     @Override
     public boolean login(String user, String password) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return UserValidation.verificatelogIn(user, password).equals(TipoUsuario.OPERADOR);
     }
 
     @Override
-    public boolean verificarPedido() throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public boolean addProduct(Product product) throws RemoteException {
+        return false;
     }
 
     @Override
-    public void confirmarPedido() throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public boolean addOrder(Order order) throws RemoteException {
+        return false;
     }
 
     @Override
-    public void llenarMenu() throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public boolean isOnDatabase(int number) throws RemoteException {
+        return false;
     }
-
-    @Override
-    public ProductInterface buscarProducto(String id) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-    
 }

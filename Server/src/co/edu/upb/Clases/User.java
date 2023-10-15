@@ -4,9 +4,10 @@ public class User {
 
     private String username;
     private String password;
-    private final String tipoUsuario;
+    //private final String tipoUsuario;
+    private final TipoUsuario tipoUsuario;
 
-    public User(String username, String password, String tipoUsuario) {
+    public User(String username, String password, TipoUsuario tipoUsuario) {
         this.username = username;
         this.password = password;
         this.tipoUsuario = tipoUsuario;
@@ -20,7 +21,13 @@ public class User {
         return username;
     }
 
-    public String getTipoUsuario() {
+    public TipoUsuario getTipoUsuario() {
         return tipoUsuario;
     }
+
+    @Override
+    public String toString(){
+        return username + ", " + password + "  (" + tipoUsuario + ")";
+    }
+
 }

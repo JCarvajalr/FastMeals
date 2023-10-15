@@ -61,7 +61,7 @@ public class JSon<T> {
     }
 
     public LinkedList<T> getList() {
-        return list;
+        return this.list;
     }
 
     public boolean addObject(T object){

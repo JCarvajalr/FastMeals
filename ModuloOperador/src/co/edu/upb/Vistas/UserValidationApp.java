@@ -23,11 +23,6 @@ public class UserValidationApp extends JFrame {
         setSize(1000, 600); // Tamaño de la ventana
         setLocationRelativeTo(null); // Centra la ventana en la pantalla
 
-        mapaUsuarios = new HashMap<>(); // Inicialización del mapa de usuarios
-        mapaUsuarios.put("operador", "operador"); // Agrega usuarios y contraseñas al mapa
-        mapaUsuarios.put("admin", "admin");
-        mapaUsuarios.put("entrega", "entrega");
-
         JPanel panelPrincipal = new JPanel(); // Crea un panel principal
         panelPrincipal.setLayout(null); // Configura el diseño de cuadrícula (filas x columnas)
 
@@ -115,8 +110,8 @@ public class UserValidationApp extends JFrame {
         String tipoUsuario = obtenerTipoUsuario(usuario);
 
         if ("operador".equals(usuario)) {
-            VistaOperador operatorWindow = new VistaOperador();
-            operatorWindow.setVisible(true);
+            //VistaOperador operatorWindow = new VistaOperador();
+            //operatorWindow.setVisible(true);
         }
         // Cierra la ventana principal
         dispose();

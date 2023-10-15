@@ -1,7 +1,7 @@
 [
   {
     "precio": 14000,
-    "nombre": "Hamburguesa Clásica",
+    "nombre": "Hamburguesa Clasica",
     "tiempoCoccion": 0,
     "id": "001",
     "descripcion": "Carne a la parrilla, lechuga, tomate y salsa en un pan suave."
@@ -64,7 +64,7 @@
   },
   {
     "precio": 10000,
-    "nombre": "Sándwich BLT",
+    "nombre": "Sandwich BLT",
     "tiempoCoccion": 0,
     "id": "010",
     "descripcion": "Sándwich con tocino, lechuga y tomate en pan tostado."

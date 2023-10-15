@@ -3,18 +3,38 @@ package co.edu.upb.Vistas.Operador;
 import co.edu.upb.Estructuras.Cola.ColaPrioridad;
 import co.edu.upb.Estructuras.Lista.Doble.LinkedList;
 import co.edu.upb.Estructuras.Lista.Interface.NodeInterface;
+import java.rmi.RemoteException;
 import java.util.Iterator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 public class VistaOperador extends javax.swing.JFrame {
     LinkedList<Product> menu = new LinkedList<>();
-    ColaPrioridad<Order> colaDePedidos = new ColaPrioridad<>(2);
     Order pedidoActual;
     ElementosVisualesProducto[] gruposSwingMenu = new ElementosVisualesProducto[11];
     
+    ServiceOperador service;
+    
+    public VistaOperador(ServiceOperador service){
+        this.service = service;
+        pedidoActual = new Order();
+        llenarMenu();
+        
+        //Interfaz grafica
+        initComponents();
+        //setUndecorated(true);
+        setLocationRelativeTo(null);
+        setResizable(false);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        agruparElementos();
+    }
+    
     public VistaOperador(){
+        this.service = service;
         pedidoActual = new Order();
         llenarMenu();
         
@@ -32,6 +52,7 @@ public class VistaOperador extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
+        jPanel7 = new javax.swing.JPanel();
         jPanelUpBar = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -39,7 +60,7 @@ public class VistaOperador extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
-        TabbebPaneMain = new javax.swing.JTabbedPane();
+        TabbedPaneMain = new javax.swing.JTabbedPane();
         PanelNuevoPedido = new javax.swing.JPanel();
         PanelVerPedidoActual = new javax.swing.JPanel();
         jLabel26 = new javax.swing.JLabel();
@@ -56,7 +77,9 @@ public class VistaOperador extends javax.swing.JFrame {
         jSeparator3 = new javax.swing.JSeparator();
         jLabel8 = new javax.swing.JLabel();
         TextFieldBuscador = new javax.swing.JTextField();
+        jPanel6 = new javax.swing.JPanel();
         jLabel21 = new javax.swing.JLabel();
+        TabbedPaneMenu = new javax.swing.JTabbedPane();
         jScrollPane2 = new javax.swing.JScrollPane();
         jPanel4 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
@@ -135,6 +158,9 @@ public class VistaOperador extends javax.swing.JFrame {
         nombreProducto11 = new javax.swing.JLabel();
         precioProducto11 = new javax.swing.JLabel();
         descProducto11 = new javax.swing.JTextArea();
+        jPanelResults = new javax.swing.JPanel();
+        jLabelResultadoBusqueda = new javax.swing.JLabel();
+        jSeparator9 = new javax.swing.JSeparator();
         Fillinfo = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
@@ -164,6 +190,21 @@ public class VistaOperador extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(245, 245, 245));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel7.setBackground(new java.awt.Color(245, 245, 245));
+
+        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 10, Short.MAX_VALUE)
+        );
+        jPanel7Layout.setVerticalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 800, Short.MAX_VALUE)
+        );
+
+        jPanel1.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 70, -1, 800));
 
         jPanelUpBar.setBackground(new java.awt.Color(227, 100, 20));
         jPanelUpBar.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -210,7 +251,7 @@ public class VistaOperador extends javax.swing.JFrame {
 
         jPanel1.add(jPanelUpBar, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1390, 70));
 
-        TabbebPaneMain.setPreferredSize(new java.awt.Dimension(100, 50));
+        TabbedPaneMain.setPreferredSize(new java.awt.Dimension(100, 50));
 
         PanelNuevoPedido.setBackground(new java.awt.Color(245, 245, 245));
         PanelNuevoPedido.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -223,11 +264,14 @@ public class VistaOperador extends javax.swing.JFrame {
         jButton1.setBackground(new java.awt.Color(255, 255, 255));
         jButton1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttom (Custom).png"))); // NOI18N
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/Button.png"))); // NOI18N
         jButton1.setText("Confirmar");
         jButton1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        jButton1.setBorderPainted(false);
+        jButton1.setContentAreaFilled(false);
         jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton1.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/ButtonSelected.png"))); // NOI18N
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -265,11 +309,11 @@ public class VistaOperador extends javax.swing.JFrame {
                             .addComponent(jLabel26, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 177, Short.MAX_VALUE)))
                     .addGroup(PanelVerPedidoActualLayout.createSequentialGroup()
                         .addGap(29, 29, 29)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelVerPedidoActualLayout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(TextAreaTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addContainerGap(11, Short.MAX_VALUE))
         );
         PanelVerPedidoActualLayout.setVerticalGroup(
             PanelVerPedidoActualLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -280,8 +324,8 @@ public class VistaOperador extends javax.swing.JFrame {
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 485, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(TextAreaTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(32, 32, 32))
         );
 
@@ -340,10 +384,29 @@ public class VistaOperador extends javax.swing.JFrame {
         });
         AddProduct.add(TextFieldBuscador, new org.netbeans.lib.awtextra.AbsoluteConstraints(21, 110, 341, 41));
 
+        jPanel6.setBackground(new java.awt.Color(245, 245, 245));
+
         jLabel21.setFont(new java.awt.Font("Bahnschrift", 1, 24)); // NOI18N
         jLabel21.setForeground(new java.awt.Color(0, 0, 0));
         jLabel21.setText("Menú");
-        AddProduct.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 190, -1, -1));
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(911, Short.MAX_VALUE))
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                .addGap(0, 55, Short.MAX_VALUE)
+                .addComponent(jLabel21))
+        );
+
+        AddProduct.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 170, 1180, 85));
 
         jScrollPane2.setBackground(new java.awt.Color(245, 245, 245));
         jScrollPane2.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
@@ -876,7 +939,7 @@ public class VistaOperador extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(30, 30, 30)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 1096, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 50, Short.MAX_VALUE))
+                .addGap(0, 60, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -888,8 +951,37 @@ public class VistaOperador extends javax.swing.JFrame {
 
         jScrollPane2.setViewportView(jPanel4);
 
-        AddProduct.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 230, 1180, 540));
+        TabbedPaneMenu.addTab("tab2", jScrollPane2);
         jScrollPane2.getVerticalScrollBar().setUnitIncrement(20);
+
+        jPanelResults.setBackground(new java.awt.Color(245, 245, 245));
+
+        jLabelResultadoBusqueda.setFont(new java.awt.Font("Bahnschrift", 0, 18)); // NOI18N
+
+        javax.swing.GroupLayout jPanelResultsLayout = new javax.swing.GroupLayout(jPanelResults);
+        jPanelResults.setLayout(jPanelResultsLayout);
+        jPanelResultsLayout.setHorizontalGroup(
+            jPanelResultsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelResultsLayout.createSequentialGroup()
+                .addGap(29, 29, 29)
+                .addGroup(jPanelResultsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabelResultadoBusqueda)
+                    .addComponent(jSeparator9, javax.swing.GroupLayout.PREFERRED_SIZE, 890, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(261, Short.MAX_VALUE))
+        );
+        jPanelResultsLayout.setVerticalGroup(
+            jPanelResultsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelResultsLayout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(jSeparator9, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabelResultadoBusqueda)
+                .addContainerGap(427, Short.MAX_VALUE))
+        );
+
+        TabbedPaneMenu.addTab("tab1", jPanelResults);
+
+        AddProduct.add(TabbedPaneMenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 230, 1180, 500));
 
         jTabbedPane2.addTab("Agregar productos", AddProduct);
 
@@ -1011,7 +1103,7 @@ public class VistaOperador extends javax.swing.JFrame {
 
         PanelNuevoPedido.add(jTabbedPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 1190, 790));
 
-        TabbebPaneMain.addTab("Crear Pedido", PanelNuevoPedido);
+        TabbedPaneMain.addTab("Crear Pedido", PanelNuevoPedido);
 
         PanelListaPedidos.setBackground(new java.awt.Color(245, 245, 245));
 
@@ -1055,9 +1147,9 @@ public class VistaOperador extends javax.swing.JFrame {
                 .addContainerGap(269, Short.MAX_VALUE))
         );
 
-        TabbebPaneMain.addTab("Ver Lista de pedidos", PanelListaPedidos);
+        TabbedPaneMain.addTab("Ver Lista de pedidos", PanelListaPedidos);
 
-        jPanel1.add(TabbebPaneMain, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 40, 1390, 830));
+        jPanel1.add(TabbedPaneMain, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 40, 1390, 830));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -1102,41 +1194,76 @@ public class VistaOperador extends javax.swing.JFrame {
     }//GEN-LAST:event_textFieldDirr2ActionPerformed
 
     private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MouseClicked
-        TabbebPaneMain.setSelectedIndex(1);
+        TabbedPaneMain.setSelectedIndex(1);
     }//GEN-LAST:event_jLabel4MouseClicked
 
     private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
-        TabbebPaneMain.setSelectedIndex(0);
+        TabbedPaneMain.setSelectedIndex(0);
     }//GEN-LAST:event_jLabel2MouseClicked
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        
-        Product prodcuto = buscarProducto("001");
-        pedidoActual.addProducto(prodcuto);
-        
-        TextAreaCarritoCompras.setText(pedidoActual.listaProductos.listToString());
-        TextAreaTotal.setText("Productos: " + pedidoActual.listaProductos.size() + 
-                "\nTotal: " + pedidoActual.getTotalCompra());
-        
-    }//GEN-LAST:event_jButton2ActionPerformed
 
     private void TextFieldBuscadorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TextFieldBuscadorMouseClicked
         TextFieldBuscador.setText("");
     }//GEN-LAST:event_TextFieldBuscadorMouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        confirmarPedido();
+        try {
+            confirmarPedido();
+        } catch (RemoteException ex) {
+            Logger.getLogger(VistaOperador.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    JLabel a = new JLabel();
+    
     private void TextFieldBuscadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TextFieldBuscadorActionPerformed
-        
-        String[] resultados = buscarProductosHamming(TextFieldBuscador.getText());
-        
-        
-        
-        
-        
+        if (!TextFieldBuscador.getText().isBlank()){
+            if (TextFieldBuscador.getText().length() <= 3){
+                TabbedPaneMenu.setSelectedIndex(1);
+                jLabelResultadoBusqueda.setText("No hay coincidencias.");
+                return;
+            }else{
+                TabbedPaneMenu.setSelectedIndex(0);
+                TabbedPaneMenu.setSelectedIndex(1);
+                jLabelResultadoBusqueda.setText("");
+                a.setSize(300, 200);
+                a.setVisible(true);
+                a.setLocation(30, 70);
+
+
+
+                JLabel nombre = new JLabel();
+                nombre.setVisible(true);
+                nombre = gruposSwingMenu[1].getNombreProducto();
+
+                nombre.setFont(gruposSwingMenu[1].getNombreProducto().getFont());
+                nombre.setSize(gruposSwingMenu[1].getNombreProducto().getSize());
+                nombre.setText(gruposSwingMenu[1].getNombreProducto().getText());
+
+                nombre.setLocation(30, 275);
+
+                jPanelResults.add(nombre);
+
+                //String[] resultados = buscarProductosHamming(TextFieldBuscador.getText());
+
+                a.setIcon(gruposSwingMenu[1].getImagenProducto().getIcon());
+                jPanelResults.add(a);
+            }
+
+        }else{
+            TabbedPaneMenu.setSelectedIndex(0);
+        }
     }//GEN-LAST:event_TextFieldBuscadorActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+
+        Product prodcuto = buscarProducto("001");
+        pedidoActual.addProducto(prodcuto);
+
+        TextAreaCarritoCompras.setText(pedidoActual.listaProductos.listToString());
+        TextAreaTotal.setText("Productos: " + pedidoActual.listaProductos.size() +
+            "\nTotal: " + pedidoActual.getTotalCompra());
+
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     private boolean verificarPedido(){
         String camposInvalidos = "";
@@ -1161,15 +1288,15 @@ public class VistaOperador extends javax.swing.JFrame {
             validate = false;
             camposInvalidos += "Numero de telefono.\n";
             }
-            if (textFieldName.getText().isEmpty()){
+            if (textFieldName.getText().isBlank()){
                 validate = false;
                 camposInvalidos += "Nombre completo.\n";
             }
-            if (textFieldDirr1.getText().isEmpty()){
+            if (textFieldDirr1.getText().isBlank()){
                 validate = false;
                 camposInvalidos += "Calle/Avenida/Carrera.\n";
             }
-            if (textFieldDirr3.getText().isEmpty()){
+            if (textFieldDirr3.getText().isBlank()){
                 validate = false;
                 camposInvalidos += "Barrio.\n";
             }
@@ -1181,21 +1308,16 @@ public class VistaOperador extends javax.swing.JFrame {
         return validate;
     }
     
-    private void confirmarPedido(){
+    private void confirmarPedido() throws RemoteException{
         if (verificarPedido()){
             Icon icono = new ImageIcon(getClass().getResource("/co/edu/upb/Iconos/IconoFactura.png"));
             JOptionPane.showMessageDialog(null, "Imprimir recibo", "Recibo", JOptionPane.PLAIN_MESSAGE, icono);
             guardarDatosPedido();
-            colaDePedidos.add(pedidoActual, pedidoActual.tipoCliente);
+            service.addOrder(pedidoActual);
             
-            textPaneListaDePedidos.setText(colaDePedidos.toString());
-            System.out.println("Pedido: " + pedidoActual.toString());
-            System.out.println(colaDePedidos.toString());
-            
+            textPaneListaDePedidos.setText(service.colaDePedidos.toString());
             reiniciarPedido();
-            
         }
-        
     }
     
     private void reiniciarPedido(){
@@ -1243,12 +1365,12 @@ public class VistaOperador extends javax.swing.JFrame {
     
     public String[] buscarProductosHamming(String stringBusqueda){
         LinkedList<String> resultadoBusqueda = new LinkedList();
-        Iterator<NodeInterface<Product>> iterator = menu.iterator();
-
+        Iterator<NodeInterface<Product>> iterator = this.menu.iterator();
+        
         while (iterator.hasNext()){
             Product productoActual = iterator.next().getObject();
             String stringActual = productoActual.nombre;
- 
+            
             int igualdades = 0;
             int pos1 = 0;
             int pos2 = 0;
@@ -1310,7 +1432,8 @@ public class VistaOperador extends javax.swing.JFrame {
     private javax.swing.JPanel PanelListaPedidos;
     private javax.swing.JPanel PanelNuevoPedido;
     private javax.swing.JPanel PanelVerPedidoActual;
-    private javax.swing.JTabbedPane TabbebPaneMain;
+    private javax.swing.JTabbedPane TabbedPaneMain;
+    private javax.swing.JTabbedPane TabbedPaneMenu;
     private javax.swing.JTextArea TextAreaCarritoCompras;
     private javax.swing.JTextArea TextAreaTotal;
     private javax.swing.JTextField TextFieldBuscador;
@@ -1377,10 +1500,14 @@ public class VistaOperador extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel jLabelResultadoBusqueda;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanelResults;
     private javax.swing.JPanel jPanelUpBar;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
@@ -1393,6 +1520,7 @@ public class VistaOperador extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator6;
     private javax.swing.JSeparator jSeparator7;
     private javax.swing.JSeparator jSeparator8;
+    private javax.swing.JSeparator jSeparator9;
     private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JLabel nombreProducto1;
     private javax.swing.JLabel nombreProducto10;
