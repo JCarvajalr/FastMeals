@@ -1,16 +1,21 @@
 package co.edu.upb.Vistas.Operador;
 
+import co.edu.upb.Clases.Order;
+import co.edu.upb.Clases.Product;
 import co.edu.upb.Estructuras.Cola.ColaPrioridad;
+import co.edu.upb.Estructuras.ListaEnlazadaDoble.LinkedList;
 import co.edu.upb.Vistas.Operador.Interfaces.VistaOperadorInterface;
+import java.io.ByteArrayInputStream;
+
 import java.rmi.RemoteException;
 import java.rmi.RemoteException; 
 import java.net.MalformedURLException; 
-import java.rmi.Naming; import java.rmi.NotBoundException;
+import java.rmi.Naming; 
+import java.rmi.NotBoundException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ServiceOperador implements VistaOperadorInterface{
-    
     private VistaOperadorInterface serviceOperador;
     private VistaOperadorInterface service;
     private String ip;
@@ -18,6 +23,7 @@ public class ServiceOperador implements VistaOperadorInterface{
     private String serviceName;
     private String url;
 
+    //Constructor
     public ServiceOperador(String ip, String port, String serviceName) {
         this.service = null;
         this.ip = ip;
@@ -26,36 +32,51 @@ public class ServiceOperador implements VistaOperadorInterface{
         this.url = "rmi://" + ip + ":" + port + "/" + serviceName;
     }
     
-    
-    public ColaPrioridad<Order> colaDePedidos = new ColaPrioridad<>(2);
-    
+    //Metodos
     @Override
     public boolean login(String user, String password) throws RemoteException {
         try {
-            serviceOperador = (VistaOperadorInterface) Naming.lookup(url);
+            serviceOperador = (VistaOperadorInterface) Naming.lookup(this.url);
             return serviceOperador.login(user, password);
-        } catch (NotBoundException ex) {
+        } catch (NotBoundException | MalformedURLException ex) {
             Logger.getLogger(ServiceOperador.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MalformedURLException ex) {
+        }
+        return false;
+    }
+    
+    @Override
+    public boolean addOrder(Order order) throws RemoteException {
+        try {
+            serviceOperador = (VistaOperadorInterface) Naming.lookup(this.url);
+            return serviceOperador.addOrder(order);
+        } catch (NotBoundException | MalformedURLException ex) {
             Logger.getLogger(ServiceOperador.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;
     }
 
     @Override
-    public boolean addProduct(Product product) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public byte[] isOnDatabase(String number) throws RemoteException {
+        try {
+            serviceOperador = (VistaOperadorInterface) Naming.lookup(this.url);
+            return serviceOperador.isOnDatabase(number);
+        } catch (NotBoundException | MalformedURLException ex) {
+            Logger.getLogger(ServiceOperador.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 
     @Override
-    public boolean addOrder(Order order) throws RemoteException {
-        return colaDePedidos.add(order, order.tipoCliente);
+    public LinkedList<Product> getMenu() throws RemoteException {
+        try {
+            serviceOperador = (VistaOperadorInterface) Naming.lookup(this.url);
+            return serviceOperador.getMenu();
+        } catch (NotBoundException | MalformedURLException | RemoteException ex) {
+            Logger.getLogger(ServiceOperador.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
-
-    @Override
-    public boolean isOnDatabase(int number) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+ 
     
     
 }

@@ -18,7 +18,23 @@ public class Product {
         this.descripcion = descripcion;
         cook = 0;
     }
-    
+
+    public int getPrecio() {
+        return precio;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
     public boolean isCooked() {
         return (cook == 2);
     }

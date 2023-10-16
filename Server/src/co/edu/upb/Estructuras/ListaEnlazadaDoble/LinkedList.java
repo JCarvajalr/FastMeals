@@ -1,12 +1,16 @@
 package co.edu.upb.Estructuras.ListaEnlazadaDoble;
 
+import co.edu.upb.Estructuras.ListaEnlazadaDoble.Inferface.LinkedListInterface;
+import co.edu.upb.Estructuras.ListaEnlazadaDoble.Inferface.NodeInterface;
+
+import java.io.Serializable;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class LinkedList<T> implements LinkedListInterface<T>{
-    
+public class LinkedList<T extends Serializable> implements LinkedListInterface<T>, Serializable {
+    private static final long serialVersionUID = 1525693509033756841L;
     private DoubleListNode<T> head;
     private DoubleListNode<T> tail;
     private int size;

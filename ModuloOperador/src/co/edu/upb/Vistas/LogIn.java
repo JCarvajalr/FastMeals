@@ -24,7 +24,6 @@ public class LogIn extends javax.swing.JFrame {
         setResizable(false);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setTitle("FastMeals - Login");
-        
         setIconImage(getIconImage());
         
     }

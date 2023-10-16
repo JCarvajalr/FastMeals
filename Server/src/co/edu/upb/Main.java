@@ -1,12 +1,10 @@
 package co.edu.upb;
 
 import co.edu.upb.Clases.Product;
-import co.edu.upb.Clases.TipoUsuario;
-import co.edu.upb.Clases.User;
 import co.edu.upb.DataBase.JSon;
-import co.edu.upb.Estructuras.ListaEnlazadaDoble.LinkedList;
-import co.edu.upb.Estructuras.ListaEnlazadaDoble.NodeInterface;
+import co.edu.upb.Estructuras.ListaEnlazadaDoble.Inferface.NodeInterface;
 import co.edu.upb.Server.Server;
+import co.edu.upb.Estructuras.ListaEnlazadaDoble.LinkedList;
 
 import java.util.Iterator;
 
@@ -18,7 +16,6 @@ public class Main {
 
         Server serverDeploy = new Server("localhost","5001","serviceOperador");
         serverDeploy.deployServiceOperador();
-
 
 
     }

@@ -1,8 +1,9 @@
 package co.edu.upb.Vistas;
 
-import co.edu.upb.Vistas.Operador.Order;
-import co.edu.upb.Vistas.Operador.Product;
+import co.edu.upb.Clases.Order;
+import co.edu.upb.Clases.Product;
 import co.edu.upb.Vistas.Operador.VistaOperador;
+import java.rmi.RemoteException;
 
 
 public class Main {

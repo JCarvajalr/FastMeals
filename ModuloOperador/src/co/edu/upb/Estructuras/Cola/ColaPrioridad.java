@@ -1,9 +1,10 @@
 package co.edu.upb.Estructuras.Cola;
 
+import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class ColaPrioridad<T> {
+public class ColaPrioridad<T extends Serializable> implements Serializable{
     Cola<T>[] array;
     int contador;
 

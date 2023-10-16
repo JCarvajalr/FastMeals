@@ -4,10 +4,6 @@ import co.edu.upb.Estructuras.ListaEnlazadaDoble.LinkedList;
 
 public class Nodo {
 
-    String nombre;
-    LinkedList<Nodo> conexiones;
-
-
 
 
 }

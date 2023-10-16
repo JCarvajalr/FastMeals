@@ -1,14 +1,13 @@
 package co.edu.upb.DataBase;
 
-import co.edu.upb.Estructuras.ListaEnlazadaDoble.DoubleListNode;
 import co.edu.upb.Estructuras.ListaEnlazadaDoble.LinkedList;
 import java.io.*;
 import java.util.Iterator;
 
-import co.edu.upb.Estructuras.ListaEnlazadaDoble.NodeInterface;
+import co.edu.upb.Estructuras.ListaEnlazadaDoble.Inferface.NodeInterface;
 import com.google.gson.*;
 
-public class JSon<T> {
+public class JSon<T extends Serializable> {
 
     LinkedList<T> list;
     private final String nombreArchivoJson;
