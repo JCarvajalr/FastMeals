@@ -7,6 +7,7 @@ import co.edu.upb.Estructuras.Cola.ColaPrioridad;
 import co.edu.upb.Estructuras.ListaEnlazadaDoble.LinkedList;
 import co.edu.upb.Estructuras.ListaEnlazadaDoble.Interface.NodeInterface;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.ByteArrayInputStream;
@@ -20,6 +21,7 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
 
 public class VistaOperador extends javax.swing.JFrame {
     ColaPrioridad<Order> colaDePedidos = new ColaPrioridad<>(2);
@@ -32,19 +34,6 @@ public class VistaOperador extends javax.swing.JFrame {
     
     public VistaOperador(ServiceOperador service){
         this.service = service;
-        pedidoActual = new Order();
-        llenarMenu();
-        
-        //Interfaz grafica
-        initComponents();
-        //setUndecorated(true);
-        setLocationRelativeTo(null);
-        setResizable(false);
-        agruparElementos();
-        textFielNumListener();
-    }
-    
-    public VistaOperador(){
         pedidoActual = new Order();
         llenarMenu();
         
@@ -170,6 +159,7 @@ public class VistaOperador extends javax.swing.JFrame {
         jPanelResults = new javax.swing.JPanel();
         jSeparator9 = new javax.swing.JSeparator();
         jLabel25 = new javax.swing.JLabel();
+        jScrollPaneResults = new javax.swing.JScrollPane();
         Fillinfo = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
@@ -1095,6 +1085,7 @@ public class VistaOperador extends javax.swing.JFrame {
         );
 
         TabbedPaneMenu.addTab("tab1", jPanelResults);
+        TabbedPaneMenu.addTab("tab3", jScrollPaneResults);
 
         AddProduct.add(TabbedPaneMenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 230, 1180, 500));
 
@@ -1355,55 +1346,75 @@ public class VistaOperador extends javax.swing.JFrame {
         jPanelResults.removeAll();
         if (!TextFieldBuscador.getText().isBlank()){
             //Busqueda invalida
-            if (TextFieldBuscador.getText().length() <= 3){
-                TabbedPaneMenu.setSelectedIndex(0);
-                TabbedPaneMenu.setSelectedIndex(1);
-                JLabel jLabelResultadoBusqueda = new JLabel("No hay coincidencias.");
-                jLabelResultadoBusqueda.setSize(180, 30);
-                jLabelResultadoBusqueda.setForeground(Color.BLACK);
-                jLabelResultadoBusqueda.setFont(new java.awt.Font("Bahnschrift", 0, 18));
-                jLabelResultadoBusqueda.setLocation(30, 70);
-                jLabelResultadoBusqueda.setVisible(true);
-                jPanelResults.add(jLabelResultadoBusqueda);
-            }else{
-                LinkedList<String> resultados = distanciaHammingMod(TextFieldBuscador.getText());
-                Iterator<NodeInterface<String>> iterator = resultados.iterator();
-                JLabel a = new JLabel();
-                
-                int posX = 30;
-                int posY = 70;
-                
-                while (iterator.hasNext()){
-                    String idActual = iterator.next().getObject();
-                    JLabel imagen = new JLabel();
+            //if (TextFieldBuscador.getText().length() > 3){
+                ElementosVisualesProducto[] resultados = distanciaHammingMod(TextFieldBuscador.getText());
+                if (resultados != null){
+                    int posX = 30;
+                    int posY1 = 40, posY2 = 240, posY3 = 270, posY4 = 300;
+                    
+                    Font fontNombre = new java.awt.Font("Bahnschrift", 1, 22);
+                    Font fontPrecio = new java.awt.Font("Bahnschrift", 1, 22);
+                    Font fontDesc = new java.awt.Font("Bahnschrift", 0, 16);
+                    
+                    for (int i=0; i<resultados.length; i++){
+
+                        System.out.println(posX + ", " + posY1);
+                        if (posX == 790){
+                            posY1 += 400;
+                            posY2 += 400;
+                            posY3 += 400;
+                            posY4 += 400;
+                            posX = 30;
+                        }
+                        
+                        JLabel imagenProducto = new JLabel();
+                        JLabel nombreProducto = new JLabel();
+                        JLabel precio = new JLabel();
+                        JTextArea descripcion = new JTextArea();
+                        jPanelResults.add(imagenProducto);
+                        jPanelResults.add(nombreProducto);
+                        jPanelResults.add(precio);
+                        jPanelResults.add(descripcion);
+                        
+                        imagenProducto.setIcon(resultados[i].getImagenProducto().getIcon());
+                        nombreProducto.setText(resultados[i].getNombreProducto().getText());
+                        precio.setText(resultados[i].getPrecioProducto().getText());
+                        descripcion.setText(resultados[i].getDescProducto().getText());
+                        
+                        imagenProducto.setSize(300, 200);
+                        nombreProducto.setSize(300, 30);
+                        precio.setSize(150, 30);
+                        descripcion.setSize(290, 60);
+                        
+                        nombreProducto.setFont(fontNombre); // NOI18N
+                        nombreProducto.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+
+                        precio.setFont(fontPrecio); // NOI18N
+                        precio.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+                        
+                        descripcion.setEditable(false);
+                        descripcion.setBackground(new java.awt.Color(245, 245, 245));
+                        descripcion.setColumns(20);
+                        descripcion.setFont(fontDesc); // NOI18N
+                        descripcion.setLineWrap(true);
+                        descripcion.setRows(5);
+                        descripcion.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+                        
+                        imagenProducto.setLocation(posX, posY1);
+                        nombreProducto.setLocation(posX, posY2);
+                        precio.setLocation(posX, posY3);
+                        descripcion.setLocation(posX, posY4);
+                        
+                        posX += 380;
+                    }
+                    TabbedPaneMenu.setSelectedIndex(0);
+                    TabbedPaneMenu.setSelectedIndex(1);
+                } else{
+                    mostrarBusquedaNulaEnResultados();
                 }
-                
-                TabbedPaneMenu.setSelectedIndex(0);
-                TabbedPaneMenu.setSelectedIndex(1);
-                a.setSize(300, 200);
-                a.setVisible(true);
-                a.setLocation(30, 70);
-
-
-
-                JLabel nombre = new JLabel();
-                nombre.setVisible(true);
-                nombre = gruposSwingMenu[1].getNombreProducto();
-
-                nombre.setFont(gruposSwingMenu[1].getNombreProducto().getFont());
-                nombre.setSize(gruposSwingMenu[1].getNombreProducto().getSize());
-                nombre.setText(gruposSwingMenu[1].getNombreProducto().getText());
-
-                nombre.setLocation(30, 275);
-
-                jPanelResults.add(nombre);
-
-                //String[] resultados = buscarProductosHamming(TextFieldBuscador.getText());
-
-                a.setIcon(gruposSwingMenu[1].getImagenProducto().getIcon());
-                jPanelResults.add(a);
-            }
-
+            //}else{
+            //    mostrarBusquedaNulaEnResultados();
+            //}
         }else{
             TabbedPaneMenu.setSelectedIndex(1);
             TabbedPaneMenu.setSelectedIndex(0);
@@ -1412,7 +1423,38 @@ public class VistaOperador extends javax.swing.JFrame {
         
     }//GEN-LAST:event_TextFieldBuscadorActionPerformed
     
-    public LinkedList<String> distanciaHammingMod(String stringBusqueda){
+    public void mostrarBusquedaNulaEnResultados(){
+        TabbedPaneMenu.setSelectedIndex(0);
+        TabbedPaneMenu.setSelectedIndex(1);
+        JLabel jLabelResultadoBusqueda = new JLabel("No hay coincidencias.");
+        jLabelResultadoBusqueda.setSize(180, 30);
+        jLabelResultadoBusqueda.setForeground(Color.BLACK);
+        jLabelResultadoBusqueda.setFont(new java.awt.Font("Bahnschrift", 0, 18));
+        jLabelResultadoBusqueda.setLocation(30, 70);
+        jLabelResultadoBusqueda.setVisible(true);
+        jPanelResults.add(jLabelResultadoBusqueda);
+    }
+    
+    public ElementosVisualesProducto[] convertirResultados(LinkedList<String> resultados){
+        if (resultados.isEmpty()){
+            return null;
+        }
+        Iterator<NodeInterface<String>> iterator = resultados.iterator();
+        ElementosVisualesProducto[] newResultados = new ElementosVisualesProducto[resultados.size()];
+        int contadorPos = 0;
+        while (iterator.hasNext()){
+            String temp = iterator.next().getObject();
+            for (int i=0; i<gruposSwingMenu.length; i++){
+                if (gruposSwingMenu[i].getId().equals(temp)){
+                    newResultados[contadorPos] = gruposSwingMenu[i];
+                    contadorPos++;
+                }
+            }
+        }
+        return newResultados;
+    }
+    
+    public ElementosVisualesProducto[] distanciaHammingMod(String stringBusqueda){
         LinkedList<String> resultadoBusqueda = new LinkedList<>();
         //Iterar todos los productos del menu
         for (int j = 0; j < menu.length; j++){
@@ -1420,14 +1462,18 @@ public class VistaOperador extends javax.swing.JFrame {
               el nombre completo tambien comparar cada posicion con la busqueda. */
             Product productoActual = menu[j];
             String[] palabras = productoActual.getNombre().split(" ");
-            String[] stringProductoActual = new String[palabras.length + 1];
-            System.arraycopy(palabras, 0, stringProductoActual, 0, palabras.length);
-            stringProductoActual[palabras.length] = productoActual.getNombre();
+            String[] stringProductoActual;
+            if (palabras.length > 1){
+                stringProductoActual = new String[palabras.length + 1];
+                System.arraycopy(palabras, 0, stringProductoActual, 0, palabras.length);
+                stringProductoActual[palabras.length] = productoActual.getNombre();
+            } else {
+                stringProductoActual = palabras;
+            }
             
             //Pasar busqueda a minusculas y quitar espacios
             stringBusqueda = stringBusqueda.toLowerCase().replace(" ", "");
             for (int i = 0; i < stringProductoActual.length; i++){
-                System.out.println(stringProductoActual[i]);
                 int igualdades = 0;
                 int pos1 = 0;
                 int pos2 = 0;
@@ -1473,7 +1519,9 @@ public class VistaOperador extends javax.swing.JFrame {
                 }
             }
         }
-        return resultadoBusqueda;
+        System.out.println("Resultado para: " + stringBusqueda);
+        resultadoBusqueda.imprimir2();
+        return convertirResultados(resultadoBusqueda);
     }
     
     private void TextFieldBuscadorFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_TextFieldBuscadorFocusGained
@@ -1688,67 +1736,18 @@ public class VistaOperador extends javax.swing.JFrame {
         pedidoActual.tipoCliente = jComboBoxTipoCliente.getSelectedIndex();
     }
     
-    public String[] buscarProductosHamming(String stringBusqueda){
-        LinkedList<String> resultadoBusqueda = new LinkedList();
-        /*Iterator<NodeInterface<Product>> iterator = this.menu.iterator();
-        
-        while (iterator.hasNext()){
-            Product productoActual = iterator.next().getObject();
-            String stringActual = productoActual.getNombre();
-            
-            int igualdades = 0;
-            int pos1 = 0;
-            int pos2 = 0;
-            stringActual = stringActual.toLowerCase().replace(" ", "");
-            stringBusqueda = stringBusqueda.toLowerCase().replace(" ", "");
-
-            while (pos1 < stringBusqueda.length()){
-                if (stringBusqueda.charAt(pos1) == stringActual.charAt(pos2)){
-                    igualdades++;
-                    pos1++;
-                    pos2++;
-                } else {
-                    if ((pos2 + 1) < stringActual.length()){
-                        if (stringBusqueda.charAt(pos1) == stringActual.charAt(pos2 + 1)) {
-                            igualdades++;
-                            pos1++;
-                            pos2 += 2;
-                        } else{
-                            pos1++;
-                            pos2++;
-                        }
-                    } else{
-                        pos1+= 9999999;
-                    }
-                }
-            }
-            //Determinar si la busqueda se parece al producto y agregarlo a los resultados
-            /*
-                Similitud = Dividir la cantidad de caracteres en las iguales para tener una proporción
-                Sí la similitud es menor o igual a 2, si son similares.
-             
-            if (stringBusqueda.length() / igualdades >= 2){
-                resultadoBusqueda.add(productoActual.getId());
-            }
-            
-            System.out.println(stringBusqueda + "  :  " + productoActual.getNombre());
-            System.out.println("\t" + igualdades);
-        }*/
-        return resultadoBusqueda.toArray();        
-    }
-    
     private void agruparElementos(){
         gruposSwingMenu[0] = new ElementosVisualesProducto(imagenProducto1, nombreProducto1, precioProducto1, descProducto1, "001");
         gruposSwingMenu[1] = new ElementosVisualesProducto(imagenProducto2, nombreProducto2, precioProducto2, descProducto2, "002");
-        gruposSwingMenu[2] = new ElementosVisualesProducto(imagenProducto3, nombreProducto3, precioProducto3, descProducto3, "003");
-        gruposSwingMenu[3] = new ElementosVisualesProducto(imagenProducto4, nombreProducto4, precioProducto4, descProducto4, "004");
-        gruposSwingMenu[4] = new ElementosVisualesProducto(imagenProducto5, nombreProducto5, precioProducto5, descProducto5, "005");
-        gruposSwingMenu[5] = new ElementosVisualesProducto(imagenProducto6, nombreProducto6, precioProducto6, descProducto6, "006");
-        gruposSwingMenu[6] = new ElementosVisualesProducto(imagenProducto7, nombreProducto7, precioProducto7, descProducto7, "007");
-        gruposSwingMenu[7] = new ElementosVisualesProducto(imagenProducto8, nombreProducto8, precioProducto8, descProducto8, "008");
-        gruposSwingMenu[8] = new ElementosVisualesProducto(imagenProducto9, nombreProducto9, precioProducto9, descProducto9, "009");
-        gruposSwingMenu[9] = new ElementosVisualesProducto(imagenProducto10, nombreProducto10, precioProducto10, descProducto10, "010");
-        gruposSwingMenu[10] = new ElementosVisualesProducto(imagenProducto11, nombreProducto11, precioProducto11, descProducto11, "011");
+        gruposSwingMenu[2] = new ElementosVisualesProducto(imagenProducto3, nombreProducto3, precioProducto3, descProducto3, "005");
+        gruposSwingMenu[3] = new ElementosVisualesProducto(imagenProducto4, nombreProducto4, precioProducto4, descProducto4, "006");
+        gruposSwingMenu[4] = new ElementosVisualesProducto(imagenProducto5, nombreProducto5, precioProducto5, descProducto5, "009");
+        gruposSwingMenu[5] = new ElementosVisualesProducto(imagenProducto6, nombreProducto6, precioProducto6, descProducto6, "010");
+        gruposSwingMenu[6] = new ElementosVisualesProducto(imagenProducto7, nombreProducto7, precioProducto7, descProducto7, "008");
+        gruposSwingMenu[7] = new ElementosVisualesProducto(imagenProducto8, nombreProducto8, precioProducto8, descProducto8, "011");
+        gruposSwingMenu[8] = new ElementosVisualesProducto(imagenProducto9, nombreProducto9, precioProducto9, descProducto9, "003");
+        gruposSwingMenu[9] = new ElementosVisualesProducto(imagenProducto10, nombreProducto10, precioProducto10, descProducto10, "004");
+        gruposSwingMenu[10] = new ElementosVisualesProducto(imagenProducto11, nombreProducto11, precioProducto11, descProducto11, "007");
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1839,6 +1838,7 @@ public class VistaOperador extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPaneMenu;
+    private javax.swing.JScrollPane jScrollPaneResults;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
