@@ -156,10 +156,10 @@ public class VistaOperador extends javax.swing.JFrame {
         nombreProducto11 = new javax.swing.JLabel();
         precioProducto11 = new javax.swing.JLabel();
         descProducto11 = new javax.swing.JTextArea();
+        jScrollPaneResults = new javax.swing.JScrollPane();
         jPanelResults = new javax.swing.JPanel();
         jSeparator9 = new javax.swing.JSeparator();
         jLabel25 = new javax.swing.JLabel();
-        jScrollPaneResults = new javax.swing.JScrollPane();
         Fillinfo = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
@@ -1056,7 +1056,11 @@ public class VistaOperador extends javax.swing.JFrame {
         TabbedPaneMenu.addTab("tab2", jScrollPaneMenu);
         jScrollPaneMenu.getVerticalScrollBar().setUnitIncrement(20);
 
+        jScrollPaneResults.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        jScrollPaneResults.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+
         jPanelResults.setBackground(new java.awt.Color(245, 245, 245));
+        jPanelResults.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
         jLabel25.setFont(new java.awt.Font("Bahnschrift", 0, 18)); // NOI18N
         jLabel25.setText("No hay coincidencias.");
@@ -1081,11 +1085,13 @@ public class VistaOperador extends javax.swing.JFrame {
                 .addComponent(jSeparator9, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(63, 63, 63)
                 .addComponent(jLabel25, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(345, Short.MAX_VALUE))
+                .addContainerGap(752, Short.MAX_VALUE))
         );
 
-        TabbedPaneMenu.addTab("tab1", jPanelResults);
+        jScrollPaneResults.setViewportView(jPanelResults);
+
         TabbedPaneMenu.addTab("tab3", jScrollPaneResults);
+        jScrollPaneResults.getVerticalScrollBar().setUnitIncrement(20);
 
         AddProduct.add(TabbedPaneMenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 230, 1180, 500));
 
@@ -1359,13 +1365,6 @@ public class VistaOperador extends javax.swing.JFrame {
                     for (int i=0; i<resultados.length; i++){
 
                         System.out.println(posX + ", " + posY1);
-                        if (posX == 790){
-                            posY1 += 400;
-                            posY2 += 400;
-                            posY3 += 400;
-                            posY4 += 400;
-                            posX = 30;
-                        }
                         
                         JLabel imagenProducto = new JLabel();
                         JLabel nombreProducto = new JLabel();
@@ -1406,6 +1405,13 @@ public class VistaOperador extends javax.swing.JFrame {
                         descripcion.setLocation(posX, posY4);
                         
                         posX += 380;
+                        if (posX > 790){
+                            posY1 += 400;
+                            posY2 += 400;
+                            posY3 += 400;
+                            posY4 += 400;
+                            posX = 30;
+                        }
                     }
                     TabbedPaneMenu.setSelectedIndex(0);
                     TabbedPaneMenu.setSelectedIndex(1);
