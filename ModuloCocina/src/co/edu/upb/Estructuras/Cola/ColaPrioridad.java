@@ -1,9 +1,10 @@
 package co.edu.upb.Estructuras.Cola;
 
+import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class ColaPrioridad<T> {
+public class ColaPrioridad<T extends Serializable> implements Serializable {
     Cola<T>[] array;
     int contador;
 
@@ -25,7 +26,7 @@ public class ColaPrioridad<T> {
 
     public T extraer(){
         try {
-            for (int i = array.length; i >= 0 ; i--){
+            for (int i = array.length - 1; i >= 0 ; i--){
                 if (!array[i].isEmpty()){
                     return array[i].extraer();
                 }
@@ -36,29 +37,24 @@ public class ColaPrioridad<T> {
         }
         return null;
     }
-    
-    public boolean isEmpty(){
-        try {
-            for (int i = array.length; i >= 0 ; i--){
-                if (array[i].isEmpty()){
-                    return true;
-                }
-            }
-        }
-        catch (Exception e){
-            Logger.getLogger(this.getClass().getName()).log(Level.WARNING, e.getMessage(),e);
-        }
-        return false;
-    }
-    
+
     @Override
     public String toString(){
         String text = "";
-        
+
         for (int i = array.length-1; i >= 0; i--){
             text += array[i].toString();
         }
-        
+
         return text;
+    }
+
+    public boolean isEmpty() {
+        for (int i=0; i<array.length; i++){
+            if (!array[i].isEmpty()){
+                return false;
+            }
+        }
+        return true;
     }
 }

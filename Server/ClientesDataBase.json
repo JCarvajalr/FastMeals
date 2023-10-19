@@ -1,24 +1,5 @@
 [
   {
-    "numeroTelefono": "3159152701",
-    "nombres": "Pepito",
-    "apellidos": "Perez",
-    "tipoCliente": 0,
-    "direccion": "Direccion x",
-    "productosMasPedidos": [
-      9,
-      7,
-      0,
-      5,
-      6,
-      1,
-      0,
-      4,
-      0,
-      1
-    ]
-  },
-  {
     "numeroTelefono": "3188210834",
     "nombres": "Juan David",
     "apellidos": "Carvajal",

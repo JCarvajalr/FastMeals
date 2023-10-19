@@ -1,0 +1,39 @@
+package co.edu.upb.Services;
+
+import co.edu.upb.Clases.Order;
+import co.edu.upb.Clases.TipoUsuario;
+import co.edu.upb.Clases.User;
+import co.edu.upb.DataBase.JSon;
+import co.edu.upb.Estructuras.ListaEnlazadaDoble.Inferface.NodeInterface;
+import co.edu.upb.Estructuras.ListaEnlazadaDoble.LinkedList;
+import co.edu.upb.Vistas.Cocina.ServiceCocinaInterface;
+
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
+import java.util.Iterator;
+
+public class ServiceCocina extends UnicastRemoteObject implements ServiceCocinaInterface {
+    public ServiceCocina() throws RemoteException {
+    }
+
+    @Override
+    public boolean login(String user, String password) throws RemoteException {
+        JSon<User> usuariosData = new JSon<>("Usuarios.json", User.class);
+        usuariosData.cargarJSon();
+        LinkedList<User> usuarios = usuariosData.getList();
+        Iterator<NodeInterface<User>> iterator = usuarios.iterator();
+        User temp;
+        while (iterator.hasNext()){
+            temp = iterator.next().getObject();
+            if (temp.verificateLogin(user, password) && temp.getTipoUsuario().equals(TipoUsuario.COCINA)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public Order getOrder() throws RemoteException {
+        return null;
+    }
+}

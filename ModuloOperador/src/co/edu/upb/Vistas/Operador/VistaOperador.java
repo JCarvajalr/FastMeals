@@ -8,6 +8,8 @@ import co.edu.upb.Estructuras.ListaEnlazadaDoble.LinkedList;
 import co.edu.upb.Estructuras.ListaEnlazadaDoble.Interface.NodeInterface;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.ByteArrayInputStream;
@@ -15,10 +17,12 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.rmi.RemoteException;
 import java.util.Iterator;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
@@ -28,7 +32,7 @@ public class VistaOperador extends javax.swing.JFrame {
     Product[] menu;
     
     Order pedidoActual;
-    ElementosVisualesProducto[] gruposSwingMenu = new ElementosVisualesProducto[11];
+    ElementosVisualesProducto[] gruposSwingMenu = new ElementosVisualesProducto[menu.length];
     
     ServiceOperador service;
     
@@ -44,6 +48,9 @@ public class VistaOperador extends javax.swing.JFrame {
         setResizable(false);
         agruparElementos();
         textFielNumListener();
+        jScrollPaneMenu.getVerticalScrollBar().setValue(0);
+        asignarActionsABotonesAddProducts();
+        restoreMenuDefault();
     }
     
     @SuppressWarnings("unchecked")
@@ -78,10 +85,8 @@ public class VistaOperador extends javax.swing.JFrame {
         TextFieldBuscador = new javax.swing.JTextField();
         jPanel6 = new javax.swing.JPanel();
         jLabel21 = new javax.swing.JLabel();
-        TabbedPaneMenu = new javax.swing.JTabbedPane();
         jScrollPaneMenu = new javax.swing.JScrollPane();
-        jPanel4 = new javax.swing.JPanel();
-        jPanel5 = new javax.swing.JPanel();
+        jPanelMenu = new javax.swing.JPanel();
         imagenProducto3 = new javax.swing.JLabel();
         precioProducto1 = new javax.swing.JLabel();
         removeProducto1 = new javax.swing.JButton();
@@ -118,12 +123,6 @@ public class VistaOperador extends javax.swing.JFrame {
         descProducto6 = new javax.swing.JTextArea();
         addProducto6 = new javax.swing.JButton();
         removeProducto6 = new javax.swing.JButton();
-        jLabel34 = new javax.swing.JLabel();
-        jSeparator6 = new javax.swing.JSeparator();
-        jLabel22 = new javax.swing.JLabel();
-        jSeparator4 = new javax.swing.JSeparator();
-        jLabel37 = new javax.swing.JLabel();
-        jSeparator7 = new javax.swing.JSeparator();
         nombreProducto7 = new javax.swing.JLabel();
         imagenProducto7 = new javax.swing.JLabel();
         addProducto7 = new javax.swing.JButton();
@@ -142,8 +141,6 @@ public class VistaOperador extends javax.swing.JFrame {
         imagenProducto9 = new javax.swing.JLabel();
         addProducto9 = new javax.swing.JButton();
         removeProducto9 = new javax.swing.JButton();
-        jLabel40 = new javax.swing.JLabel();
-        jSeparator8 = new javax.swing.JSeparator();
         imagenProducto10 = new javax.swing.JLabel();
         addProducto10 = new javax.swing.JButton();
         removeProducto10 = new javax.swing.JButton();
@@ -156,10 +153,6 @@ public class VistaOperador extends javax.swing.JFrame {
         nombreProducto11 = new javax.swing.JLabel();
         precioProducto11 = new javax.swing.JLabel();
         descProducto11 = new javax.swing.JTextArea();
-        jScrollPaneResults = new javax.swing.JScrollPane();
-        jPanelResults = new javax.swing.JPanel();
-        jSeparator9 = new javax.swing.JSeparator();
-        jLabel25 = new javax.swing.JLabel();
         Fillinfo = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
@@ -381,9 +374,9 @@ public class VistaOperador extends javax.swing.JFrame {
                 TextFieldBuscadorFocusLost(evt);
             }
         });
-        TextFieldBuscador.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                TextFieldBuscadorActionPerformed(evt);
+        TextFieldBuscador.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                TextFieldBuscadorKeyReleased(evt);
             }
         });
         AddProduct.add(TextFieldBuscador, new org.netbeans.lib.awtextra.AbsoluteConstraints(21, 110, 341, 41));
@@ -415,35 +408,25 @@ public class VistaOperador extends javax.swing.JFrame {
         jScrollPaneMenu.setBackground(new java.awt.Color(245, 245, 245));
         jScrollPaneMenu.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         jScrollPaneMenu.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        jScrollPaneMenu.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         jScrollPaneMenu.setViewportBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        jScrollPaneMenu.setPreferredSize(new java.awt.Dimension(1186, 882));
 
-        jPanel4.setBackground(new java.awt.Color(245, 245, 245));
-
-        jPanel5.setBackground(new java.awt.Color(245, 245, 245));
-        jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanelMenu.setBackground(new java.awt.Color(245, 245, 245));
+        jPanelMenu.setPreferredSize(new java.awt.Dimension(1182, 1560));
 
         imagenProducto3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Productos/TacosDeCarneAsada.png"))); // NOI18N
-        jPanel5.add(imagenProducto3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 450, 290, 190));
 
         precioProducto1.setFont(new java.awt.Font("Bahnschrift", 1, 24)); // NOI18N
         precioProducto1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         precioProducto1.setText("14.000$");
         precioProducto1.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
         precioProducto1.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
-        jPanel5.add(precioProducto1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 270, -1, 30));
 
         removeProducto1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonEliminar (Custom).png"))); // NOI18N
         removeProducto1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         removeProducto1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         removeProducto1.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonEliminarPressed (Custom).png"))); // NOI18N
         removeProducto1.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonEliminarHover (Custom).png"))); // NOI18N
-        removeProducto1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                removeProducto1ActionPerformed(evt);
-            }
-        });
-        jPanel5.add(removeProducto1, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 70, 25, 25));
 
         addProducto1.setBackground(new java.awt.Color(245, 245, 245));
         addProducto1.setForeground(new java.awt.Color(245, 245, 245));
@@ -452,12 +435,6 @@ public class VistaOperador extends javax.swing.JFrame {
         addProducto1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         addProducto1.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonAñadirPressed (Custom).png"))); // NOI18N
         addProducto1.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonAñadirHover (Custom).png"))); // NOI18N
-        addProducto1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addProducto1ActionPerformed(evt);
-            }
-        });
-        jPanel5.add(addProducto1, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 40, 25, 25));
 
         descProducto1.setEditable(false);
         descProducto1.setBackground(new java.awt.Color(245, 245, 245));
@@ -467,33 +444,24 @@ public class VistaOperador extends javax.swing.JFrame {
         descProducto1.setRows(5);
         descProducto1.setText("Carne a la parrilla, lechuga, tomate y salsa en un pan suave. \n(5 minutos)\n");
         descProducto1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        jPanel5.add(descProducto1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 300, -1, 70));
 
         nombreProducto1.setFont(new java.awt.Font("Bahnschrift", 1, 22)); // NOI18N
         nombreProducto1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         nombreProducto1.setText("Hamburguesa Clásica");
         nombreProducto1.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
         nombreProducto1.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
-        jPanel5.add(nombreProducto1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 240, -1, 30));
 
         nombreProducto3.setFont(new java.awt.Font("Bahnschrift", 1, 22)); // NOI18N
         nombreProducto3.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         nombreProducto3.setText("Tacos de Carne Asada");
         nombreProducto3.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
         nombreProducto3.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
-        jPanel5.add(nombreProducto3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 650, -1, 30));
 
         removeProducto3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonEliminar (Custom).png"))); // NOI18N
         removeProducto3.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         removeProducto3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         removeProducto3.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonEliminarPressed (Custom).png"))); // NOI18N
         removeProducto3.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonEliminarHover (Custom).png"))); // NOI18N
-        removeProducto3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                removeProducto3ActionPerformed(evt);
-            }
-        });
-        jPanel5.add(removeProducto3, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 480, 25, 25));
 
         addProducto3.setBackground(new java.awt.Color(245, 245, 245));
         addProducto3.setForeground(new java.awt.Color(245, 245, 245));
@@ -502,19 +470,12 @@ public class VistaOperador extends javax.swing.JFrame {
         addProducto3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         addProducto3.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonAñadirPressed (Custom).png"))); // NOI18N
         addProducto3.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonAñadirHover (Custom).png"))); // NOI18N
-        addProducto3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addProducto3ActionPerformed(evt);
-            }
-        });
-        jPanel5.add(addProducto3, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 450, 25, 25));
 
         precioProducto3.setFont(new java.awt.Font("Bahnschrift", 1, 24)); // NOI18N
         precioProducto3.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         precioProducto3.setText("12.000$");
         precioProducto3.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
         precioProducto3.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
-        jPanel5.add(precioProducto3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 680, -1, 30));
 
         descProducto3.setEditable(false);
         descProducto3.setBackground(new java.awt.Color(245, 245, 245));
@@ -524,21 +485,18 @@ public class VistaOperador extends javax.swing.JFrame {
         descProducto3.setRows(5);
         descProducto3.setText("2 porciones de tacos rellenos de carne asada, cebolla, cilantro y salsa. \n(5 minutos)\n");
         descProducto3.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        jPanel5.add(descProducto3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 710, 290, 70));
 
         nombreProducto4.setFont(new java.awt.Font("Bahnschrift", 1, 22)); // NOI18N
         nombreProducto4.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         nombreProducto4.setText("Hot Dog con Chili");
         nombreProducto4.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
         nombreProducto4.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
-        jPanel5.add(nombreProducto4, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 650, -1, 30));
 
         precioProducto4.setFont(new java.awt.Font("Bahnschrift", 1, 24)); // NOI18N
         precioProducto4.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         precioProducto4.setText("10.000$");
         precioProducto4.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
         precioProducto4.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
-        jPanel5.add(precioProducto4, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 680, -1, 30));
 
         descProducto4.setEditable(false);
         descProducto4.setBackground(new java.awt.Color(245, 245, 245));
@@ -548,21 +506,18 @@ public class VistaOperador extends javax.swing.JFrame {
         descProducto4.setRows(5);
         descProducto4.setText("Hot dog con salchicha, pan suave y chilicon carne, cebolla y queso. (5 minutos)\n");
         descProducto4.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        jPanel5.add(descProducto4, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 710, 290, 60));
 
         nombreProducto5.setFont(new java.awt.Font("Bahnschrift", 1, 22)); // NOI18N
         nombreProducto5.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         nombreProducto5.setText("Burrito de Pollo");
         nombreProducto5.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
         nombreProducto5.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
-        jPanel5.add(nombreProducto5, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 650, -1, 30));
 
         precioProducto5.setFont(new java.awt.Font("Bahnschrift", 1, 24)); // NOI18N
         precioProducto5.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         precioProducto5.setText("10.000$");
         precioProducto5.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
         precioProducto5.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
-        jPanel5.add(precioProducto5, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 680, -1, 30));
 
         descProducto5.setEditable(false);
         descProducto5.setBackground(new java.awt.Color(245, 245, 245));
@@ -572,21 +527,18 @@ public class VistaOperador extends javax.swing.JFrame {
         descProducto5.setRows(5);
         descProducto5.setText("Burrito relleno de pollo a la parrilla,    arroz, frijoles y salsa. (5 minutos)\n");
         descProducto5.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        jPanel5.add(descProducto5, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 710, 290, 70));
 
         nombreProducto2.setFont(new java.awt.Font("Bahnschrift", 1, 22)); // NOI18N
         nombreProducto2.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         nombreProducto2.setText("Hamburguesa Especial");
         nombreProducto2.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
         nombreProducto2.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
-        jPanel5.add(nombreProducto2, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 240, -1, 30));
 
         precioProducto2.setFont(new java.awt.Font("Bahnschrift", 1, 24)); // NOI18N
         precioProducto2.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         precioProducto2.setText("18.000$");
         precioProducto2.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
         precioProducto2.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
-        jPanel5.add(precioProducto2, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 270, -1, 30));
 
         descProducto2.setEditable(false);
         descProducto2.setBackground(new java.awt.Color(245, 245, 245));
@@ -596,10 +548,8 @@ public class VistaOperador extends javax.swing.JFrame {
         descProducto2.setRows(5);
         descProducto2.setText("Carne de res premium a la parrilla,    queso cheddar, cebolla caramelizada y lechuga en pan de brioche. \n(5 minutos)\n");
         descProducto2.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        jPanel5.add(descProducto2, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 300, -1, 86));
 
         imagenProducto2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Productos/HamburguesaEspecial.png"))); // NOI18N
-        jPanel5.add(imagenProducto2, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 40, 290, 190));
 
         addProducto2.setBackground(new java.awt.Color(245, 245, 245));
         addProducto2.setForeground(new java.awt.Color(245, 245, 245));
@@ -608,30 +558,16 @@ public class VistaOperador extends javax.swing.JFrame {
         addProducto2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         addProducto2.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonAñadirPressed (Custom).png"))); // NOI18N
         addProducto2.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonAñadirHover (Custom).png"))); // NOI18N
-        addProducto2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addProducto2ActionPerformed(evt);
-            }
-        });
-        jPanel5.add(addProducto2, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 40, 25, 25));
 
         removeProducto2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonEliminar (Custom).png"))); // NOI18N
         removeProducto2.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         removeProducto2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         removeProducto2.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonEliminarPressed (Custom).png"))); // NOI18N
         removeProducto2.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonEliminarHover (Custom).png"))); // NOI18N
-        removeProducto2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                removeProducto2ActionPerformed(evt);
-            }
-        });
-        jPanel5.add(removeProducto2, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 70, 25, 25));
 
         imagenProducto1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Productos/HamburguesaClasica.png"))); // NOI18N
-        jPanel5.add(imagenProducto1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 40, 290, 190));
 
         imagenProducto4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Productos/HotDog.png"))); // NOI18N
-        jPanel5.add(imagenProducto4, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 450, 290, 190));
 
         addProducto4.setBackground(new java.awt.Color(245, 245, 245));
         addProducto4.setForeground(new java.awt.Color(245, 245, 245));
@@ -640,27 +576,14 @@ public class VistaOperador extends javax.swing.JFrame {
         addProducto4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         addProducto4.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonAñadirPressed (Custom).png"))); // NOI18N
         addProducto4.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonAñadirHover (Custom).png"))); // NOI18N
-        addProducto4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addProducto4ActionPerformed(evt);
-            }
-        });
-        jPanel5.add(addProducto4, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 450, 25, 25));
 
         removeProducto4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonEliminar (Custom).png"))); // NOI18N
         removeProducto4.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         removeProducto4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         removeProducto4.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonEliminarPressed (Custom).png"))); // NOI18N
         removeProducto4.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonEliminarHover (Custom).png"))); // NOI18N
-        removeProducto4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                removeProducto4ActionPerformed(evt);
-            }
-        });
-        jPanel5.add(removeProducto4, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 480, 25, 25));
 
         imagenProducto5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Productos/Burrito.png"))); // NOI18N
-        jPanel5.add(imagenProducto5, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 450, 290, 190));
 
         addProducto5.setBackground(new java.awt.Color(245, 245, 245));
         addProducto5.setForeground(new java.awt.Color(245, 245, 245));
@@ -669,41 +592,26 @@ public class VistaOperador extends javax.swing.JFrame {
         addProducto5.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         addProducto5.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonAñadirPressed (Custom).png"))); // NOI18N
         addProducto5.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonAñadirHover (Custom).png"))); // NOI18N
-        addProducto5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addProducto5ActionPerformed(evt);
-            }
-        });
-        jPanel5.add(addProducto5, new org.netbeans.lib.awtextra.AbsoluteConstraints(1070, 450, 25, 25));
 
         removeProducto5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonEliminar (Custom).png"))); // NOI18N
         removeProducto5.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         removeProducto5.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         removeProducto5.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonEliminarPressed (Custom).png"))); // NOI18N
         removeProducto5.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonEliminarHover (Custom).png"))); // NOI18N
-        removeProducto5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                removeProducto5ActionPerformed(evt);
-            }
-        });
-        jPanel5.add(removeProducto5, new org.netbeans.lib.awtextra.AbsoluteConstraints(1070, 480, 25, 25));
 
         imagenProducto6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Productos/SándwichBLT.png"))); // NOI18N
-        jPanel5.add(imagenProducto6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 860, 290, 190));
 
         nombreProducto6.setFont(new java.awt.Font("Bahnschrift", 1, 22)); // NOI18N
         nombreProducto6.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         nombreProducto6.setText("Sándwich BLT");
         nombreProducto6.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
         nombreProducto6.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
-        jPanel5.add(nombreProducto6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 1060, -1, 30));
 
         precioProducto6.setFont(new java.awt.Font("Bahnschrift", 1, 24)); // NOI18N
         precioProducto6.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         precioProducto6.setText("10.000$");
         precioProducto6.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
         precioProducto6.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
-        jPanel5.add(precioProducto6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 1090, -1, 30));
 
         descProducto6.setEditable(false);
         descProducto6.setBackground(new java.awt.Color(245, 245, 245));
@@ -713,7 +621,6 @@ public class VistaOperador extends javax.swing.JFrame {
         descProducto6.setRows(5);
         descProducto6.setText("Sándwich con tocino, lechuga y tomate en pan tostado. (5 minutos)\n");
         descProducto6.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        jPanel5.add(descProducto6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 1120, 290, 70));
 
         addProducto6.setBackground(new java.awt.Color(245, 245, 245));
         addProducto6.setForeground(new java.awt.Color(245, 245, 245));
@@ -722,55 +629,20 @@ public class VistaOperador extends javax.swing.JFrame {
         addProducto6.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         addProducto6.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonAñadirPressed (Custom).png"))); // NOI18N
         addProducto6.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonAñadirHover (Custom).png"))); // NOI18N
-        addProducto6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addProducto6ActionPerformed(evt);
-            }
-        });
-        jPanel5.add(addProducto6, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 860, 25, 25));
 
         removeProducto6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonEliminar (Custom).png"))); // NOI18N
         removeProducto6.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         removeProducto6.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         removeProducto6.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonEliminarPressed (Custom).png"))); // NOI18N
         removeProducto6.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonEliminarHover (Custom).png"))); // NOI18N
-        removeProducto6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                removeProducto6ActionPerformed(evt);
-            }
-        });
-        jPanel5.add(removeProducto6, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 890, 25, 25));
-
-        jLabel34.setFont(new java.awt.Font("Bahnschrift", 0, 18)); // NOI18N
-        jLabel34.setText("Comida mexicana");
-        jPanel5.add(jLabel34, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 410, -1, -1));
-
-        jSeparator6.setForeground(new java.awt.Color(187, 187, 187));
-        jPanel5.add(jSeparator6, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 420, 740, 10));
-
-        jLabel22.setFont(new java.awt.Font("Bahnschrift", 0, 18)); // NOI18N
-        jLabel22.setText("Hamburguesas");
-        jPanel5.add(jLabel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
-
-        jSeparator4.setForeground(new java.awt.Color(187, 187, 187));
-        jPanel5.add(jSeparator4, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 10, 753, 10));
-
-        jLabel37.setFont(new java.awt.Font("Bahnschrift", 0, 18)); // NOI18N
-        jLabel37.setText("Otros");
-        jPanel5.add(jLabel37, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 820, -1, -1));
-
-        jSeparator7.setForeground(new java.awt.Color(187, 187, 187));
-        jPanel5.add(jSeparator7, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 830, 840, 10));
 
         nombreProducto7.setFont(new java.awt.Font("Bahnschrift", 1, 22)); // NOI18N
         nombreProducto7.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         nombreProducto7.setText("Pizza de pepperoni");
         nombreProducto7.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
         nombreProducto7.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
-        jPanel5.add(nombreProducto7, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 1060, -1, 30));
 
         imagenProducto7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Productos/PizzaDePepperoni.png"))); // NOI18N
-        jPanel5.add(imagenProducto7, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 860, 290, 190));
 
         addProducto7.setBackground(new java.awt.Color(245, 245, 245));
         addProducto7.setForeground(new java.awt.Color(245, 245, 245));
@@ -779,31 +651,18 @@ public class VistaOperador extends javax.swing.JFrame {
         addProducto7.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         addProducto7.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonAñadirPressed (Custom).png"))); // NOI18N
         addProducto7.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonAñadirHover (Custom).png"))); // NOI18N
-        addProducto7.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addProducto7ActionPerformed(evt);
-            }
-        });
-        jPanel5.add(addProducto7, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 860, 25, 25));
 
         removeProducto7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonEliminar (Custom).png"))); // NOI18N
         removeProducto7.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         removeProducto7.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         removeProducto7.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonEliminarPressed (Custom).png"))); // NOI18N
         removeProducto7.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonEliminarHover (Custom).png"))); // NOI18N
-        removeProducto7.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                removeProducto7ActionPerformed(evt);
-            }
-        });
-        jPanel5.add(removeProducto7, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 890, 25, 25));
 
         precioProducto7.setFont(new java.awt.Font("Bahnschrift", 1, 24)); // NOI18N
         precioProducto7.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         precioProducto7.setText("18.000$");
         precioProducto7.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
         precioProducto7.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
-        jPanel5.add(precioProducto7, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 1090, -1, 30));
 
         descProducto7.setEditable(false);
         descProducto7.setBackground(new java.awt.Color(245, 245, 245));
@@ -813,10 +672,8 @@ public class VistaOperador extends javax.swing.JFrame {
         descProducto7.setRows(5);
         descProducto7.setText("Pizza con salsa de tomate, queso y\nrodajas de pepperoni. (10 minutos)\n");
         descProducto7.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        jPanel5.add(descProducto7, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 1120, 290, 70));
 
         imagenProducto8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Productos/Picada.jpg"))); // NOI18N
-        jPanel5.add(imagenProducto8, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 860, 290, 190));
 
         addProducto8.setBackground(new java.awt.Color(245, 245, 245));
         addProducto8.setForeground(new java.awt.Color(245, 245, 245));
@@ -825,38 +682,24 @@ public class VistaOperador extends javax.swing.JFrame {
         addProducto8.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         addProducto8.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonAñadirPressed (Custom).png"))); // NOI18N
         addProducto8.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonAñadirHover (Custom).png"))); // NOI18N
-        addProducto8.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addProducto8ActionPerformed(evt);
-            }
-        });
-        jPanel5.add(addProducto8, new org.netbeans.lib.awtextra.AbsoluteConstraints(1070, 860, 25, 25));
 
         removeProducto8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonEliminar (Custom).png"))); // NOI18N
         removeProducto8.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         removeProducto8.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         removeProducto8.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonEliminarPressed (Custom).png"))); // NOI18N
         removeProducto8.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonEliminarHover (Custom).png"))); // NOI18N
-        removeProducto8.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                removeProducto8ActionPerformed(evt);
-            }
-        });
-        jPanel5.add(removeProducto8, new org.netbeans.lib.awtextra.AbsoluteConstraints(1070, 890, 25, 25));
 
         nombreProducto8.setFont(new java.awt.Font("Bahnschrift", 1, 22)); // NOI18N
         nombreProducto8.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         nombreProducto8.setText("Picada");
         nombreProducto8.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
         nombreProducto8.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
-        jPanel5.add(nombreProducto8, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 1060, -1, 30));
 
         precioProducto8.setFont(new java.awt.Font("Bahnschrift", 1, 24)); // NOI18N
         precioProducto8.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         precioProducto8.setText("30.000$");
         precioProducto8.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
         precioProducto8.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
-        jPanel5.add(precioProducto8, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 1090, -1, 30));
 
         descProducto8.setEditable(false);
         descProducto8.setBackground(new java.awt.Color(245, 245, 245));
@@ -866,21 +709,18 @@ public class VistaOperador extends javax.swing.JFrame {
         descProducto8.setRows(5);
         descProducto8.setText("Variedad de carnes y \nacompañamientos para 2 personas.\n(10 minutos)");
         descProducto8.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        jPanel5.add(descProducto8, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 1120, 290, 70));
 
         nombreProducto9.setFont(new java.awt.Font("Bahnschrift", 1, 22)); // NOI18N
         nombreProducto9.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         nombreProducto9.setText("Papas fritas");
         nombreProducto9.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
         nombreProducto9.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
-        jPanel5.add(nombreProducto9, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 1450, -1, 30));
 
         precioProducto9.setFont(new java.awt.Font("Bahnschrift", 1, 24)); // NOI18N
         precioProducto9.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         precioProducto9.setText("6.000$");
         precioProducto9.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
         precioProducto9.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
-        jPanel5.add(precioProducto9, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 1480, -1, 30));
 
         descProducto9.setEditable(false);
         descProducto9.setBackground(new java.awt.Color(245, 245, 245));
@@ -890,10 +730,8 @@ public class VistaOperador extends javax.swing.JFrame {
         descProducto9.setRows(5);
         descProducto9.setText("Porción de papas a la francesa. \n(5 minutos)\n");
         descProducto9.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        jPanel5.add(descProducto9, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 1510, 290, 70));
 
         imagenProducto9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Productos/PapasFritas.jpg"))); // NOI18N
-        jPanel5.add(imagenProducto9, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 1250, 290, 190));
 
         addProducto9.setBackground(new java.awt.Color(245, 245, 245));
         addProducto9.setForeground(new java.awt.Color(245, 245, 245));
@@ -902,34 +740,14 @@ public class VistaOperador extends javax.swing.JFrame {
         addProducto9.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         addProducto9.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonAñadirPressed (Custom).png"))); // NOI18N
         addProducto9.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonAñadirHover (Custom).png"))); // NOI18N
-        addProducto9.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addProducto9ActionPerformed(evt);
-            }
-        });
-        jPanel5.add(addProducto9, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 1250, 25, 25));
 
         removeProducto9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonEliminar (Custom).png"))); // NOI18N
         removeProducto9.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         removeProducto9.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         removeProducto9.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonEliminarPressed (Custom).png"))); // NOI18N
         removeProducto9.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonEliminarHover (Custom).png"))); // NOI18N
-        removeProducto9.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                removeProducto9ActionPerformed(evt);
-            }
-        });
-        jPanel5.add(removeProducto9, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 1280, 25, 25));
-
-        jLabel40.setFont(new java.awt.Font("Bahnschrift", 0, 18)); // NOI18N
-        jLabel40.setText("Adicionales o entradas");
-        jPanel5.add(jLabel40, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 1210, -1, -1));
-
-        jSeparator8.setForeground(new java.awt.Color(187, 187, 187));
-        jPanel5.add(jSeparator8, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 1220, 700, 10));
 
         imagenProducto10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Productos/NuggetsDePollo.jpg"))); // NOI18N
-        jPanel5.add(imagenProducto10, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 1250, 290, 190));
 
         addProducto10.setBackground(new java.awt.Color(245, 245, 245));
         addProducto10.setForeground(new java.awt.Color(245, 245, 245));
@@ -938,38 +756,24 @@ public class VistaOperador extends javax.swing.JFrame {
         addProducto10.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         addProducto10.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonAñadirPressed (Custom).png"))); // NOI18N
         addProducto10.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonAñadirHover (Custom).png"))); // NOI18N
-        addProducto10.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addProducto10ActionPerformed(evt);
-            }
-        });
-        jPanel5.add(addProducto10, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 1250, 25, 25));
 
         removeProducto10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonEliminar (Custom).png"))); // NOI18N
         removeProducto10.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         removeProducto10.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         removeProducto10.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonEliminarPressed (Custom).png"))); // NOI18N
         removeProducto10.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonEliminarHover (Custom).png"))); // NOI18N
-        removeProducto10.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                removeProducto10ActionPerformed(evt);
-            }
-        });
-        jPanel5.add(removeProducto10, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 1280, 25, 25));
 
         nombreProducto10.setFont(new java.awt.Font("Bahnschrift", 1, 22)); // NOI18N
         nombreProducto10.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         nombreProducto10.setText("Nuggets de Pollo");
         nombreProducto10.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
         nombreProducto10.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
-        jPanel5.add(nombreProducto10, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 1450, -1, 30));
 
         precioProducto10.setFont(new java.awt.Font("Bahnschrift", 1, 24)); // NOI18N
         precioProducto10.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         precioProducto10.setText("7.000$");
         precioProducto10.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
         precioProducto10.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
-        jPanel5.add(precioProducto10, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 1480, -1, 30));
 
         descProducto10.setEditable(false);
         descProducto10.setBackground(new java.awt.Color(245, 245, 245));
@@ -979,10 +783,8 @@ public class VistaOperador extends javax.swing.JFrame {
         descProducto10.setRows(5);
         descProducto10.setText("Trozos de pollo empanizado, ideales como aperitivo o complemento. \n(5 minutos)");
         descProducto10.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        jPanel5.add(descProducto10, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 1510, 290, 70));
 
         imagenProducto11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Productos/ArosDeCebolla.png"))); // NOI18N
-        jPanel5.add(imagenProducto11, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 1250, 290, 190));
 
         addProducto11.setBackground(new java.awt.Color(245, 245, 245));
         addProducto11.setForeground(new java.awt.Color(245, 245, 245));
@@ -991,38 +793,24 @@ public class VistaOperador extends javax.swing.JFrame {
         addProducto11.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         addProducto11.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonAñadirPressed (Custom).png"))); // NOI18N
         addProducto11.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonAñadirHover (Custom).png"))); // NOI18N
-        addProducto11.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addProducto11ActionPerformed(evt);
-            }
-        });
-        jPanel5.add(addProducto11, new org.netbeans.lib.awtextra.AbsoluteConstraints(1070, 1250, 25, 25));
 
         removeProducto11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonEliminar (Custom).png"))); // NOI18N
         removeProducto11.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         removeProducto11.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         removeProducto11.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonEliminarPressed (Custom).png"))); // NOI18N
         removeProducto11.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonEliminarHover (Custom).png"))); // NOI18N
-        removeProducto11.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                removeProducto11ActionPerformed(evt);
-            }
-        });
-        jPanel5.add(removeProducto11, new org.netbeans.lib.awtextra.AbsoluteConstraints(1070, 1280, 25, 25));
 
         nombreProducto11.setFont(new java.awt.Font("Bahnschrift", 1, 22)); // NOI18N
         nombreProducto11.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         nombreProducto11.setText("Aros de Cebolla");
         nombreProducto11.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
         nombreProducto11.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
-        jPanel5.add(nombreProducto11, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 1450, -1, 30));
 
         precioProducto11.setFont(new java.awt.Font("Bahnschrift", 1, 24)); // NOI18N
         precioProducto11.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         precioProducto11.setText("8.000$");
         precioProducto11.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
         precioProducto11.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
-        jPanel5.add(precioProducto11, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 1480, -1, 30));
 
         descProducto11.setEditable(false);
         descProducto11.setBackground(new java.awt.Color(245, 245, 245));
@@ -1032,68 +820,271 @@ public class VistaOperador extends javax.swing.JFrame {
         descProducto11.setRows(5);
         descProducto11.setText("Aros de cebolla crujientes, ideales como aperitivo o acompañamiento.\n(5 minutos)");
         descProducto11.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        jPanel5.add(descProducto11, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 1510, 290, 70));
 
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 1096, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 60, Short.MAX_VALUE))
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 1659, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-
-        jScrollPaneMenu.setViewportView(jPanel4);
-
-        TabbedPaneMenu.addTab("tab2", jScrollPaneMenu);
-        jScrollPaneMenu.getVerticalScrollBar().setUnitIncrement(20);
-
-        jScrollPaneResults.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        jScrollPaneResults.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-
-        jPanelResults.setBackground(new java.awt.Color(245, 245, 245));
-        jPanelResults.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-
-        jLabel25.setFont(new java.awt.Font("Bahnschrift", 0, 18)); // NOI18N
-        jLabel25.setText("No hay coincidencias.");
-
-        javax.swing.GroupLayout jPanelResultsLayout = new javax.swing.GroupLayout(jPanelResults);
-        jPanelResults.setLayout(jPanelResultsLayout);
-        jPanelResultsLayout.setHorizontalGroup(
-            jPanelResultsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelResultsLayout.createSequentialGroup()
-                .addGap(29, 29, 29)
-                .addGroup(jPanelResultsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jSeparator9, javax.swing.GroupLayout.PREFERRED_SIZE, 890, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanelResultsLayout.createSequentialGroup()
+        javax.swing.GroupLayout jPanelMenuLayout = new javax.swing.GroupLayout(jPanelMenu);
+        jPanelMenu.setLayout(jPanelMenuLayout);
+        jPanelMenuLayout.setHorizontalGroup(
+            jPanelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelMenuLayout.createSequentialGroup()
+                .addGap(42, 42, 42)
+                .addGroup(jPanelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelMenuLayout.createSequentialGroup()
+                        .addComponent(imagenProducto1, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addGroup(jPanelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(addProducto1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(removeProducto1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(65, 65, 65)
+                        .addComponent(imagenProducto2, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addGroup(jPanelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(addProducto2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(removeProducto2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanelMenuLayout.createSequentialGroup()
+                        .addComponent(nombreProducto1)
+                        .addGap(162, 162, 162)
+                        .addComponent(nombreProducto2))
+                    .addGroup(jPanelMenuLayout.createSequentialGroup()
+                        .addComponent(precioProducto1)
+                        .addGap(305, 305, 305)
+                        .addComponent(precioProducto2))
+                    .addGroup(jPanelMenuLayout.createSequentialGroup()
+                        .addComponent(descProducto1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(108, 108, 108)
+                        .addComponent(descProducto2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanelMenuLayout.createSequentialGroup()
+                        .addComponent(imagenProducto3, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addGroup(jPanelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(addProducto3, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(removeProducto3, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(65, 65, 65)
+                        .addComponent(imagenProducto4, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addGroup(jPanelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(addProducto4, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(removeProducto4, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(55, 55, 55)
-                        .addComponent(jLabel25, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(261, Short.MAX_VALUE))
+                        .addComponent(imagenProducto5, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addGroup(jPanelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(addProducto5, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(removeProducto5, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanelMenuLayout.createSequentialGroup()
+                        .addComponent(nombreProducto3)
+                        .addGap(159, 159, 159)
+                        .addComponent(nombreProducto4)
+                        .addGap(201, 201, 201)
+                        .addComponent(nombreProducto5))
+                    .addGroup(jPanelMenuLayout.createSequentialGroup()
+                        .addComponent(precioProducto3)
+                        .addGap(307, 307, 307)
+                        .addComponent(precioProducto4)
+                        .addGap(296, 296, 296)
+                        .addComponent(precioProducto5))
+                    .addGroup(jPanelMenuLayout.createSequentialGroup()
+                        .addComponent(descProducto3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(100, 100, 100)
+                        .addComponent(descProducto4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(90, 90, 90)
+                        .addComponent(descProducto5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanelMenuLayout.createSequentialGroup()
+                        .addComponent(imagenProducto6, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addGroup(jPanelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(addProducto6, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(removeProducto6, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(65, 65, 65)
+                        .addComponent(imagenProducto7, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addGroup(jPanelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(addProducto7, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(removeProducto7, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(55, 55, 55)
+                        .addComponent(imagenProducto8, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addGroup(jPanelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(addProducto8, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(removeProducto8, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanelMenuLayout.createSequentialGroup()
+                        .addComponent(nombreProducto6)
+                        .addGap(242, 242, 242)
+                        .addComponent(nombreProducto7)
+                        .addGap(180, 180, 180)
+                        .addComponent(nombreProducto8))
+                    .addGroup(jPanelMenuLayout.createSequentialGroup()
+                        .addComponent(precioProducto6)
+                        .addGap(306, 306, 306)
+                        .addComponent(precioProducto7)
+                        .addGap(295, 295, 295)
+                        .addComponent(precioProducto8))
+                    .addGroup(jPanelMenuLayout.createSequentialGroup()
+                        .addComponent(descProducto6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(100, 100, 100)
+                        .addComponent(descProducto7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(90, 90, 90)
+                        .addComponent(descProducto8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanelMenuLayout.createSequentialGroup()
+                        .addComponent(imagenProducto9, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addGroup(jPanelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(addProducto9, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(removeProducto9, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(65, 65, 65)
+                        .addComponent(imagenProducto10, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addGroup(jPanelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(addProducto10, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(removeProducto10, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(55, 55, 55)
+                        .addComponent(imagenProducto11, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addGroup(jPanelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(addProducto11, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(removeProducto11, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanelMenuLayout.createSequentialGroup()
+                        .addComponent(nombreProducto9)
+                        .addGap(263, 263, 263)
+                        .addComponent(nombreProducto10)
+                        .addGap(203, 203, 203)
+                        .addComponent(nombreProducto11))
+                    .addGroup(jPanelMenuLayout.createSequentialGroup()
+                        .addComponent(precioProducto9)
+                        .addGap(315, 315, 315)
+                        .addComponent(precioProducto10)
+                        .addGap(305, 305, 305)
+                        .addComponent(precioProducto11))
+                    .addGroup(jPanelMenuLayout.createSequentialGroup()
+                        .addComponent(descProducto9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(100, 100, 100)
+                        .addComponent(descProducto10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(90, 90, 90)
+                        .addComponent(descProducto11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(45, Short.MAX_VALUE))
         );
-        jPanelResultsLayout.setVerticalGroup(
-            jPanelResultsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelResultsLayout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(jSeparator9, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(63, 63, 63)
-                .addComponent(jLabel25, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(752, Short.MAX_VALUE))
+        jPanelMenuLayout.setVerticalGroup(
+            jPanelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelMenuLayout.createSequentialGroup()
+                .addGap(46, 46, 46)
+                .addGroup(jPanelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(imagenProducto1, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanelMenuLayout.createSequentialGroup()
+                        .addComponent(addProducto1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(5, 5, 5)
+                        .addComponent(removeProducto1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(imagenProducto2, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanelMenuLayout.createSequentialGroup()
+                        .addComponent(addProducto2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(5, 5, 5)
+                        .addComponent(removeProducto2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(10, 10, 10)
+                .addGroup(jPanelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(nombreProducto1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(nombreProducto2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(precioProducto1)
+                    .addComponent(precioProducto2))
+                .addGroup(jPanelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(descProducto1, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(descProducto2, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(64, 64, 64)
+                .addGroup(jPanelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(imagenProducto3, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanelMenuLayout.createSequentialGroup()
+                        .addComponent(addProducto3, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(5, 5, 5)
+                        .addComponent(removeProducto3, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(imagenProducto4, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanelMenuLayout.createSequentialGroup()
+                        .addComponent(addProducto4, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(5, 5, 5)
+                        .addComponent(removeProducto4, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(imagenProducto5, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanelMenuLayout.createSequentialGroup()
+                        .addComponent(addProducto5, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(5, 5, 5)
+                        .addComponent(removeProducto5, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(10, 10, 10)
+                .addGroup(jPanelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(nombreProducto3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(nombreProducto4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(nombreProducto5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(precioProducto3)
+                    .addComponent(precioProducto4)
+                    .addComponent(precioProducto5))
+                .addGroup(jPanelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(descProducto3, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(descProducto4, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(descProducto5, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(80, 80, 80)
+                .addGroup(jPanelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(imagenProducto6, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanelMenuLayout.createSequentialGroup()
+                        .addComponent(addProducto6, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(5, 5, 5)
+                        .addComponent(removeProducto6, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(imagenProducto7, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanelMenuLayout.createSequentialGroup()
+                        .addComponent(addProducto7, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(5, 5, 5)
+                        .addComponent(removeProducto7, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(imagenProducto8, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanelMenuLayout.createSequentialGroup()
+                        .addComponent(addProducto8, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(5, 5, 5)
+                        .addComponent(removeProducto8, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(10, 10, 10)
+                .addGroup(jPanelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(nombreProducto6, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(nombreProducto7, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(nombreProducto8, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(precioProducto6)
+                    .addComponent(precioProducto7)
+                    .addComponent(precioProducto8))
+                .addGroup(jPanelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(descProducto6, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(descProducto7, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(descProducto8, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(60, 60, 60)
+                .addGroup(jPanelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(imagenProducto9, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanelMenuLayout.createSequentialGroup()
+                        .addComponent(addProducto9, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(5, 5, 5)
+                        .addComponent(removeProducto9, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(imagenProducto10, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanelMenuLayout.createSequentialGroup()
+                        .addComponent(addProducto10, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(5, 5, 5)
+                        .addComponent(removeProducto10, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(imagenProducto11, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanelMenuLayout.createSequentialGroup()
+                        .addComponent(addProducto11, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(5, 5, 5)
+                        .addComponent(removeProducto11, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(10, 10, 10)
+                .addGroup(jPanelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(nombreProducto9, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(nombreProducto10, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(nombreProducto11, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(precioProducto9)
+                    .addComponent(precioProducto10)
+                    .addComponent(precioProducto11))
+                .addGroup(jPanelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(descProducto9, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(descProducto10, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(descProducto11, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jScrollPaneResults.setViewportView(jPanelResults);
+        jScrollPaneMenu.setViewportView(jPanelMenu);
 
-        TabbedPaneMenu.addTab("tab3", jScrollPaneResults);
-        jScrollPaneResults.getVerticalScrollBar().setUnitIncrement(20);
-
-        AddProduct.add(TabbedPaneMenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 230, 1180, 500));
+        AddProduct.add(jScrollPaneMenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 262, 1180, 620));
+        jScrollPaneMenu.getVerticalScrollBar().setUnitIncrement(20);
+        jScrollPaneMenu.getVerticalScrollBar().setValue(0);
 
         jTabbedPane2.addTab("Agregar productos", AddProduct);
 
@@ -1347,90 +1338,19 @@ public class VistaOperador extends javax.swing.JFrame {
             "\nTotal: " + pedidoActual.getTotalCompra());
     }
     
-    private void TextFieldBuscadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TextFieldBuscadorActionPerformed
-        
-        jPanelResults.removeAll();
-        if (!TextFieldBuscador.getText().isBlank()){
-            //Busqueda invalida
-            //if (TextFieldBuscador.getText().length() > 3){
-                ElementosVisualesProducto[] resultados = distanciaHammingMod(TextFieldBuscador.getText());
-                if (resultados != null){
-                    int posX = 30;
-                    int posY1 = 40, posY2 = 240, posY3 = 270, posY4 = 300;
-                    
-                    Font fontNombre = new java.awt.Font("Bahnschrift", 1, 22);
-                    Font fontPrecio = new java.awt.Font("Bahnschrift", 1, 22);
-                    Font fontDesc = new java.awt.Font("Bahnschrift", 0, 16);
-                    
-                    for (int i=0; i<resultados.length; i++){
-
-                        System.out.println(posX + ", " + posY1);
-                        
-                        JLabel imagenProducto = new JLabel();
-                        JLabel nombreProducto = new JLabel();
-                        JLabel precio = new JLabel();
-                        JTextArea descripcion = new JTextArea();
-                        jPanelResults.add(imagenProducto);
-                        jPanelResults.add(nombreProducto);
-                        jPanelResults.add(precio);
-                        jPanelResults.add(descripcion);
-                        
-                        imagenProducto.setIcon(resultados[i].getImagenProducto().getIcon());
-                        nombreProducto.setText(resultados[i].getNombreProducto().getText());
-                        precio.setText(resultados[i].getPrecioProducto().getText());
-                        descripcion.setText(resultados[i].getDescProducto().getText());
-                        
-                        imagenProducto.setSize(300, 200);
-                        nombreProducto.setSize(300, 30);
-                        precio.setSize(150, 30);
-                        descripcion.setSize(290, 60);
-                        
-                        nombreProducto.setFont(fontNombre); // NOI18N
-                        nombreProducto.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
-
-                        precio.setFont(fontPrecio); // NOI18N
-                        precio.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
-                        
-                        descripcion.setEditable(false);
-                        descripcion.setBackground(new java.awt.Color(245, 245, 245));
-                        descripcion.setColumns(20);
-                        descripcion.setFont(fontDesc); // NOI18N
-                        descripcion.setLineWrap(true);
-                        descripcion.setRows(5);
-                        descripcion.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-                        
-                        imagenProducto.setLocation(posX, posY1);
-                        nombreProducto.setLocation(posX, posY2);
-                        precio.setLocation(posX, posY3);
-                        descripcion.setLocation(posX, posY4);
-                        
-                        posX += 380;
-                        if (posX > 790){
-                            posY1 += 400;
-                            posY2 += 400;
-                            posY3 += 400;
-                            posY4 += 400;
-                            posX = 30;
-                        }
-                    }
-                    TabbedPaneMenu.setSelectedIndex(0);
-                    TabbedPaneMenu.setSelectedIndex(1);
-                } else{
-                    mostrarBusquedaNulaEnResultados();
-                }
-            //}else{
-            //    mostrarBusquedaNulaEnResultados();
-            //}
-        }else{
-            TabbedPaneMenu.setSelectedIndex(1);
-            TabbedPaneMenu.setSelectedIndex(0);
-        }
-        
-        
-    }//GEN-LAST:event_TextFieldBuscadorActionPerformed
-    
     public void mostrarBusquedaNulaEnResultados(){
-        TabbedPaneMenu.setSelectedIndex(0);
+        jPanelMenu.removeAll();
+        JLabel jLabelResultadoBusqueda = new JLabel("No hay coincidencias.");
+        jLabelResultadoBusqueda.setSize(180, 30);
+        jLabelResultadoBusqueda.setForeground(Color.BLACK);
+        jLabelResultadoBusqueda.setFont(new java.awt.Font("Bahnschrift", 0, 18));
+        jLabelResultadoBusqueda.setLocation(30, 70);
+        jLabelResultadoBusqueda.setVisible(true);
+        jPanelMenu.add(jLabelResultadoBusqueda);
+        jPanelMenu.revalidate();
+        jPanelMenu.repaint();
+        
+        /*TabbedPaneMenu.setSelectedIndex(0);
         TabbedPaneMenu.setSelectedIndex(1);
         JLabel jLabelResultadoBusqueda = new JLabel("No hay coincidencias.");
         jLabelResultadoBusqueda.setSize(180, 30);
@@ -1438,7 +1358,7 @@ public class VistaOperador extends javax.swing.JFrame {
         jLabelResultadoBusqueda.setFont(new java.awt.Font("Bahnschrift", 0, 18));
         jLabelResultadoBusqueda.setLocation(30, 70);
         jLabelResultadoBusqueda.setVisible(true);
-        jPanelResults.add(jLabelResultadoBusqueda);
+        jPanelResults.add(jLabelResultadoBusqueda);*/
     }
     
     public ElementosVisualesProducto[] convertirResultados(LinkedList<String> resultados){
@@ -1525,8 +1445,6 @@ public class VistaOperador extends javax.swing.JFrame {
                 }
             }
         }
-        System.out.println("Resultado para: " + stringBusqueda);
-        resultadoBusqueda.imprimir2();
         return convertirResultados(resultadoBusqueda);
     }
     
@@ -1541,106 +1459,119 @@ public class VistaOperador extends javax.swing.JFrame {
             TextFieldBuscador.setText(" Buscar...");
         }
     }//GEN-LAST:event_TextFieldBuscadorFocusLost
-    // ------------------------------ Botones en menu ------------------------------
-    private void addProducto1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addProducto1ActionPerformed
-        pedidoActual.addProducto(menu[0]);
-        actualizarAreaCarritoDeCompras();
-    }//GEN-LAST:event_addProducto1ActionPerformed
-    private void removeProducto1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeProducto1ActionPerformed
-        pedidoActual.removeProduct(menu[0]);
-        actualizarAreaCarritoDeCompras();
-    }//GEN-LAST:event_removeProducto1ActionPerformed
 
-    private void addProducto2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addProducto2ActionPerformed
-        pedidoActual.addProducto(menu[1]);
-        actualizarAreaCarritoDeCompras();
-    }//GEN-LAST:event_addProducto2ActionPerformed
-    private void removeProducto2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeProducto2ActionPerformed
-        pedidoActual.removeProduct(menu[1]);
-        actualizarAreaCarritoDeCompras();
-    }//GEN-LAST:event_removeProducto2ActionPerformed
-        //Tacos de carne asada
-    private void addProducto3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addProducto3ActionPerformed
-        pedidoActual.addProducto(menu[4]);
-        actualizarAreaCarritoDeCompras();
-    }//GEN-LAST:event_addProducto3ActionPerformed
-    private void removeProducto3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeProducto3ActionPerformed
-        pedidoActual.removeProduct(menu[4]);
-        actualizarAreaCarritoDeCompras();
-    }//GEN-LAST:event_removeProducto3ActionPerformed
-        //Hot dog con chili
-    private void addProducto4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addProducto4ActionPerformed
-        pedidoActual.addProducto(menu[5]);
-        actualizarAreaCarritoDeCompras();
-    }//GEN-LAST:event_addProducto4ActionPerformed
-    private void removeProducto4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeProducto4ActionPerformed
-        pedidoActual.removeProduct(menu[5]);
-        actualizarAreaCarritoDeCompras();
-    }//GEN-LAST:event_removeProducto4ActionPerformed
-        //Burritos de pollo
-    private void addProducto5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addProducto5ActionPerformed
-        pedidoActual.addProducto(menu[8]);
-        actualizarAreaCarritoDeCompras();
-    }//GEN-LAST:event_addProducto5ActionPerformed
-    private void removeProducto5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeProducto5ActionPerformed
-        pedidoActual.removeProduct(menu[8]);
-        actualizarAreaCarritoDeCompras();
-    }//GEN-LAST:event_removeProducto5ActionPerformed
-        //Sandwich BLT
-    private void addProducto6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addProducto6ActionPerformed
-        pedidoActual.addProducto(menu[9]);
-        actualizarAreaCarritoDeCompras();
-    }//GEN-LAST:event_addProducto6ActionPerformed
-    private void removeProducto6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeProducto6ActionPerformed
-        pedidoActual.removeProduct(menu[9]);
-        actualizarAreaCarritoDeCompras();
-    }//GEN-LAST:event_removeProducto6ActionPerformed
-        //Piza de pepperoni
-    private void addProducto7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addProducto7ActionPerformed
-        pedidoActual.addProducto(menu[7]);
-        actualizarAreaCarritoDeCompras();
-    }//GEN-LAST:event_addProducto7ActionPerformed
-    private void removeProducto7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeProducto7ActionPerformed
-        pedidoActual.removeProduct(menu[7]);
-        actualizarAreaCarritoDeCompras();
-    }//GEN-LAST:event_removeProducto7ActionPerformed
-        //Picada
-    private void addProducto8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addProducto8ActionPerformed
-        pedidoActual.addProducto(menu[10]);
-        actualizarAreaCarritoDeCompras();
-    }//GEN-LAST:event_addProducto8ActionPerformed
-    private void removeProducto8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeProducto8ActionPerformed
-        pedidoActual.removeProduct(menu[10]);
-        actualizarAreaCarritoDeCompras();
-    }//GEN-LAST:event_removeProducto8ActionPerformed
-        //Papas fritas
-    private void addProducto9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addProducto9ActionPerformed
-        pedidoActual.addProducto(menu[2]);
-        actualizarAreaCarritoDeCompras();
-    }//GEN-LAST:event_addProducto9ActionPerformed
-    private void removeProducto9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeProducto9ActionPerformed
-        pedidoActual.removeProduct(menu[2]);
-        actualizarAreaCarritoDeCompras();
-    }//GEN-LAST:event_removeProducto9ActionPerformed
-        //Nuggets de pollo
-    private void addProducto10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addProducto10ActionPerformed
-        pedidoActual.addProducto(menu[3]);
-        actualizarAreaCarritoDeCompras();
-    }//GEN-LAST:event_addProducto10ActionPerformed
-    private void removeProducto10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeProducto10ActionPerformed
-        pedidoActual.removeProduct(menu[3]);
-        actualizarAreaCarritoDeCompras();
-    }//GEN-LAST:event_removeProducto10ActionPerformed
         //Aros de cebolla
-    private void addProducto11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addProducto11ActionPerformed
-        pedidoActual.addProducto(menu[6]);
-        actualizarAreaCarritoDeCompras();
-    }//GEN-LAST:event_addProducto11ActionPerformed
-    private void removeProducto11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeProducto11ActionPerformed
-        pedidoActual.removeProduct(menu[6]);
-        actualizarAreaCarritoDeCompras();
-    }//GEN-LAST:event_removeProducto11ActionPerformed
+    private void TextFieldBuscadorKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TextFieldBuscadorKeyReleased
+        //jScrollPaneResults.getVerticalScrollBar().setValue(0);
+        //jPanelResults.removeAll();
+        jScrollPaneMenu.getVerticalScrollBar().setValue(0);
+        jPanelMenu.removeAll();
+        if (!TextFieldBuscador.getText().isBlank()){
+            //Busqueda invalida
+            //if (TextFieldBuscador.getText().length() > 3){
+                ElementosVisualesProducto[] resultados = distanciaHammingMod(TextFieldBuscador.getText());
+                if (resultados != null){
+                    int posX = 30;
+                    int posY1 = 10, posY2 = 210, posY3 = 240, posY4 = 270;
+                    
+                    Font fontNombre = new java.awt.Font("Bahnschrift", 1, 22);
+                    Font fontPrecio = new java.awt.Font("Bahnschrift", 1, 22);
+                    Font fontDesc = new java.awt.Font("Bahnschrift", 0, 16);
+                    
+                    for (int i=0; i<resultados.length; i++){
+                        JLabel imagenProducto = resultados[i].imagenProducto;
+                        JLabel nombreProducto = resultados[i].nombreProducto;
+                        JLabel precio = resultados[i].precioProducto;
+                        JTextArea descripcion = resultados[i].descProducto;
+                        JButton addProducto = resultados[i].addProducto;
+                        JButton removeProducto = resultados[i].removeProducto;
+                        
+                        jPanelMenu.add(imagenProducto);
+                        jPanelMenu.add(nombreProducto);
+                        jPanelMenu.add(precio);
+                        jPanelMenu.add(descripcion);
+                        jPanelMenu.add(addProducto);
+                        jPanelMenu.add(removeProducto);
+                        /*jPanelResults.add(imagenProducto);
+                        jPanelResults.add(nombreProducto);
+                        jPanelResults.add(precio);
+                        jPanelResults.add(descripcion);
+                        jPanelResults.add(addProducto);
+                        jPanelResults.add(removeProducto);*/
+                        
+                        imagenProducto.setLocation(posX, posY1);
+                        nombreProducto.setLocation(posX, posY2);
+                        precio.setLocation(posX, posY3);
+                        descripcion.setLocation(posX, posY4);
+                        addProducto.setLocation(posX + 305, posY1);
+                        removeProducto.setLocation(posX + 305, posY1 + 30);
+                        
+                        posX += 380;
+                        if (posX > 790){
+                            posY1 += 390;
+                            posY2 += 390;
+                            posY3 += 390;
+                            posY4 += 390;
+                            posX = 30;
+                        }
+                    }
+                    jPanelMenu.revalidate();
+                    jPanelMenu.repaint();
+                    //TabbedPaneMenu.setSelectedIndex(1);
+                    //jPanelResults.revalidate();
+                    //jPanelResults.repaint();
+                } else{
+                    mostrarBusquedaNulaEnResultados();
+                }
+            //}else{
+            //    mostrarBusquedaNulaEnResultados();
+            //}
+        }else{
+            restoreMenuDefault();
+        }
+    }//GEN-LAST:event_TextFieldBuscadorKeyReleased
 
+    public void restoreMenuDefault(){
+        int posX = 30;
+        int posY1 = 10, posY2 = 210, posY3 = 240, posY4 = 270;
+        jScrollPaneMenu.getVerticalScrollBar().setValue(0);
+        jPanelMenu.removeAll();
+        for (int i=0; i<gruposSwingMenu.length; i++){
+            JLabel imagenProducto = gruposSwingMenu[i].imagenProducto;
+            JLabel nombreProducto = gruposSwingMenu[i].nombreProducto;
+            JLabel precio = gruposSwingMenu[i].precioProducto;
+            JTextArea descripcion = gruposSwingMenu[i].descProducto;
+            JButton addProducto = gruposSwingMenu[i].addProducto;
+            JButton removeProducto = gruposSwingMenu[i].removeProducto;
+
+            jPanelMenu.add(imagenProducto);
+            jPanelMenu.add(nombreProducto);
+            jPanelMenu.add(precio);
+            jPanelMenu.add(descripcion);
+            jPanelMenu.add(addProducto);
+            jPanelMenu.add(removeProducto);
+
+            imagenProducto.setLocation(posX, posY1);
+            nombreProducto.setLocation(posX, posY2);
+            precio.setLocation(posX, posY3);
+            descripcion.setLocation(posX, posY4);
+            addProducto.setLocation(posX + 305, posY1);
+            removeProducto.setLocation(posX + 305, posY1 + 30);
+            posX += 380;
+            if (posX > 790){
+                posY1 += 390;
+                posY2 += 390;
+                posY3 += 390;
+                posY4 += 390;
+                posX = 30;
+            }
+        }
+        // [1186, 1634]
+        //jPanelMenu.setSize(1186, 1634);
+        jPanelMenu.revalidate();
+        jPanelMenu.repaint();
+    }
+    
     private boolean verificarPedido(){
         String camposInvalidos = "";
         boolean validate = true;
@@ -1734,6 +1665,30 @@ public class VistaOperador extends javax.swing.JFrame {
         }   
     }
     
+    private void asignarActionsABotonesAddProducts(){
+        
+        for (int i=0; i<gruposSwingMenu.length; i++){
+            
+            Product temp = gruposSwingMenu[i].producto;
+            gruposSwingMenu[i].addProducto.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    pedidoActual.addProducto(temp);
+                    actualizarAreaCarritoDeCompras();
+                }
+            });
+            
+            gruposSwingMenu[i].removeProducto.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    pedidoActual.removeProduct(temp);
+                    actualizarAreaCarritoDeCompras();
+                }
+            });
+        }
+        
+    }
+    
     private void guardarDatosPedido(){
         pedidoActual.nombres = textFieldName.getText();
         pedidoActual.direccion = textFieldDirr1.getText();
@@ -1743,17 +1698,17 @@ public class VistaOperador extends javax.swing.JFrame {
     }
     
     private void agruparElementos(){
-        gruposSwingMenu[0] = new ElementosVisualesProducto(imagenProducto1, nombreProducto1, precioProducto1, descProducto1, "001");
-        gruposSwingMenu[1] = new ElementosVisualesProducto(imagenProducto2, nombreProducto2, precioProducto2, descProducto2, "002");
-        gruposSwingMenu[2] = new ElementosVisualesProducto(imagenProducto3, nombreProducto3, precioProducto3, descProducto3, "005");
-        gruposSwingMenu[3] = new ElementosVisualesProducto(imagenProducto4, nombreProducto4, precioProducto4, descProducto4, "006");
-        gruposSwingMenu[4] = new ElementosVisualesProducto(imagenProducto5, nombreProducto5, precioProducto5, descProducto5, "009");
-        gruposSwingMenu[5] = new ElementosVisualesProducto(imagenProducto6, nombreProducto6, precioProducto6, descProducto6, "010");
-        gruposSwingMenu[6] = new ElementosVisualesProducto(imagenProducto7, nombreProducto7, precioProducto7, descProducto7, "008");
-        gruposSwingMenu[7] = new ElementosVisualesProducto(imagenProducto8, nombreProducto8, precioProducto8, descProducto8, "011");
-        gruposSwingMenu[8] = new ElementosVisualesProducto(imagenProducto9, nombreProducto9, precioProducto9, descProducto9, "003");
-        gruposSwingMenu[9] = new ElementosVisualesProducto(imagenProducto10, nombreProducto10, precioProducto10, descProducto10, "004");
-        gruposSwingMenu[10] = new ElementosVisualesProducto(imagenProducto11, nombreProducto11, precioProducto11, descProducto11, "007");
+        gruposSwingMenu[0] = new ElementosVisualesProducto(imagenProducto1, nombreProducto1, precioProducto1, descProducto1, addProducto1, removeProducto1, "001", menu[0]);
+        gruposSwingMenu[1] = new ElementosVisualesProducto(imagenProducto2, nombreProducto2, precioProducto2, descProducto2, addProducto2, removeProducto2, "002", menu[1]);
+        gruposSwingMenu[2] = new ElementosVisualesProducto(imagenProducto3, nombreProducto3, precioProducto3, descProducto3, addProducto3, removeProducto3, "005", menu[4]);
+        gruposSwingMenu[3] = new ElementosVisualesProducto(imagenProducto4, nombreProducto4, precioProducto4, descProducto4, addProducto4, removeProducto4, "006", menu[5]);
+        gruposSwingMenu[4] = new ElementosVisualesProducto(imagenProducto5, nombreProducto5, precioProducto5, descProducto5, addProducto5, removeProducto5, "009", menu[8]);
+        gruposSwingMenu[5] = new ElementosVisualesProducto(imagenProducto6, nombreProducto6, precioProducto6, descProducto6, addProducto6, removeProducto6, "010", menu[9]);
+        gruposSwingMenu[6] = new ElementosVisualesProducto(imagenProducto7, nombreProducto7, precioProducto7, descProducto7, addProducto7, removeProducto7, "008", menu[7]);
+        gruposSwingMenu[7] = new ElementosVisualesProducto(imagenProducto8, nombreProducto8, precioProducto8, descProducto8, addProducto8, removeProducto8, "011", menu[10]);
+        gruposSwingMenu[8] = new ElementosVisualesProducto(imagenProducto9, nombreProducto9, precioProducto9, descProducto9, addProducto9, removeProducto9, "003", menu[2]);
+        gruposSwingMenu[9] = new ElementosVisualesProducto(imagenProducto10, nombreProducto10, precioProducto10, descProducto10, addProducto10, removeProducto10, "004", menu[3]);
+        gruposSwingMenu[10] = new ElementosVisualesProducto(imagenProducto11, nombreProducto11, precioProducto11, descProducto11, addProducto11, removeProducto11, "007", menu[6]);    
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1763,7 +1718,6 @@ public class VistaOperador extends javax.swing.JFrame {
     private javax.swing.JPanel PanelNuevoPedido;
     private javax.swing.JPanel PanelVerPedidoActual;
     private javax.swing.JTabbedPane TabbedPaneMain;
-    private javax.swing.JTabbedPane TabbedPaneMenu;
     private javax.swing.JTextArea TextAreaCarritoCompras;
     private javax.swing.JTextArea TextAreaTotal;
     private javax.swing.JTextField TextFieldBuscador;
@@ -1817,17 +1771,12 @@ public class VistaOperador extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
-    private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
-    private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel34;
-    private javax.swing.JLabel jLabel37;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel40;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
@@ -1835,25 +1784,17 @@ public class VistaOperador extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
-    private javax.swing.JPanel jPanelResults;
+    private javax.swing.JPanel jPanelMenu;
     private javax.swing.JPanel jPanelUpBar;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPaneMenu;
-    private javax.swing.JScrollPane jScrollPaneResults;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
-    private javax.swing.JSeparator jSeparator4;
     private javax.swing.JSeparator jSeparator5;
-    private javax.swing.JSeparator jSeparator6;
-    private javax.swing.JSeparator jSeparator7;
-    private javax.swing.JSeparator jSeparator8;
-    private javax.swing.JSeparator jSeparator9;
     private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JLabel nombreProducto1;
     private javax.swing.JLabel nombreProducto10;

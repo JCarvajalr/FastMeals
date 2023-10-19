@@ -1,6 +1,8 @@
 package co.edu.upb.Estructuras.Cola;
 
-public interface ColaInterface<T> {
+import java.io.Serializable;
+
+public interface ColaInterface<T extends Serializable> {
     public boolean clear();
 
     public boolean isEmpty();

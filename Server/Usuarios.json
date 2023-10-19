@@ -13,5 +13,10 @@
     "username": "entrega",
     "password": "entrega",
     "tipoUsuario": "ENTREGA"
+  },
+  {
+    "username": "administrador",
+    "password": "administrador",
+    "tipoUsuario": "ADMINISTRADOR"
   }
 ]

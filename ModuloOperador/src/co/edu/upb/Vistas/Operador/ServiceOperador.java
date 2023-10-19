@@ -4,7 +4,6 @@ import co.edu.upb.Clases.Order;
 import co.edu.upb.Clases.Product;
 import co.edu.upb.Estructuras.Cola.ColaPrioridad;
 import co.edu.upb.Estructuras.ListaEnlazadaDoble.LinkedList;
-import co.edu.upb.Vistas.Operador.Interfaces.VistaOperadorInterface;
 import java.io.ByteArrayInputStream;
 
 import java.rmi.RemoteException;
@@ -15,9 +14,9 @@ import java.rmi.NotBoundException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class ServiceOperador implements VistaOperadorInterface{
-    private VistaOperadorInterface serviceOperador;
-    private VistaOperadorInterface service;
+public class ServiceOperador implements ServiceOperadorInterface{
+    private ServiceOperadorInterface serviceOperador;
+    private ServiceOperadorInterface service;
     private String ip;
     private String port;
     private String serviceName;
@@ -36,7 +35,7 @@ public class ServiceOperador implements VistaOperadorInterface{
     @Override
     public boolean login(String user, String password) throws RemoteException {
         try {
-            serviceOperador = (VistaOperadorInterface) Naming.lookup(this.url);
+            serviceOperador = (ServiceOperadorInterface) Naming.lookup(this.url);
             return serviceOperador.login(user, password);
         } catch (NotBoundException | MalformedURLException ex) {
             Logger.getLogger(ServiceOperador.class.getName()).log(Level.SEVERE, null, ex);
@@ -47,7 +46,7 @@ public class ServiceOperador implements VistaOperadorInterface{
     @Override
     public boolean addOrder(Order order) throws RemoteException {
         try {
-            serviceOperador = (VistaOperadorInterface) Naming.lookup(this.url);
+            serviceOperador = (ServiceOperadorInterface) Naming.lookup(this.url);
             return serviceOperador.addOrder(order);
         } catch (NotBoundException | MalformedURLException ex) {
             Logger.getLogger(ServiceOperador.class.getName()).log(Level.SEVERE, null, ex);
@@ -58,7 +57,7 @@ public class ServiceOperador implements VistaOperadorInterface{
     @Override
     public byte[] isOnDatabase(String number) throws RemoteException {
         try {
-            serviceOperador = (VistaOperadorInterface) Naming.lookup(this.url);
+            serviceOperador = (ServiceOperadorInterface) Naming.lookup(this.url);
             return serviceOperador.isOnDatabase(number);
         } catch (NotBoundException | MalformedURLException ex) {
             Logger.getLogger(ServiceOperador.class.getName()).log(Level.SEVERE, null, ex);
@@ -69,7 +68,7 @@ public class ServiceOperador implements VistaOperadorInterface{
     @Override
     public LinkedList<Product> getMenu() throws RemoteException {
         try {
-            serviceOperador = (VistaOperadorInterface) Naming.lookup(this.url);
+            serviceOperador = (ServiceOperadorInterface) Naming.lookup(this.url);
             return serviceOperador.getMenu();
         } catch (NotBoundException | MalformedURLException | RemoteException ex) {
             Logger.getLogger(ServiceOperador.class.getName()).log(Level.SEVERE, null, ex);

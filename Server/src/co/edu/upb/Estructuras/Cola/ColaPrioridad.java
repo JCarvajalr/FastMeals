@@ -26,7 +26,7 @@ public class ColaPrioridad<T extends Serializable> implements Serializable {
 
     public T extraer(){
         try {
-            for (int i = array.length; i >= 0 ; i--){
+            for (int i = array.length - 1; i >= 0 ; i--){
                 if (!array[i].isEmpty()){
                     return array[i].extraer();
                 }
@@ -47,5 +47,14 @@ public class ColaPrioridad<T extends Serializable> implements Serializable {
         }
 
         return text;
+    }
+
+    public boolean isEmpty() {
+        for (int i=0; i<array.length; i++){
+            if (!array[i].isEmpty()){
+                return false;
+            }
+        }
+        return true;
     }
 }

@@ -5,14 +5,13 @@ import co.edu.upb.DataBase.JSon;
 import co.edu.upb.Estructuras.Cola.ColaPrioridad;
 import co.edu.upb.Estructuras.ListaEnlazadaDoble.LinkedList;
 import co.edu.upb.Estructuras.ListaEnlazadaDoble.Inferface.NodeInterface;
-import co.edu.upb.Vistas.Operador.Interfaces.VistaOperadorInterface;
-
+import co.edu.upb.Vistas.Operador.ServiceOperadorInterface;
 import java.io.*;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Iterator;
 
-public class ServicioOperador extends UnicastRemoteObject implements VistaOperadorInterface {
+public class ServicioOperador extends UnicastRemoteObject implements ServiceOperadorInterface {
     ColaPrioridad<Order> colaPedidos = new ColaPrioridad<>(2);
 
     public ServicioOperador() throws RemoteException {
@@ -36,6 +35,7 @@ public class ServicioOperador extends UnicastRemoteObject implements VistaOperad
 
     @Override
     public boolean addOrder(Order order) throws RemoteException {
+        //Enviar a modulo cocina
         return colaPedidos.add(order, order.getTipoCliente());
     }
 

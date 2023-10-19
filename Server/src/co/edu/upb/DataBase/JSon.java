@@ -43,7 +43,7 @@ public class JSon<T extends Serializable> {
         }
     }
 
-    public void guardarDatosEnJSon() {
+    public boolean guardarDatosEnJSon() {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         JsonArray jsonArray = new JsonArray();
         Iterator<NodeInterface<T>> iterator = list.iterator();
@@ -54,8 +54,10 @@ public class JSon<T extends Serializable> {
         }
         try (FileWriter fileWriter = new FileWriter(nombreArchivoJson)) {
             fileWriter.write(gson.toJson(jsonArray));
+            return true;
         } catch (IOException e) {
             e.printStackTrace();
+            return false;
         }
     }
 
@@ -65,6 +67,10 @@ public class JSon<T extends Serializable> {
 
     public boolean addObject(T object){
         return list.add(object);
+    }
+
+    public boolean removeObject(T object){
+        return list.remove(object);
     }
 
 

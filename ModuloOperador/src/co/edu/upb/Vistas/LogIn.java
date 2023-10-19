@@ -25,6 +25,8 @@ public class LogIn extends javax.swing.JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setTitle("FastMeals - Login");
         setIconImage(getIconImage());
+
+        jButton1.requestFocusInWindow();
         
     }
 
@@ -69,13 +71,11 @@ public class LogIn extends javax.swing.JFrame {
         jTextFieldUsuario.setText("Ingresar usuario..");
         jTextFieldUsuario.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         jTextFieldUsuario.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jTextFieldUsuarioFocusGained(evt);
+            }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 jTextFieldUsuarioFocusLost(evt);
-            }
-        });
-        jTextFieldUsuario.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                jTextFieldUsuarioMousePressed(evt);
             }
         });
         jPanel1.add(jTextFieldUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 350, 190, 30));
@@ -85,12 +85,18 @@ public class LogIn extends javax.swing.JFrame {
         jPasswordField.setForeground(new java.awt.Color(147, 147, 147));
         jPasswordField.setText("contraseña");
         jPasswordField.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        jPasswordField.setNextFocusableComponent(jTextFieldUsuario);
         jPasswordField.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 jPasswordFieldFocusGained(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 jPasswordFieldFocusLost(evt);
+            }
+        });
+        jPasswordField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jPasswordFieldActionPerformed(evt);
             }
         });
         jPanel1.add(jPasswordField, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 410, 190, 30));
@@ -141,16 +147,6 @@ public class LogIn extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextFieldUsuarioMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextFieldUsuarioMousePressed
-        if (jTextFieldUsuario.getText().equals("Ingresar usuario..")){
-            Color colorIn = new java.awt.Color(97, 97, 97);
-            jTextFieldUsuario.setText("");
-            jSeparatorUser.setForeground(colorIn);
-            jSeparatorUser.setBackground(colorIn);
-            jTextFieldUsuario.setForeground(colorIn);
-        }
-    }//GEN-LAST:event_jTextFieldUsuarioMousePressed
-
     private void jTextFieldUsuarioFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldUsuarioFocusLost
         if (jTextFieldUsuario.getText().isBlank()){
             Color colorOut = new java.awt.Color(147, 147, 147);
@@ -199,6 +195,20 @@ public class LogIn extends javax.swing.JFrame {
             jPasswordField.setForeground(colorIn);
         }
     }//GEN-LAST:event_jPasswordFieldFocusGained
+
+    private void jPasswordFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordFieldActionPerformed
+        jButton1ActionPerformed(evt);
+    }//GEN-LAST:event_jPasswordFieldActionPerformed
+
+    private void jTextFieldUsuarioFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldUsuarioFocusGained
+        if (jTextFieldUsuario.getText().equals("Ingresar usuario..")){
+            Color colorIn = new java.awt.Color(97, 97, 97);
+            jTextFieldUsuario.setText("");
+            jSeparatorUser.setForeground(colorIn);
+            jSeparatorUser.setBackground(colorIn);
+            jTextFieldUsuario.setForeground(colorIn);
+        }
+    }//GEN-LAST:event_jTextFieldUsuarioFocusGained
 
    
 
