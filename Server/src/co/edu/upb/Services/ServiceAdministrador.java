@@ -15,6 +15,7 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.Iterator;
 
 public class ServiceAdministrador extends UnicastRemoteObject implements ServiceAdministradorInterface {
+    public OrderController orderController;
 
     public ServiceAdministrador() throws RemoteException {
     }
@@ -66,6 +67,24 @@ public class ServiceAdministrador extends UnicastRemoteObject implements Service
         boolean result = usuariosData.addObject(newUser);
         usuariosData.guardarDatosEnJSon();
         return result;
+    }
+
+    @Override
+    public boolean removeUsuario(String username) throws RemoteException {
+        JSon<User> usuariosData = new JSon<>("Usuarios.json", User.class);
+        usuariosData.cargarJSon();
+        LinkedList<User> usuarios = usuariosData.getList();
+        Iterator<NodeInterface<User>> iterator = usuarios.iterator();
+        User temp;
+        while (iterator.hasNext()){
+            temp = iterator.next().getObject();
+            if (temp.getUsername().equals(username)){
+                usuarios.remove(temp);
+                usuariosData.guardarDatosEnJSon();
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override

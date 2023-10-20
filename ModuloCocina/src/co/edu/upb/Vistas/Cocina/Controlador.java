@@ -4,51 +4,58 @@ import co.edu.upb.Clases.Product;
 import co.edu.upb.Clases.Order;
 import co.edu.upb.Estructuras.Cola.ColaPrioridad;
 import co.edu.upb.Estructuras.ListaEnlazadaDoble.LinkedList;
+import java.rmi.RemoteException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Controlador {
-    ColaPrioridad<Order> colaPedidos = new ColaPrioridad(2);
-    LinkedList<Order> pedidosEnProceso = new LinkedList<>();
+    LinkedList<Order> pedidosActuales = new LinkedList<>();
+    ColaPrioridad<Product>[] colaProductos = new ColaPrioridad[2];
+    ServiceCocina service;
     
+    public Controlador(ServiceCocina service){
+        this.service = service;
+        colaProductos[0] = new ColaPrioridad<>(2);
+        colaProductos[1] = new ColaPrioridad<>(2);   
+    }
     
-    public Controlador(){
-        
+    public boolean finishOrder(Order order){
+        pedidosActuales.remove(order);
+        try {
+            return service.finishOrder(order);
+        } catch (RemoteException ex) {
+            Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
     }
     
     public Product tomarProducto(){
-        
-        if (pedidosEnProceso.isEmpty()){
-            if (!colaPedidos.isEmpty()){
-                pedidosEnProceso.add(colaPedidos.extraer());
-                
-                //Tomar producto del pedido
-                Product product = pedidosEnProceso.get().getProduct();
-                
-                if (product.getTiempoCoccion() == 0){
-                    //ingresarEnFogonRapido(product);
-                }
-                
-            } else {
-                return null;
-            }
-        } else{
-            
-            
-            
-            
-        }
         
         return null;
     }
     
     public boolean verificarFogonesRapidos(){
-        /*if (fogones[3] == 0 || fogones[7] == 0 || fogones[11] == 0 || fogones[15] == 0){
-            return true;
-        }*/
-        
-        
-        
+
         
         return false;
+    }
+    
+    public boolean insertarProducto(Product product, int prioridad){
+        return colaProductos[product.getTiempoCoccion()].add(product, prioridad);
+    }
+    
+    public boolean colaRapidaIsEmpty(){
+        return colaProductos[0].isEmpty();
+    }
+    public boolean colaLentaIsEmpty(){
+        return colaProductos[1].isEmpty();
+    }
+    
+    public Product popColaRapida(){
+        return colaProductos[0].extraer();
+    }
+    public Product popColaLenta(){
+        return colaProductos[1].extraer();
     }
     
     

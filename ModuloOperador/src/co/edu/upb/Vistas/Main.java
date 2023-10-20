@@ -5,14 +5,10 @@ import co.edu.upb.Clases.Product;
 import co.edu.upb.Vistas.Operador.VistaOperador;
 import java.rmi.RemoteException;
 
-
 public class Main {
 
      public static void main(String[] args) {
-        
-        //UserValidationApp logIn = new UserValidationApp();
-        //logIn.setVisible(true);
-        
+         
         //VistaOperador ventana = new VistaOperador();
         //ventana.setVisible(true);
         

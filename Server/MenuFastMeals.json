@@ -43,7 +43,7 @@
   },
   {
     "precio": 8000,
-    "nombre": "Aros de Cebolla",
+      "nombre": "Aros de Cebolla",
     "tiempoCoccion": 0,
     "id": "007",
     "descripcion": "Aros de cebolla crujientes, ideales como aperitivo o acompañamiento."

@@ -1,6 +1,8 @@
 package co.edu.upb.Estructuras.Cola;
 
+
 import co.edu.upb.Estructuras.ListaEnlazadaDoble.LinkedList;
+
 import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -56,7 +58,7 @@ public class Cola<T extends Serializable> implements ColaInterface<T>, Serializa
     public void imprimir(){
         contenedor.imprimir2();
     }
-    
+
     @Override
     public String toString() {
         if (isEmpty()){

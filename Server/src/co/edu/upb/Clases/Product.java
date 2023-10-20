@@ -9,6 +9,7 @@ public class Product implements Serializable{
     int tiempoCoccion; //0 -> Rapida, 1 -> Lenta
     String id;
     String descripcion;
+    String pedidoId;
 
     public Product(String nombre, String id, int precio, int tiempoCoccion, String descripcion){
         this.nombre = nombre;
@@ -16,6 +17,14 @@ public class Product implements Serializable{
         this.precio = precio;
         this.tiempoCoccion = tiempoCoccion;
         this.descripcion = descripcion;
+    }
+
+    public String getPedidoId() {
+        return pedidoId;
+    }
+
+    public void setPedidoId(String pedidoId) {
+        this.pedidoId = pedidoId;
     }
 
     public int getPrecio() {

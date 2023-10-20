@@ -5,7 +5,9 @@ import co.edu.upb.Estructuras.ListaEnlazadaDoble.LinkedList;
 import java.io.Serializable;
 
 public class Order implements Serializable{
+    private static final long serialVersionUID = 4964834523L;
     public LinkedList<Product> listaProductos = new LinkedList<>();
+    public String id;
     public String nombres;
     public String apellidos;
     public int tipoCliente;
@@ -13,7 +15,7 @@ public class Order implements Serializable{
         1-> Premium
     */
     public String direccion;
-    public int valorTotal;  
+    public int valorTotal;
     /*  información de cliente:
 	>Nombres
 	>Apellidos
@@ -31,7 +33,7 @@ public class Order implements Serializable{
         this.direccion = direccion;
         this.valorTotal = valorTotal;
     }
-
+    
     public String getNombres() {
         return nombres;
     }
@@ -51,29 +53,29 @@ public class Order implements Serializable{
     public int getValorTotal() {
         return valorTotal;
     }
-    
+
     public void addProducto(Product newProduct){
         listaProductos.add(newProduct);
         valorTotal += newProduct.precio;
     }
-    
+
     public void removeProduct(Product producto){
         if (listaProductos.remove(producto)){
             valorTotal -= producto.precio;
         }
     }
-    
+
     public int getTotalCompra(){
         return valorTotal;
     }
-    
+
     public void imprimir(){
         listaProductos.imprimir();
-    }    
-    
+    }
+
     @Override
     public String toString(){
         return "-" + nombres + ",  $" + valorTotal;
     }
-   
+
 }

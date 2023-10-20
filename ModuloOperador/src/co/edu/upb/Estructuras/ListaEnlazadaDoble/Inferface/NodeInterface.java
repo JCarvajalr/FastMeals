@@ -1,6 +1,8 @@
-package co.edu.upb.Estructuras.ListaEnlazadaDoble.Interface;
+package co.edu.upb.Estructuras.ListaEnlazadaDoble.Inferface;
 
-public interface NodeInterface<T> extends Cloneable {
+import java.io.Serializable;
+
+public interface NodeInterface<T extends Serializable> extends Cloneable {
 
     /***
      * Sets an object in the node. The object must not be null.

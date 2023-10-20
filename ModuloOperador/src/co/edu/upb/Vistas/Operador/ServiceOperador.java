@@ -16,7 +16,6 @@ import java.util.logging.Logger;
 
 public class ServiceOperador implements ServiceOperadorInterface{
     private ServiceOperadorInterface serviceOperador;
-    private ServiceOperadorInterface service;
     private String ip;
     private String port;
     private String serviceName;
@@ -24,7 +23,6 @@ public class ServiceOperador implements ServiceOperadorInterface{
 
     //Constructor
     public ServiceOperador(String ip, String port, String serviceName) {
-        this.service = null;
         this.ip = ip;
         this.port = port;
         this.serviceName = serviceName;

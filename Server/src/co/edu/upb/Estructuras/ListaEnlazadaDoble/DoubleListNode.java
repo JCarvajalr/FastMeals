@@ -23,12 +23,7 @@ public class DoubleListNode<T extends Serializable> extends Node<T> implements S
     }
 
     public void setNext(DoubleListNode<T> next) {
-        try {
-            this.next = next;
-        }
-        catch (Exception e){
-            Logger.getLogger(this.getClass().getName()).log(Level.WARNING, e.getMessage(),e);
-        }
+        this.next = next;
     }
 
     public DoubleListNode<T> getPrev() {
@@ -36,11 +31,6 @@ public class DoubleListNode<T extends Serializable> extends Node<T> implements S
     }
 
     public void setPrev(DoubleListNode<T> prev) {
-        try {
-            this.prev = prev;
-        }
-        catch (Exception e){
-            Logger.getLogger(this.getClass().getName()).log(Level.WARNING, e.getMessage(),e);
-        }
+        this.prev = prev;
     }
 }

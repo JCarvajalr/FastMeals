@@ -419,12 +419,16 @@ public class LinkedList<T extends Serializable> implements LinkedListInterface<T
                 DoubleListNode<T> temporal = (DoubleListNode<T>) iterator.next();
                 if (head.isEquals(object)){
                     head = head.getNext();
-                    head.setPrev(null);
+                    if (head != null){
+                        head.setPrev(null);
+                    }
 
                 } else if (tail.isEquals(object)) {
                     tail = tail.getPrev();
-                    tail.setNext(null);
-
+                    if (tail != null){
+                        tail.setNext(null);
+                    }
+                    
                 } else{
                     while (iterator.hasNext()){
                         if (temporal.getNext().isEquals(object)){

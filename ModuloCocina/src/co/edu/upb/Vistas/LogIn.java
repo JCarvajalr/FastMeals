@@ -1,6 +1,7 @@
 package co.edu.upb.Vistas;
 
 import co.edu.upb.Vistas.Cocina.ServiceCocina;
+import co.edu.upb.Vistas.Cocina.VistaCocina;
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -13,9 +14,8 @@ import javax.swing.ImageIcon;
 import javax.swing.Timer;
 
 public class LogIn extends javax.swing.JFrame {
-    
-    //ServiceOperador service = new ServiceOperador("localhost","5001","serviceOperador");
-    ServiceCocina service = new ServiceCocina("localhost","5001","serviceCocina");
+
+    ServiceCocina service = new ServiceCocina("localhost","5020","serviceCocina");
     
     public LogIn() {
         initComponents();
@@ -167,21 +167,21 @@ public class LogIn extends javax.swing.JFrame {
 
     //Boton " iniciar "
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        /*String username = jTextFieldUsuario.getText();
+        String username = jTextFieldUsuario.getText();
         String password = jPasswordField.getText();
 
         try {
             boolean login = service.login(username, password);
             if (login){
                 dispose();
-                VistaOperador vistaOperador = new VistaOperador(service);
-                vistaOperador.setVisible(true);
+                VistaCocina vistaCocina = new VistaCocina(service);
+                vistaCocina.setVisible(true);
             }else{
                 jLabelError.setText("Usuario inccorrecto");
             }
         } catch (RemoteException ex) {
             Logger.getLogger(LogIn.class.getName()).log(Level.SEVERE, null, ex);
-        }*/
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jPasswordFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jPasswordFieldFocusGained

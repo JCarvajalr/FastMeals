@@ -4,7 +4,7 @@ import co.edu.upb.Clases.Product;
 import javax.swing.JLabel;
 
 public class Fogon {
-    Product currentProduct;
+    public Product currentProduct;
     boolean on;
     int tipoCoccion;
     // 0 - Rapida, 1 - lenta
@@ -24,14 +24,13 @@ public class Fogon {
     
     public void turnOn(Product product){
         currentProduct = product;
+        CheckFogon.setVisible(true);
+        LabelFg.setText(product.getNombre());
         on = true;
     }
     
     public void endCooking(){
-        if (on){
-            currentProduct.setCooked();
-            on = false;
-        }
+        on = false;
     }
     
     public boolean isOn(){

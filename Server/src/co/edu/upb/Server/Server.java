@@ -11,22 +11,10 @@ import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class Server {
-    
-    public String ip;
-    public String port;
-    public String serviceName;
-    public String url;
-    
-    public Server() {
 
-    }
-    
 
-    
     public boolean deployServiceOperador(String ip, String port, String serviceName) {
         boolean result = false;
         if (ip == null | port == null | serviceName == null) return false;
@@ -36,6 +24,8 @@ public class Server {
 
             LocateRegistry.createRegistry(Integer.parseInt(port));
             ServiceOperadorInterface service = new ServicioOperador();
+
+
             
             Naming.rebind(url, service);
             System.out.println("Service: " + serviceName +": on");
@@ -83,4 +73,7 @@ public class Server {
         }
         return result;
     }
+
+
+
 }

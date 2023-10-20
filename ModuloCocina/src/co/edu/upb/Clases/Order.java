@@ -1,21 +1,21 @@
 package co.edu.upb.Clases;
 
+import co.edu.upb.Clases.Product;
 import co.edu.upb.Estructuras.ListaEnlazadaDoble.LinkedList;
-import co.edu.upb.Estructuras.ListaEnlazadaDoble.Inferface.NodeInterface;
 import java.io.Serializable;
-import java.util.Iterator;
 
 public class Order implements Serializable{
-    LinkedList<Product> listaProductos = new LinkedList<>();
-    String nombres;
-    String apellidos;
-    int tipoCliente;
+    private static final long serialVersionUID = 4964834523L;
+    public LinkedList<Product> listaProductos = new LinkedList<>();
+    public String id;
+    public String nombres;
+    public String apellidos;
+    public int tipoCliente;
     /*  0-> Comun
         1-> Premium
     */
-    String direccion;
-    int valorTotal;
-    
+    public String direccion;
+    public int valorTotal;
     /*  información de cliente:
 	>Nombres
 	>Apellidos
@@ -26,60 +26,56 @@ public class Order implements Serializable{
     public Order(){
         valorTotal = 0;
     }
-    
-    public Product getProduct(){        
-        Iterator<NodeInterface<Product>> iterator = listaProductos.iterator();
-        Product temp;
-        while (iterator.hasNext()){
-            temp = iterator.next().getObject();
-            if (temp.getCook() == 0){
-                return temp;
-            }
-        }
-        return null;
+    public Order(String nombres, String apellidos, int tipoCliente, String direccion, int valorTotal) {
+        this.nombres = nombres;
+        this.apellidos = apellidos;
+        this.tipoCliente = tipoCliente;
+        this.direccion = direccion;
+        this.valorTotal = valorTotal;
     }
     
-    public boolean isCooking(){
-        Iterator<NodeInterface<Product>> iterator = listaProductos.iterator();
-        while (iterator.hasNext()){
-            if (iterator.next().getObject().getCook() > 0){
-                return false;
-            }
-        }
-        return true;
+    public String getNombres() {
+        return nombres;
     }
-    
-    public boolean isCooked(){
-        Iterator<NodeInterface<Product>> iterator = listaProductos.iterator();
-        while (iterator.hasNext()){
-            if (iterator.next().getObject().getCook() == 2){
-                return false;
-            }
-        }
-        return true;
+
+    public String getApellidos() {
+        return apellidos;
     }
-    
+
+    public int getTipoCliente() {
+        return tipoCliente;
+    }
+
+    public String getDireccion() {
+        return direccion;
+    }
+
+    public int getValorTotal() {
+        return valorTotal;
+    }
+
     public void addProducto(Product newProduct){
         listaProductos.add(newProduct);
         valorTotal += newProduct.precio;
     }
-    
+
     public void removeProduct(Product producto){
-        valorTotal -= producto.precio;
-        listaProductos.remove(producto);
+        if (listaProductos.remove(producto)){
+            valorTotal -= producto.precio;
+        }
     }
-    
+
     public int getTotalCompra(){
         return valorTotal;
     }
-    
+
     public void imprimir(){
         listaProductos.imprimir();
     }
-    
+
     @Override
     public String toString(){
         return "-" + nombres + ",  $" + valorTotal;
     }
-   
+
 }

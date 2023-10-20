@@ -14,9 +14,10 @@ import java.util.Iterator;
 public class ServicioOperador extends UnicastRemoteObject implements ServiceOperadorInterface {
     ColaPrioridad<Order> colaPedidos = new ColaPrioridad<>(2);
 
+
     public ServicioOperador() throws RemoteException {
     }
-    
+
     @Override
     public boolean login(String user, String password) throws RemoteException {
         JSon<User> usuariosData = new JSon<>("Usuarios.json", User.class);
@@ -35,8 +36,7 @@ public class ServicioOperador extends UnicastRemoteObject implements ServiceOper
 
     @Override
     public boolean addOrder(Order order) throws RemoteException {
-        //Enviar a modulo cocina
-        return colaPedidos.add(order, order.getTipoCliente());
+        return OrderController.add(order);
     }
 
     @Override

@@ -1,6 +1,8 @@
 package co.edu.upb.Vistas.Cocina;
 
 import co.edu.upb.Clases.Order;
+import co.edu.upb.Clases.Product;
+import co.edu.upb.Estructuras.ListaEnlazadaDoble.LinkedList;
 import java.rmi.RemoteException;
 import java.rmi.RemoteException; 
 import java.net.MalformedURLException; 
@@ -41,12 +43,26 @@ public class ServiceCocina implements ServiceCocinaInterface {
     @Override
     public Order getOrder() throws RemoteException {
         try {
-            serviceCocina = (ServiceCocinaInterface) Naming.lookup(this.url);
+            if (serviceCocina == null){
+                serviceCocina = (ServiceCocinaInterface) Naming.lookup(this.url);
+            }
             return serviceCocina.getOrder();
         } catch (NotBoundException | MalformedURLException ex) {
             Logger.getLogger(ServiceCocina.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
+    }   
+
+    @Override
+    public boolean finishOrder(Order order) throws RemoteException {
+        try {
+            if (serviceCocina == null){
+                serviceCocina = (ServiceCocinaInterface) Naming.lookup(this.url);
+            }
+            return serviceCocina.finishOrder(order);
+        } catch (NotBoundException | MalformedURLException ex) {
+            Logger.getLogger(ServiceCocina.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
     }
-    
 }

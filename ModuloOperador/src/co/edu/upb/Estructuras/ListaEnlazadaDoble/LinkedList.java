@@ -1,8 +1,7 @@
 package co.edu.upb.Estructuras.ListaEnlazadaDoble;
 
-import co.edu.upb.Estructuras.ListaEnlazadaDoble.Interface.NodeInterface;
-import co.edu.upb.Estructuras.ListaEnlazadaDoble.Interface.LinkedListInterface;
-
+import co.edu.upb.Estructuras.ListaEnlazadaDoble.Inferface.LinkedListInterface;
+import co.edu.upb.Estructuras.ListaEnlazadaDoble.Inferface.NodeInterface;
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -429,7 +428,7 @@ public class LinkedList<T extends Serializable> implements LinkedListInterface<T
                     if (tail != null){
                         tail.setNext(null);
                     }
-
+                    
                 } else{
                     while (iterator.hasNext()){
                         if (temporal.getNext().isEquals(object)){

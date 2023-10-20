@@ -16,6 +16,7 @@ public class ServiceAdministrador implements ServiceAdministradorInterface{
     private String port;
     private String serviceName;
     private String url;
+    public String user;
     
     public ServiceAdministrador(String ip, String port, String serviceName) {
         this.ip = ip;
@@ -73,6 +74,17 @@ public class ServiceAdministrador implements ServiceAdministradorInterface{
         try {
             serviceAdministrador = (ServiceAdministradorInterface) Naming.lookup(this.url);
             return serviceAdministrador.login(username, password);
+        } catch (NotBoundException | MalformedURLException ex) {
+            Logger.getLogger(ServiceAdministrador.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+
+    @Override
+    public boolean removeUsuario(String username) throws RemoteException {
+        try {
+            serviceAdministrador = (ServiceAdministradorInterface) Naming.lookup(this.url);
+            return serviceAdministrador.removeUsuario(username);
         } catch (NotBoundException | MalformedURLException ex) {
             Logger.getLogger(ServiceAdministrador.class.getName()).log(Level.SEVERE, null, ex);
         }

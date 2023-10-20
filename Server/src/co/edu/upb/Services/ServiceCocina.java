@@ -1,6 +1,7 @@
 package co.edu.upb.Services;
 
 import co.edu.upb.Clases.Order;
+import co.edu.upb.Clases.Product;
 import co.edu.upb.Clases.TipoUsuario;
 import co.edu.upb.Clases.User;
 import co.edu.upb.DataBase.JSon;
@@ -13,6 +14,8 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.Iterator;
 
 public class ServiceCocina extends UnicastRemoteObject implements ServiceCocinaInterface {
+
+
     public ServiceCocina() throws RemoteException {
     }
 
@@ -34,6 +37,11 @@ public class ServiceCocina extends UnicastRemoteObject implements ServiceCocinaI
 
     @Override
     public Order getOrder() throws RemoteException {
-        return null;
+        return OrderController.popOrder();
+    }
+
+    @Override
+    public boolean finishOrder(Order order) throws RemoteException {
+        return OrderController.addDoneOrder(order);
     }
 }

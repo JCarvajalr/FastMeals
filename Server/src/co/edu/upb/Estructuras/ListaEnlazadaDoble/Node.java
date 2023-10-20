@@ -1,7 +1,6 @@
 package co.edu.upb.Estructuras.ListaEnlazadaDoble;
 
 import co.edu.upb.Estructuras.ListaEnlazadaDoble.Inferface.NodeInterface;
-
 import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;

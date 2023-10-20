@@ -176,6 +176,7 @@ public class LogIn extends javax.swing.JFrame {
             boolean login = service.login(username, password);
             if (login){
                 dispose();
+                service.user = username;
                 VistaAdministrador vistaAdministrador = new VistaAdministrador(service);
                 vistaAdministrador.setVisible(true);
             }else{

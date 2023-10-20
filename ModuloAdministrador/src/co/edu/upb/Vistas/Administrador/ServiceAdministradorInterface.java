@@ -17,4 +17,6 @@ public interface ServiceAdministradorInterface extends Remote {
     public boolean addUsuario(User newUser) throws RemoteException;
 
     public boolean login(String username, String password) throws RemoteException;
+    
+    public boolean removeUsuario(String username) throws RemoteException;
 }

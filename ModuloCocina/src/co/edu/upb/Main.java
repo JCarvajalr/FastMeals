@@ -6,11 +6,11 @@ import co.edu.upb.Vistas.LogIn;
 
 public class Main {
     public static void main(String[] args) {
-        VistaCocina ventana = new VistaCocina();
-        ventana.setVisible(true);
-        
-        //LogIn ventana = new LogIn();
+        //VistaCocina ventana = new VistaCocina();
         //ventana.setVisible(true);
+        
+        LogIn ventana = new LogIn();
+        ventana.setVisible(true);
     }
     
 }

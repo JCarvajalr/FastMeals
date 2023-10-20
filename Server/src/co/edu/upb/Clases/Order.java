@@ -1,10 +1,13 @@
 package co.edu.upb.Clases;
 
+import co.edu.upb.Clases.Product;
 import co.edu.upb.Estructuras.ListaEnlazadaDoble.LinkedList;
 import java.io.Serializable;
 
 public class Order implements Serializable{
-    LinkedList<Product> listaProductos = new LinkedList<>();
+    private static final long serialVersionUID = 4964834523L;
+    public LinkedList<Product> listaProductos = new LinkedList<>();
+    public String id;
     public String nombres;
     public String apellidos;
     public int tipoCliente;
@@ -13,20 +16,22 @@ public class Order implements Serializable{
     */
     public String direccion;
     public int valorTotal;
-
     /*  información de cliente:
 	>Nombres
 	>Apellidos
 	>Tipo de cliente (?)
 	>Dirección (Calle/Carrera/Avenida, Número, Casa, Barrio, Municipio)
-	>Los 10 pedidos más frecuentes ordenados por cantidad
+	>Los 10 pedidos mas frecuentes ordenados por cantidad
     */
     public Order(){
         valorTotal = 0;
     }
-
-    public LinkedList<Product> getListaProductos() {
-        return listaProductos;
+    public Order(String nombres, String apellidos, int tipoCliente, String direccion, int valorTotal) {
+        this.nombres = nombres;
+        this.apellidos = apellidos;
+        this.tipoCliente = tipoCliente;
+        this.direccion = direccion;
+        this.valorTotal = valorTotal;
     }
 
     public String getNombres() {
@@ -55,8 +60,9 @@ public class Order implements Serializable{
     }
 
     public void removeProduct(Product producto){
-        valorTotal -= producto.precio;
-        listaProductos.remove(producto);
+        if (listaProductos.remove(producto)){
+            valorTotal -= producto.precio;
+        }
     }
 
     public int getTotalCompra(){

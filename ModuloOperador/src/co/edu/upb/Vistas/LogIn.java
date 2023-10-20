@@ -85,7 +85,6 @@ public class LogIn extends javax.swing.JFrame {
         jPasswordField.setForeground(new java.awt.Color(147, 147, 147));
         jPasswordField.setText("contraseña");
         jPasswordField.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        jPasswordField.setNextFocusableComponent(jTextFieldUsuario);
         jPasswordField.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 jPasswordFieldFocusGained(evt);

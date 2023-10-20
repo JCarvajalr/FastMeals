@@ -1,84 +1,94 @@
 package co.edu.upb.Vistas.Cocina;
 
 import co.edu.upb.Clases.Order;
-import co.edu.upb.Estructuras.Cola.ColaPrioridad;
 import co.edu.upb.Clases.Product;
-import java.awt.Color;
+import co.edu.upb.Estructuras.ListaEnlazadaDoble.Inferface.NodeInterface;
 import java.awt.Font;
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.io.IOException;
 import java.rmi.RemoteException;
+import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class VistaCocina extends javax.swing.JFrame {
     ServiceCocina service;
     Fogon[] fogones = new Fogon[16];
-    ColaPrioridad<Product> colaProductosRapidos = new ColaPrioridad<>(2);
-    ColaPrioridad<Product> colaProductosLentos = new ColaPrioridad<>(2);
+    Controlador controlador;
     
     public VistaCocina(ServiceCocina service) {
+        //Back
         this.service = service;
+        controlador = new Controlador(service);
+        //Front
         initComponents();
         iniciarFogones();
         setTitle("Modulo - Cocina");
         setLocationRelativeTo(null);
-    }
-    
-    public VistaCocina() {
-        initComponents();
-        iniciarFogones();
-        setTitle("Modulo - Cocina");
-        setLocationRelativeTo(null);
+        setIconImage(getIconImage());
+        setActionsToDoneButtons();
     }
     
     Font fontOn = new java.awt.Font("Segoe UI", 1, 16);
     Font fontOff = new java.awt.Font("Segoe UI", 2, 16);
     
+    @Override
+    public Image getIconImage(){
+        Image retvalue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("co/edu/upb/Iconos/Icono.png"));
+        return retvalue;
+    }
+    
     //Procesos
     public void tomarPedido(){
         Product temp;
+        verPedidos();
         //Fogones lentos
-        if (fogonesLentosDisp() && colaProductosLentos.isEmpty()){
-            temp = colaProductosLentos.extraer();
+        if (fogonesLentosDisp() && !controlador.colaLentaIsEmpty()){
+            temp = controlador.popColaLenta();
             for (int i=0; i<fogones.length; i++){
                 if ((fogones[i].getTipoCoccion() == 1) && (!fogones[i].isOn())){
-                    //fogones[i].turnOn(temp);
-                    
-                    ImagenFogon1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/FogonRapidoApagado.png"))); // 
-
-                    fogones[i].CheckFogon.setVisible(true);
+                    fogones[i].turnOn(temp);
                     fogones[i].ImagenFogon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/FogonLentoEncendido.png")));
-                    fogones[i].LabelFg.setText("Prueba Hamburguesa");
-                    //fogones[i].LabelFg.setText(temp.getNombre());
                     fogones[i].LabelFg.setForeground(java.awt.SystemColor.infoText);
                     fogones[i].LabelFg.setFont(fontOn);
+                    actualizarTextArea();
                     break;
                 }
             }
         //Fogones rapidos
-        } else if (fogonesRapidosDisp() && !colaProductosRapidos.isEmpty()){  
-            temp = colaProductosRapidos.extraer();
+        } else if (fogonesRapidosDisp() && !controlador.colaRapidaIsEmpty()){  
+            temp = controlador.popColaRapida();
             for (int i=0; i<fogones.length; i++){
                 if ((fogones[i].getTipoCoccion() == 0) && (!fogones[i].isOn())){
                     fogones[i].turnOn(temp);
-                    fogones[i].CheckFogon.setVisible(true);
                     fogones[i].ImagenFogon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/FogonRapidoEncendido.png")));
-                    fogones[i].LabelFg.setText(temp.getNombre());
                     fogones[i].LabelFg.setForeground(java.awt.SystemColor.infoText);
                     fogones[i].LabelFg.setFont(fontOn);
+                    actualizarTextArea();
+                    break;
                 }
             }
-        }    
+        }
     }
     
     public void verPedidos(){
         try {
             Order newOrder = service.getOrder();
-            
-            if (newOrder != null){                
-                
+            if (newOrder != null){
+                controlador.pedidosActuales.add(newOrder);
+                int cantidad = newOrder.listaProductos.size();
+                newOrder.valorTotal = cantidad;
+                System.out.println(newOrder.valorTotal);
+                while (!newOrder.listaProductos.isEmpty()){
+                    Product temp = newOrder.listaProductos.pop();
+                    temp.setPedidoId(newOrder.id);
+                    controlador.insertarProducto(temp, newOrder.tipoCliente);
+                }
             }
-            
         } catch (RemoteException ex) {
+            Logger.getLogger(VistaCocina.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
             Logger.getLogger(VistaCocina.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -183,16 +193,6 @@ public class VistaCocina extends javax.swing.JFrame {
         }
     }
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     //
     
     @SuppressWarnings("unchecked")
@@ -204,7 +204,7 @@ public class VistaCocina extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        textAreaProProceso = new javax.swing.JTextArea();
         jButton1 = new javax.swing.JButton();
         jLabel19 = new javax.swing.JLabel();
         jPanel10 = new javax.swing.JPanel();
@@ -294,23 +294,26 @@ public class VistaCocina extends javax.swing.JFrame {
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         jScrollPane1.setViewportBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
-        jTextArea1.setEditable(false);
-        jTextArea1.setBackground(new java.awt.Color(255, 255, 255));
-        jTextArea1.setColumns(20);
-        jTextArea1.setFont(new java.awt.Font("Bahnschrift", 0, 18)); // NOI18N
-        jTextArea1.setForeground(new java.awt.Color(51, 51, 51));
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        textAreaProProceso.setEditable(false);
+        textAreaProProceso.setBackground(new java.awt.Color(255, 255, 255));
+        textAreaProProceso.setColumns(20);
+        textAreaProProceso.setFont(new java.awt.Font("Bahnschrift", 0, 18)); // NOI18N
+        textAreaProProceso.setForeground(new java.awt.Color(51, 51, 51));
+        textAreaProProceso.setRows(5);
+        jScrollPane1.setViewportView(textAreaProProceso);
 
         jButton1.setBackground(new java.awt.Color(255, 255, 255));
         jButton1.setFont(new java.awt.Font("Bahnschrift", 1, 20)); // NOI18N
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/Button.png"))); // NOI18N
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/TomarPedido.png"))); // NOI18N
         jButton1.setText("Tomar producto");
         jButton1.setAlignmentY(0.0F);
         jButton1.setBorder(null);
+        jButton1.setBorderPainted(false);
+        jButton1.setContentAreaFilled(false);
+        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton1.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/ButtonSelected.png"))); // NOI18N
+        jButton1.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/TomarPedidoPressed.png"))); // NOI18N
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -325,30 +328,28 @@ public class VistaCocina extends javax.swing.JFrame {
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addGap(0, 20, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(21, 21, 21))
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(22, 22, 22)
-                        .addComponent(jLabel19))
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel19)))
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(62, 62, 62)
-                        .addComponent(jButton1)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(49, 49, 49)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(33, 33, 33)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(39, 39, 39)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(26, 26, 26)
                 .addComponent(jLabel19)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 501, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(138, Short.MAX_VALUE))
+                .addContainerGap(106, Short.MAX_VALUE))
         );
 
         jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 70, 310, 790));
@@ -363,11 +364,6 @@ public class VistaCocina extends javax.swing.JFrame {
 
         CheckFogon9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/DoneIcon.png"))); // NOI18N
         CheckFogon9.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        CheckFogon9.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                CheckFogon9MouseClicked(evt);
-            }
-        });
         jPanel10.add(CheckFogon9, new org.netbeans.lib.awtextra.AbsoluteConstraints(186, 25, -1, -1));
 
         LabelFg9.setFont(new java.awt.Font("Segoe UI", 2, 16)); // NOI18N
@@ -391,11 +387,6 @@ public class VistaCocina extends javax.swing.JFrame {
 
         CheckFogon10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/DoneIcon.png"))); // NOI18N
         CheckFogon10.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        CheckFogon10.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                CheckFogon10MouseClicked(evt);
-            }
-        });
         jPanel10.add(CheckFogon10, new org.netbeans.lib.awtextra.AbsoluteConstraints(529, 25, -1, -1));
 
         ImagenFogon12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -405,11 +396,6 @@ public class VistaCocina extends javax.swing.JFrame {
 
         CheckFogon12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/DoneIcon.png"))); // NOI18N
         CheckFogon12.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        CheckFogon12.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                CheckFogon12MouseClicked(evt);
-            }
-        });
         jPanel10.add(CheckFogon12, new org.netbeans.lib.awtextra.AbsoluteConstraints(529, 191, -1, -1));
 
         LabelFg12.setFont(new java.awt.Font("Segoe UI", 2, 16)); // NOI18N
@@ -433,11 +419,6 @@ public class VistaCocina extends javax.swing.JFrame {
 
         CheckFogon11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/DoneIcon.png"))); // NOI18N
         CheckFogon11.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        CheckFogon11.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                CheckFogon11MouseClicked(evt);
-            }
-        });
         jPanel10.add(CheckFogon11, new org.netbeans.lib.awtextra.AbsoluteConstraints(186, 191, -1, -1));
 
         jPanel1.add(jPanel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 490, 590, 340));
@@ -452,11 +433,6 @@ public class VistaCocina extends javax.swing.JFrame {
 
         CheckFogon1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/DoneIcon.png"))); // NOI18N
         CheckFogon1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        CheckFogon1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                CheckFogon1MouseClicked(evt);
-            }
-        });
         jPanel12.add(CheckFogon1, new org.netbeans.lib.awtextra.AbsoluteConstraints(186, 25, -1, -1));
 
         LabelFg1.setFont(new java.awt.Font("Segoe UI", 2, 16)); // NOI18N
@@ -480,11 +456,6 @@ public class VistaCocina extends javax.swing.JFrame {
 
         CheckFogon2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/DoneIcon.png"))); // NOI18N
         CheckFogon2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        CheckFogon2.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                CheckFogon2MouseClicked(evt);
-            }
-        });
         jPanel12.add(CheckFogon2, new org.netbeans.lib.awtextra.AbsoluteConstraints(529, 25, -1, -1));
 
         ImagenFogon4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -494,11 +465,6 @@ public class VistaCocina extends javax.swing.JFrame {
 
         CheckFogon4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/DoneIcon.png"))); // NOI18N
         CheckFogon4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        CheckFogon4.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                CheckFogon4MouseClicked(evt);
-            }
-        });
         jPanel12.add(CheckFogon4, new org.netbeans.lib.awtextra.AbsoluteConstraints(529, 191, -1, -1));
 
         LabelFg4.setFont(new java.awt.Font("Segoe UI", 2, 16)); // NOI18N
@@ -522,11 +488,6 @@ public class VistaCocina extends javax.swing.JFrame {
 
         CheckFogon3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/DoneIcon.png"))); // NOI18N
         CheckFogon3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        CheckFogon3.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                CheckFogon3MouseClicked(evt);
-            }
-        });
         jPanel12.add(CheckFogon3, new org.netbeans.lib.awtextra.AbsoluteConstraints(186, 191, -1, -1));
 
         jPanel1.add(jPanel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 100, 590, 340));
@@ -541,11 +502,6 @@ public class VistaCocina extends javax.swing.JFrame {
 
         CheckFogon5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/DoneIcon.png"))); // NOI18N
         CheckFogon5.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        CheckFogon5.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                CheckFogon5MouseClicked(evt);
-            }
-        });
         jPanel13.add(CheckFogon5, new org.netbeans.lib.awtextra.AbsoluteConstraints(186, 25, -1, -1));
 
         LabelFg5.setFont(new java.awt.Font("Segoe UI", 2, 16)); // NOI18N
@@ -569,11 +525,6 @@ public class VistaCocina extends javax.swing.JFrame {
 
         CheckFogon6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/DoneIcon.png"))); // NOI18N
         CheckFogon6.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        CheckFogon6.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                CheckFogon6MouseClicked(evt);
-            }
-        });
         jPanel13.add(CheckFogon6, new org.netbeans.lib.awtextra.AbsoluteConstraints(529, 25, -1, -1));
 
         ImagenFogon8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -583,11 +534,6 @@ public class VistaCocina extends javax.swing.JFrame {
 
         CheckFogon8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/DoneIcon.png"))); // NOI18N
         CheckFogon8.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        CheckFogon8.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                CheckFogon8MouseClicked(evt);
-            }
-        });
         jPanel13.add(CheckFogon8, new org.netbeans.lib.awtextra.AbsoluteConstraints(529, 191, -1, -1));
 
         LabelFg8.setFont(new java.awt.Font("Segoe UI", 2, 16)); // NOI18N
@@ -611,11 +557,6 @@ public class VistaCocina extends javax.swing.JFrame {
 
         CheckFogon7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/DoneIcon.png"))); // NOI18N
         CheckFogon7.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        CheckFogon7.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                CheckFogon7MouseClicked(evt);
-            }
-        });
         jPanel13.add(CheckFogon7, new org.netbeans.lib.awtextra.AbsoluteConstraints(186, 191, -1, -1));
 
         jPanel1.add(jPanel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(990, 100, 590, 340));
@@ -630,11 +571,6 @@ public class VistaCocina extends javax.swing.JFrame {
 
         CheckFogon13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/DoneIcon.png"))); // NOI18N
         CheckFogon13.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        CheckFogon13.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                CheckFogon13MouseClicked(evt);
-            }
-        });
         jPanel14.add(CheckFogon13, new org.netbeans.lib.awtextra.AbsoluteConstraints(186, 25, -1, -1));
 
         LabelFg13.setFont(new java.awt.Font("Segoe UI", 2, 16)); // NOI18N
@@ -658,11 +594,6 @@ public class VistaCocina extends javax.swing.JFrame {
 
         CheckFogon14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/DoneIcon.png"))); // NOI18N
         CheckFogon14.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        CheckFogon14.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                CheckFogon14MouseClicked(evt);
-            }
-        });
         jPanel14.add(CheckFogon14, new org.netbeans.lib.awtextra.AbsoluteConstraints(529, 25, -1, -1));
 
         ImagenFogon16.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -672,11 +603,6 @@ public class VistaCocina extends javax.swing.JFrame {
 
         CheckFogon16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/DoneIcon.png"))); // NOI18N
         CheckFogon16.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        CheckFogon16.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                CheckFogon16MouseClicked(evt);
-            }
-        });
         jPanel14.add(CheckFogon16, new org.netbeans.lib.awtextra.AbsoluteConstraints(529, 191, -1, -1));
 
         LabelFg16.setFont(new java.awt.Font("Segoe UI", 2, 16)); // NOI18N
@@ -700,11 +626,6 @@ public class VistaCocina extends javax.swing.JFrame {
 
         CheckFogon15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/DoneIcon.png"))); // NOI18N
         CheckFogon15.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        CheckFogon15.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                CheckFogon15MouseClicked(evt);
-            }
-        });
         jPanel14.add(CheckFogon15, new org.netbeans.lib.awtextra.AbsoluteConstraints(186, 191, -1, -1));
 
         jPanel1.add(jPanel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(990, 490, 590, 340));
@@ -730,56 +651,33 @@ public class VistaCocina extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         tomarPedido();
     }//GEN-LAST:event_jButton1ActionPerformed
-    private void CheckFogon1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CheckFogon1MouseClicked
-        turnOff(0);
-    }//GEN-LAST:event_CheckFogon1MouseClicked
-    private void CheckFogon2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CheckFogon2MouseClicked
-        turnOff(1);
-    }//GEN-LAST:event_CheckFogon2MouseClicked
-    private void CheckFogon3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CheckFogon3MouseClicked
-        turnOff(2);
-    }//GEN-LAST:event_CheckFogon3MouseClicked
-    private void CheckFogon4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CheckFogon4MouseClicked
-        turnOff(3);
-    }//GEN-LAST:event_CheckFogon4MouseClicked
-    private void CheckFogon5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CheckFogon5MouseClicked
-        turnOff(4);
-    }//GEN-LAST:event_CheckFogon5MouseClicked
-    private void CheckFogon6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CheckFogon6MouseClicked
-        turnOff(5);
-    }//GEN-LAST:event_CheckFogon6MouseClicked
-    private void CheckFogon8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CheckFogon8MouseClicked
-        turnOff(7);
-    }//GEN-LAST:event_CheckFogon8MouseClicked
-    private void CheckFogon9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CheckFogon9MouseClicked
-        turnOff(8);
-    }//GEN-LAST:event_CheckFogon9MouseClicked
-    private void CheckFogon10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CheckFogon10MouseClicked
-        turnOff(9);
-    }//GEN-LAST:event_CheckFogon10MouseClicked
-    private void CheckFogon11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CheckFogon11MouseClicked
-        turnOff(10);
-    }//GEN-LAST:event_CheckFogon11MouseClicked
-    private void CheckFogon12MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CheckFogon12MouseClicked
-        turnOff(11);
-    }//GEN-LAST:event_CheckFogon12MouseClicked
-    private void CheckFogon13MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CheckFogon13MouseClicked
-        turnOff(12);
-    }//GEN-LAST:event_CheckFogon13MouseClicked
-    private void CheckFogon14MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CheckFogon14MouseClicked
-        turnOff(13);
-    }//GEN-LAST:event_CheckFogon14MouseClicked
-    private void CheckFogon15MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CheckFogon15MouseClicked
-        turnOff(14);
-    }//GEN-LAST:event_CheckFogon15MouseClicked
-    private void CheckFogon16MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CheckFogon16MouseClicked
-        turnOff(15);
-    }//GEN-LAST:event_CheckFogon16MouseClicked
-    private void CheckFogon7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CheckFogon7MouseClicked
-        turnOff(6);
-    }//GEN-LAST:event_CheckFogon7MouseClicked
 
+    private void setActionsToDoneButtons(){
+        for (int i=0; i<fogones.length; i++){
+            int a = i;
+            fogones[i].CheckFogon.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseClicked(java.awt.event.MouseEvent evt) {
+                    turnOff(a);
+                }
+            });
+        }
+    }
+    
     private void turnOff(int i){
+        Iterator<NodeInterface<Order>> iterator = controlador.pedidosActuales.iterator();
+        Order temp = null;
+        while (iterator.hasNext()){
+            temp = iterator.next().getObject();
+            if (temp.id.equals(fogones[i].currentProduct.getPedidoId())){
+                temp.listaProductos.add(fogones[i].currentProduct);
+                temp.valorTotal = temp.valorTotal-1;
+                break;
+            }
+        }
+        //Todos los productos fueron cocinados
+        if (temp.valorTotal == 0){
+            controlador.finishOrder(temp);
+        }
         fogones[i].endCooking();
         fogones[i].CheckFogon.setVisible(false);
         if (fogones[i].getTipoCoccion() == 0){
@@ -790,8 +688,18 @@ public class VistaCocina extends javax.swing.JFrame {
         fogones[i].LabelFg.setText("Apagado");
         fogones[i].LabelFg.setForeground(java.awt.SystemColor.textInactiveText);
         fogones[i].LabelFg.setFont(fontOff);
+        actualizarTextArea();
     }
     
+    public void actualizarTextArea(){
+        String text = "";
+        for (int i=0; i<fogones.length; i++){
+            if (fogones[i].isOn()){
+                text += fogones[i].currentProduct.getNombre() + "\n";
+            }
+        }
+        textAreaProProceso.setText(text);
+    }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel CheckFogon1;
@@ -853,7 +761,7 @@ public class VistaCocina extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTextArea textAreaProProceso;
     // End of variables declaration//GEN-END:variables
     
 }

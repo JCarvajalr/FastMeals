@@ -5,19 +5,24 @@ import co.edu.upb.Clases.Product;
 import co.edu.upb.Clases.Client;
 import co.edu.upb.Estructuras.Cola.ColaPrioridad;
 import co.edu.upb.Estructuras.ListaEnlazadaDoble.LinkedList;
-import co.edu.upb.Estructuras.ListaEnlazadaDoble.Interface.NodeInterface;
+import co.edu.upb.Estructuras.ListaEnlazadaDoble.Inferface.NodeInterface;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.rmi.RemoteException;
+import java.text.DecimalFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Iterator;
-import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.Icon;
@@ -30,10 +35,8 @@ import javax.swing.JTextArea;
 public class VistaOperador extends javax.swing.JFrame {
     ColaPrioridad<Order> colaDePedidos = new ColaPrioridad<>(2);
     Product[] menu;
-    
     Order pedidoActual;
-    ElementosVisualesProducto[] gruposSwingMenu = new ElementosVisualesProducto[menu.length];
-    
+    ElementosVisualesProducto[] gruposSwingMenu;
     ServiceOperador service;
     
     public VistaOperador(ServiceOperador service){
@@ -43,14 +46,20 @@ public class VistaOperador extends javax.swing.JFrame {
         
         //Interfaz grafica
         initComponents();
-        //setUndecorated(true);
+        setIconImage(getIconImage());
         setLocationRelativeTo(null);
         setResizable(false);
-        agruparElementos();
         textFielNumListener();
-        jScrollPaneMenu.getVerticalScrollBar().setValue(0);
+        agruparElementos();
         asignarActionsABotonesAddProducts();
-        restoreMenuDefault();
+        
+
+    }
+    
+    @Override
+    public Image getIconImage(){
+        Image retvalue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("co/edu/upb/Iconos/Icono.png"));
+        return retvalue;
     }
     
     @SuppressWarnings("unchecked")
@@ -166,7 +175,6 @@ public class VistaOperador extends javax.swing.JFrame {
         jLabel15 = new javax.swing.JLabel();
         jComboBoxTipoCliente = new javax.swing.JComboBox<>();
         jLabel16 = new javax.swing.JLabel();
-        jLabel17 = new javax.swing.JLabel();
         textFieldDirr1 = new javax.swing.JTextField();
         jLabel18 = new javax.swing.JLabel();
         textFieldDirr3 = new javax.swing.JTextField();
@@ -175,7 +183,6 @@ public class VistaOperador extends javax.swing.JFrame {
         jLabel23 = new javax.swing.JLabel();
         textFieldLastName = new javax.swing.JTextField();
         jLabel24 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
         PanelListaPedidos = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         textPaneListaDePedidos = new javax.swing.JTextPane();
@@ -205,10 +212,9 @@ public class VistaOperador extends javax.swing.JFrame {
         jPanelUpBar.setBackground(new java.awt.Color(227, 100, 20));
         jPanelUpBar.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setFont(new java.awt.Font("Gobold Bold", 0, 45)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("FoodUPB");
-        jPanelUpBar.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, -1, 70));
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/IconoLogo.png"))); // NOI18N
+        jPanelUpBar.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, -1, 70));
 
         jLabel2.setFont(new java.awt.Font("Bahnschrift", 0, 20)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
@@ -219,7 +225,7 @@ public class VistaOperador extends javax.swing.JFrame {
                 jLabel2MouseClicked(evt);
             }
         });
-        jPanelUpBar.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 0, -1, 70));
+        jPanelUpBar.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 0, -1, 70));
 
         jLabel3.setFont(new java.awt.Font("Bahnschrift", 0, 20)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
@@ -235,7 +241,7 @@ public class VistaOperador extends javax.swing.JFrame {
                 jLabel4MouseClicked(evt);
             }
         });
-        jPanelUpBar.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 0, -1, 70));
+        jPanelUpBar.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 0, -1, 70));
 
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/IconoOperador.png"))); // NOI18N
         jPanelUpBar.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(1330, 10, -1, -1));
@@ -408,11 +414,11 @@ public class VistaOperador extends javax.swing.JFrame {
         jScrollPaneMenu.setBackground(new java.awt.Color(245, 245, 245));
         jScrollPaneMenu.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         jScrollPaneMenu.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPaneMenu.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         jScrollPaneMenu.setViewportBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        jScrollPaneMenu.setPreferredSize(new java.awt.Dimension(1186, 882));
 
         jPanelMenu.setBackground(new java.awt.Color(245, 245, 245));
-        jPanelMenu.setPreferredSize(new java.awt.Dimension(1182, 1560));
+        jPanelMenu.setPreferredSize(new java.awt.Dimension(1185, 1560));
 
         imagenProducto3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Productos/TacosDeCarneAsada.png"))); // NOI18N
 
@@ -546,7 +552,7 @@ public class VistaOperador extends javax.swing.JFrame {
         descProducto2.setFont(new java.awt.Font("Bahnschrift", 0, 16)); // NOI18N
         descProducto2.setLineWrap(true);
         descProducto2.setRows(5);
-        descProducto2.setText("Carne de res premium a la parrilla,    queso cheddar, cebolla caramelizada y lechuga en pan de brioche. \n(5 minutos)\n");
+        descProducto2.setText("Carne de res premium a la parrilla,    queso cheddar, cebolla caramelizada y lechuga en pan de brioche. \n(10 minutos)\n");
         descProducto2.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
         imagenProducto2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Productos/HamburguesaEspecial.png"))); // NOI18N
@@ -737,6 +743,8 @@ public class VistaOperador extends javax.swing.JFrame {
         addProducto9.setForeground(new java.awt.Color(245, 245, 245));
         addProducto9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonAñadir (Custom).png"))); // NOI18N
         addProducto9.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        addProducto9.setBorderPainted(false);
+        addProducto9.setContentAreaFilled(false);
         addProducto9.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         addProducto9.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonAñadirPressed (Custom).png"))); // NOI18N
         addProducto9.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonAñadirHover (Custom).png"))); // NOI18N
@@ -826,7 +834,7 @@ public class VistaOperador extends javax.swing.JFrame {
         jPanelMenuLayout.setHorizontalGroup(
             jPanelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelMenuLayout.createSequentialGroup()
-                .addGap(42, 42, 42)
+                .addGap(45, 45, 45)
                 .addGroup(jPanelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelMenuLayout.createSequentialGroup()
                         .addComponent(imagenProducto1, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -965,7 +973,7 @@ public class VistaOperador extends javax.swing.JFrame {
         jPanelMenuLayout.setVerticalGroup(
             jPanelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelMenuLayout.createSequentialGroup()
-                .addGap(46, 46, 46)
+                .addGap(26, 26, 26)
                 .addGroup(jPanelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(imagenProducto1, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanelMenuLayout.createSequentialGroup()
@@ -1047,7 +1055,7 @@ public class VistaOperador extends javax.swing.JFrame {
                     .addComponent(descProducto6, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(descProducto7, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(descProducto8, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(60, 60, 60)
+                .addGap(27, 27, 27)
                 .addGroup(jPanelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(imagenProducto9, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanelMenuLayout.createSequentialGroup()
@@ -1082,7 +1090,7 @@ public class VistaOperador extends javax.swing.JFrame {
 
         jScrollPaneMenu.setViewportView(jPanelMenu);
 
-        AddProduct.add(jScrollPaneMenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 262, 1180, 620));
+        AddProduct.add(jScrollPaneMenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 254, 1180, 470));
         jScrollPaneMenu.getVerticalScrollBar().setUnitIncrement(20);
         jScrollPaneMenu.getVerticalScrollBar().setValue(0);
 
@@ -1158,11 +1166,6 @@ public class VistaOperador extends javax.swing.JFrame {
         jLabel16.setText("Datos de envío");
         Fillinfo.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 90, -1, -1));
 
-        jLabel17.setFont(new java.awt.Font("Bahnschrift", 0, 24)); // NOI18N
-        jLabel17.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel17.setText("Tipo");
-        Fillinfo.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(970, 160, -1, -1));
-
         textFieldDirr1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         Fillinfo.add(textFieldDirr1, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 190, 320, 41));
 
@@ -1194,9 +1197,6 @@ public class VistaOperador extends javax.swing.JFrame {
         jLabel24.setForeground(new java.awt.Color(0, 0, 0));
         jLabel24.setText("Calle/Avenida/Carrera");
         Fillinfo.add(jLabel24, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 160, -1, -1));
-
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Calle", "Avenida", "Carrera" }));
-        Fillinfo.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(970, 190, -1, 40));
 
         jTabbedPane2.addTab("Llenar informacion", Fillinfo);
 
@@ -1272,6 +1272,167 @@ public class VistaOperador extends javax.swing.JFrame {
         jTabbedPane2.setSelectedIndex(0);
     }//GEN-LAST:event_jLabel13MouseClicked
 
+    public void generarResultadosBusqueda(){
+        //jScrollPaneResults.getVerticalScrollBar().setValue(0);
+        //jPanelResults.removeAll();
+        jScrollPaneMenu.getVerticalScrollBar().setValue(0);
+        jPanelMenu.removeAll();
+        if (!TextFieldBuscador.getText().isBlank()){
+            //Busqueda invalida
+            //if (TextFieldBuscador.getText().length() > 3){
+                ElementosVisualesProducto[] resultados = distanciaHammingMod(TextFieldBuscador.getText());
+                if (resultados != null){
+                    int posX = 30;
+                    int posY1 = 10, posY2 = 210, posY3 = 240, posY4 = 270;
+                    for (int i=0; i<resultados.length; i++){
+                        JLabel imagenProducto = resultados[i].imagenProducto;
+                        JLabel nombreProducto = resultados[i].nombreProducto;
+                        JLabel precio = resultados[i].precioProducto;
+                        JTextArea descripcion = resultados[i].descProducto;
+                        JButton addProducto = resultados[i].addProducto;
+                        JButton removeProducto = resultados[i].removeProducto;
+                        
+                        jPanelMenu.add(imagenProducto);
+                        jPanelMenu.add(nombreProducto);
+                        jPanelMenu.add(precio);
+                        jPanelMenu.add(descripcion);
+                        jPanelMenu.add(addProducto);
+                        jPanelMenu.add(removeProducto);
+                        
+                        imagenProducto.setLocation(posX, posY1);
+                        nombreProducto.setLocation(posX, posY2);
+                        precio.setLocation(posX, posY3);
+                        descripcion.setLocation(posX, posY4);
+                        addProducto.setLocation(posX + 305, posY1);
+                        removeProducto.setLocation(posX + 305, posY1 + 30);
+                        
+                        posX += 380;
+                        if (posX > 790){
+                            posY1 += 390;
+                            posY2 += 390;
+                            posY3 += 390;
+                            posY4 += 390;
+                            posX = 30;
+                        }
+                    }
+                    jPanelMenu.revalidate();
+                    jPanelMenu.repaint();
+                } else{
+                    mostrarBusquedaNulaEnResultados();
+                }
+            //}else{
+            //    mostrarBusquedaNulaEnResultados();
+            //}
+        }else{
+            mostrarProductoEnMenu(gruposSwingMenu);
+        }
+    }
+    
+    private void agruparElementos(){
+        Font fontNombre = new java.awt.Font("Bahnschrift", 1, 22);
+        Font fontPrecio = new java.awt.Font("Bahnschrift", 1, 24);
+        Font fontDescripcion = new java.awt.Font("Bahnschrift", 0, 16);
+        Color backGround = new java.awt.Color(245, 245, 245);
+        gruposSwingMenu = new ElementosVisualesProducto[menu.length];
+
+        for (int i = 0; i < menu.length; i++){
+            JLabel nombre = new JLabel(menu[i].getNombre()); nombre.setVisible(true);
+            nombre.setFont(fontNombre);
+            nombre.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+            nombre.setSize(300, 30);
+            
+            JLabel precio = new JLabel(convertPrecio(menu[i].getPrecio())); precio.setVisible(true);
+            precio.setFont(fontPrecio);
+            precio.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+            precio.setSize(300, 30);
+            
+            JTextArea descripcion = new JTextArea(menu[i].getDescripcion()); descripcion.setVisible(true);
+            descripcion.setEditable(false);
+            descripcion.setBackground(backGround);
+            descripcion.setColumns(20);
+            descripcion.setFont(fontDescripcion);
+            descripcion.setLineWrap(true);
+            descripcion.setWrapStyleWord(true);
+            descripcion.setRows(5);
+            descripcion.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+            descripcion.setSize(280, 70);
+            
+            JButton addButton = new JButton(); addButton.setVisible(true);
+            addButton.setBorderPainted(false);
+            addButton.setContentAreaFilled(false);
+            addButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonAñadir (Custom).png")));
+            addButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+            addButton.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonAñadirPressed (Custom).png")));
+            addButton.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonAñadirHover (Custom).png")));
+            addButton.setSize(25, 25);
+            
+            JButton removeButton = new JButton(); removeButton.setVisible(true);
+            removeButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonEliminar (Custom).png"))); // NOI18N
+            removeButton.setBorderPainted(false);
+            removeButton.setContentAreaFilled(false);
+            removeButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+            removeButton.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonEliminarPressed (Custom).png"))); // NOI18N
+            removeButton.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Buttoms/BotonEliminarHover (Custom).png"))); // NOI18N
+            removeButton.setSize(25, 25);
+            
+            JLabel imagen = new JLabel(); imagen.setVisible(true);
+            imagen.setSize(300, 200);
+            String ruta = "/co/edu/upb/Iconos/Prueba/" + menu[i].getNombre() + ".png";
+            
+            java.net.URL imgURL = VistaOperador.class.getResource(ruta);
+            if (imgURL != null) {
+                imagen.setIcon(new javax.swing.ImageIcon(getClass().getResource(ruta)));
+            }
+            gruposSwingMenu[i] = new ElementosVisualesProducto(imagen, nombre, precio, descripcion, 
+                    addButton, removeButton, menu[i].getId(), menu[i]);
+            
+        }
+        mostrarProductoEnMenu(gruposSwingMenu);
+    }
+
+    
+    public void mostrarProductoEnMenu(ElementosVisualesProducto[] elementos){
+        jPanelMenu.removeAll();
+        int posX = 30;
+        int posY1 = 10, posY2 = 210, posY3 = 240, posY4 = 270;
+        for (int i=0; i < elementos.length; i++){
+            System.out.println(elementos[i].producto.getId());
+            
+            JLabel imagenProducto = elementos[i].imagenProducto;
+            JLabel nombreProducto = elementos[i].nombreProducto;
+            JLabel precio = elementos[i].precioProducto;
+            JTextArea descripcion = elementos[i].descProducto;
+            JButton addProducto = elementos[i].addProducto;
+            JButton removeProducto = elementos[i].removeProducto;
+
+            jPanelMenu.add(imagenProducto);
+            jPanelMenu.add(nombreProducto);
+            jPanelMenu.add(precio);
+            jPanelMenu.add(descripcion);
+            jPanelMenu.add(addProducto);
+            jPanelMenu.add(removeProducto);
+
+            imagenProducto.setLocation(posX, posY1);
+            nombreProducto.setLocation(posX, posY2);
+            precio.setLocation(posX, posY3);
+            descripcion.setLocation(posX, posY4);
+            addProducto.setLocation(posX + 305, posY1);
+            removeProducto.setLocation(posX + 305, posY1 + 30);
+            
+            posX += 380;
+            if (posX > 790){
+                posY1 += 390;
+                posY2 += 390;
+                posY3 += 390;
+                posY4 += 390;
+                posX = 30;
+            }
+        }
+        jPanelMenu.revalidate();
+        jPanelMenu.repaint();
+        jScrollPaneMenu.getVerticalScrollBar().setValue(0);
+    }
+    
     private void textFielNumListener(){
         textFieldNum.addKeyListener(new KeyListener() {
             @Override
@@ -1337,7 +1498,7 @@ public class VistaOperador extends javax.swing.JFrame {
         TextAreaTotal.setText("Productos: " + pedidoActual.listaProductos.size() +
             "\nTotal: " + pedidoActual.getTotalCompra());
     }
-    
+        
     public void mostrarBusquedaNulaEnResultados(){
         jPanelMenu.removeAll();
         JLabel jLabelResultadoBusqueda = new JLabel("No hay coincidencias.");
@@ -1349,16 +1510,6 @@ public class VistaOperador extends javax.swing.JFrame {
         jPanelMenu.add(jLabelResultadoBusqueda);
         jPanelMenu.revalidate();
         jPanelMenu.repaint();
-        
-        /*TabbedPaneMenu.setSelectedIndex(0);
-        TabbedPaneMenu.setSelectedIndex(1);
-        JLabel jLabelResultadoBusqueda = new JLabel("No hay coincidencias.");
-        jLabelResultadoBusqueda.setSize(180, 30);
-        jLabelResultadoBusqueda.setForeground(Color.BLACK);
-        jLabelResultadoBusqueda.setFont(new java.awt.Font("Bahnschrift", 0, 18));
-        jLabelResultadoBusqueda.setLocation(30, 70);
-        jLabelResultadoBusqueda.setVisible(true);
-        jPanelResults.add(jLabelResultadoBusqueda);*/
     }
     
     public ElementosVisualesProducto[] convertirResultados(LinkedList<String> resultados){
@@ -1460,118 +1611,11 @@ public class VistaOperador extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_TextFieldBuscadorFocusLost
 
-        //Aros de cebolla
     private void TextFieldBuscadorKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TextFieldBuscadorKeyReleased
-        //jScrollPaneResults.getVerticalScrollBar().setValue(0);
-        //jPanelResults.removeAll();
-        jScrollPaneMenu.getVerticalScrollBar().setValue(0);
-        jPanelMenu.removeAll();
-        if (!TextFieldBuscador.getText().isBlank()){
-            //Busqueda invalida
-            //if (TextFieldBuscador.getText().length() > 3){
-                ElementosVisualesProducto[] resultados = distanciaHammingMod(TextFieldBuscador.getText());
-                if (resultados != null){
-                    int posX = 30;
-                    int posY1 = 10, posY2 = 210, posY3 = 240, posY4 = 270;
-                    
-                    Font fontNombre = new java.awt.Font("Bahnschrift", 1, 22);
-                    Font fontPrecio = new java.awt.Font("Bahnschrift", 1, 22);
-                    Font fontDesc = new java.awt.Font("Bahnschrift", 0, 16);
-                    
-                    for (int i=0; i<resultados.length; i++){
-                        JLabel imagenProducto = resultados[i].imagenProducto;
-                        JLabel nombreProducto = resultados[i].nombreProducto;
-                        JLabel precio = resultados[i].precioProducto;
-                        JTextArea descripcion = resultados[i].descProducto;
-                        JButton addProducto = resultados[i].addProducto;
-                        JButton removeProducto = resultados[i].removeProducto;
-                        
-                        jPanelMenu.add(imagenProducto);
-                        jPanelMenu.add(nombreProducto);
-                        jPanelMenu.add(precio);
-                        jPanelMenu.add(descripcion);
-                        jPanelMenu.add(addProducto);
-                        jPanelMenu.add(removeProducto);
-                        /*jPanelResults.add(imagenProducto);
-                        jPanelResults.add(nombreProducto);
-                        jPanelResults.add(precio);
-                        jPanelResults.add(descripcion);
-                        jPanelResults.add(addProducto);
-                        jPanelResults.add(removeProducto);*/
-                        
-                        imagenProducto.setLocation(posX, posY1);
-                        nombreProducto.setLocation(posX, posY2);
-                        precio.setLocation(posX, posY3);
-                        descripcion.setLocation(posX, posY4);
-                        addProducto.setLocation(posX + 305, posY1);
-                        removeProducto.setLocation(posX + 305, posY1 + 30);
-                        
-                        posX += 380;
-                        if (posX > 790){
-                            posY1 += 390;
-                            posY2 += 390;
-                            posY3 += 390;
-                            posY4 += 390;
-                            posX = 30;
-                        }
-                    }
-                    jPanelMenu.revalidate();
-                    jPanelMenu.repaint();
-                    //TabbedPaneMenu.setSelectedIndex(1);
-                    //jPanelResults.revalidate();
-                    //jPanelResults.repaint();
-                } else{
-                    mostrarBusquedaNulaEnResultados();
-                }
-            //}else{
-            //    mostrarBusquedaNulaEnResultados();
-            //}
-        }else{
-            restoreMenuDefault();
-        }
+        generarResultadosBusqueda();
     }//GEN-LAST:event_TextFieldBuscadorKeyReleased
 
-    public void restoreMenuDefault(){
-        int posX = 30;
-        int posY1 = 10, posY2 = 210, posY3 = 240, posY4 = 270;
-        jScrollPaneMenu.getVerticalScrollBar().setValue(0);
-        jPanelMenu.removeAll();
-        for (int i=0; i<gruposSwingMenu.length; i++){
-            JLabel imagenProducto = gruposSwingMenu[i].imagenProducto;
-            JLabel nombreProducto = gruposSwingMenu[i].nombreProducto;
-            JLabel precio = gruposSwingMenu[i].precioProducto;
-            JTextArea descripcion = gruposSwingMenu[i].descProducto;
-            JButton addProducto = gruposSwingMenu[i].addProducto;
-            JButton removeProducto = gruposSwingMenu[i].removeProducto;
-
-            jPanelMenu.add(imagenProducto);
-            jPanelMenu.add(nombreProducto);
-            jPanelMenu.add(precio);
-            jPanelMenu.add(descripcion);
-            jPanelMenu.add(addProducto);
-            jPanelMenu.add(removeProducto);
-
-            imagenProducto.setLocation(posX, posY1);
-            nombreProducto.setLocation(posX, posY2);
-            precio.setLocation(posX, posY3);
-            descripcion.setLocation(posX, posY4);
-            addProducto.setLocation(posX + 305, posY1);
-            removeProducto.setLocation(posX + 305, posY1 + 30);
-            posX += 380;
-            if (posX > 790){
-                posY1 += 390;
-                posY2 += 390;
-                posY3 += 390;
-                posY4 += 390;
-                posX = 30;
-            }
-        }
-        // [1186, 1634]
-        //jPanelMenu.setSize(1186, 1634);
-        jPanelMenu.revalidate();
-        jPanelMenu.repaint();
-    }
-    
+        //Aros de cebolla
     private boolean verificarPedido(){
         String camposInvalidos = "";
         boolean validate = true;
@@ -1595,11 +1639,11 @@ public class VistaOperador extends javax.swing.JFrame {
             validate = false;
             camposInvalidos += "Numero de telefono.\n";
             }
-            if (textFieldName.getText().isBlank()){
+            if (textFieldName.getText().length() < 2){
                 validate = false;
                 camposInvalidos += "Nombre completo.\n";
             }
-            if (textFieldLastName.getText().isBlank()){
+            if (textFieldLastName.getText().length() < 2){
                 validate = false;
                 camposInvalidos += "Apellidos incompletos.\n";
             }
@@ -1622,13 +1666,28 @@ public class VistaOperador extends javax.swing.JFrame {
     private void confirmarPedido() throws RemoteException{
         if (verificarPedido()){
             imprimirRecibo();
-            
             guardarDatosPedido();
+            generarId();
             colaDePedidos.add(pedidoActual, pedidoActual.tipoCliente);
-            service.addOrder(pedidoActual);
+            try {
+                service.addOrder(pedidoActual);
+            } catch (RemoteException ex) {
+                Logger.getLogger(VistaOperador.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(VistaOperador.class.getName()).log(Level.SEVERE, null, ex);
+            }
             textPaneListaDePedidos.setText(colaDePedidos.toString());
             reiniciarPedido();
         }
+    }
+    
+    public void generarId(){
+        LocalDateTime localDateTime = LocalDateTime.now();
+        String id = localDateTime.getHour() + "-" + pedidoActual.nombres.charAt(0);
+        id += (localDateTime.getHour() + localDateTime.getSecond() + localDateTime.getMinute());
+        id += "" + pedidoActual.apellidos.charAt(0) + String.valueOf(pedidoActual.apellidos.charAt(pedidoActual.apellidos.length()-1));
+        id += localDateTime.getMinute() + "" + localDateTime.getSecond();
+        pedidoActual.id = id;
     }
     
     public void imprimirRecibo(){
@@ -1642,11 +1701,21 @@ public class VistaOperador extends javax.swing.JFrame {
         textFieldDirr2.setText("");
         textFieldDirr3.setText("");
         textFieldName.setText("");
+        textFieldLastName.setText("");
         textFieldNum.setText("");
         jComboBoxTipoCliente.setSelectedIndex(0);
         
         TextAreaCarritoCompras.setText("");
         TextAreaTotal.setText("");
+    }
+    
+    private void guardarDatosPedido(){
+        pedidoActual.nombres = textFieldName.getText();
+        pedidoActual.apellidos = textFieldLastName.getText();
+        pedidoActual.direccion = textFieldDirr1.getText();
+        pedidoActual.direccion += textFieldDirr2.getText();
+        pedidoActual.direccion += textFieldDirr3.getText();
+        pedidoActual.tipoCliente = jComboBoxTipoCliente.getSelectedIndex();
     }
     
     private void llenarMenu(){
@@ -1662,14 +1731,19 @@ public class VistaOperador extends javax.swing.JFrame {
         menu = new Product[listaMenu.size()];
         for (int i=0; i<menu.length; i++) {
             menu[i] = iterator.next().getObject();
-        }   
+        }
+    }
+    
+    public String convertPrecio(int precio){
+        DecimalFormat formato = new DecimalFormat("###,###");
+        String string = formato.format(precio);
+        return "$" + string;
     }
     
     private void asignarActionsABotonesAddProducts(){
-        
         for (int i=0; i<gruposSwingMenu.length; i++){
-            
             Product temp = gruposSwingMenu[i].producto;
+            //Actioc Boton add
             gruposSwingMenu[i].addProducto.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -1677,7 +1751,7 @@ public class VistaOperador extends javax.swing.JFrame {
                     actualizarAreaCarritoDeCompras();
                 }
             });
-            
+            //Action Boton remove
             gruposSwingMenu[i].removeProducto.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -1686,29 +1760,6 @@ public class VistaOperador extends javax.swing.JFrame {
                 }
             });
         }
-        
-    }
-    
-    private void guardarDatosPedido(){
-        pedidoActual.nombres = textFieldName.getText();
-        pedidoActual.direccion = textFieldDirr1.getText();
-        pedidoActual.direccion += textFieldDirr2.getText();
-        pedidoActual.direccion += textFieldDirr3.getText();
-        pedidoActual.tipoCliente = jComboBoxTipoCliente.getSelectedIndex();
-    }
-    
-    private void agruparElementos(){
-        gruposSwingMenu[0] = new ElementosVisualesProducto(imagenProducto1, nombreProducto1, precioProducto1, descProducto1, addProducto1, removeProducto1, "001", menu[0]);
-        gruposSwingMenu[1] = new ElementosVisualesProducto(imagenProducto2, nombreProducto2, precioProducto2, descProducto2, addProducto2, removeProducto2, "002", menu[1]);
-        gruposSwingMenu[2] = new ElementosVisualesProducto(imagenProducto3, nombreProducto3, precioProducto3, descProducto3, addProducto3, removeProducto3, "005", menu[4]);
-        gruposSwingMenu[3] = new ElementosVisualesProducto(imagenProducto4, nombreProducto4, precioProducto4, descProducto4, addProducto4, removeProducto4, "006", menu[5]);
-        gruposSwingMenu[4] = new ElementosVisualesProducto(imagenProducto5, nombreProducto5, precioProducto5, descProducto5, addProducto5, removeProducto5, "009", menu[8]);
-        gruposSwingMenu[5] = new ElementosVisualesProducto(imagenProducto6, nombreProducto6, precioProducto6, descProducto6, addProducto6, removeProducto6, "010", menu[9]);
-        gruposSwingMenu[6] = new ElementosVisualesProducto(imagenProducto7, nombreProducto7, precioProducto7, descProducto7, addProducto7, removeProducto7, "008", menu[7]);
-        gruposSwingMenu[7] = new ElementosVisualesProducto(imagenProducto8, nombreProducto8, precioProducto8, descProducto8, addProducto8, removeProducto8, "011", menu[10]);
-        gruposSwingMenu[8] = new ElementosVisualesProducto(imagenProducto9, nombreProducto9, precioProducto9, descProducto9, addProducto9, removeProducto9, "003", menu[2]);
-        gruposSwingMenu[9] = new ElementosVisualesProducto(imagenProducto10, nombreProducto10, precioProducto10, descProducto10, addProducto10, removeProducto10, "004", menu[3]);
-        gruposSwingMenu[10] = new ElementosVisualesProducto(imagenProducto11, nombreProducto11, precioProducto11, descProducto11, addProducto11, removeProducto11, "007", menu[6]);    
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1755,7 +1806,6 @@ public class VistaOperador extends javax.swing.JFrame {
     private javax.swing.JLabel imagenProducto8;
     private javax.swing.JLabel imagenProducto9;
     private javax.swing.JButton jButton1;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBoxTipoCliente;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -1765,7 +1815,6 @@ public class VistaOperador extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;

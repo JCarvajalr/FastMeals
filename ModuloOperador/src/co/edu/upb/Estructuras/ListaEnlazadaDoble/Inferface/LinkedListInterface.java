@@ -1,8 +1,9 @@
-package co.edu.upb.Estructuras.ListaEnlazadaDoble.Interface;
+package co.edu.upb.Estructuras.ListaEnlazadaDoble.Inferface;
 
+import java.io.Serializable;
 import java.util.Iterator;
 
-public interface LinkedListInterface<T> {
+public interface LinkedListInterface<T extends Serializable> extends Serializable{
 
     /***
      * Adds an object at the end of the list.
