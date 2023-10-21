@@ -1,6 +1,7 @@
 package co.edu.upb.Services;
 
 import co.edu.upb.Clases.Client;
+import co.edu.upb.Clases.Product;
 import co.edu.upb.Clases.TipoUsuario;
 import co.edu.upb.Clases.User;
 import co.edu.upb.DataBase.JSon;
@@ -8,6 +9,7 @@ import co.edu.upb.Estructuras.ListaEnlazadaDoble.Inferface.NodeInterface;
 import co.edu.upb.Estructuras.ListaEnlazadaDoble.LinkedList;
 import co.edu.upb.Vistas.Administrador.ServiceAdministradorInterface;
 
+import javax.swing.plaf.LabelUI;
 import java.rmi.RemoteException;
 import java.rmi.server.RMIClientSocketFactory;
 import java.rmi.server.RMIServerSocketFactory;
@@ -88,6 +90,45 @@ public class ServiceAdministrador extends UnicastRemoteObject implements Service
     }
 
     @Override
+    public boolean addProduct(Product newProduct) throws RemoteException {
+        JSon<Product> productosJSon = new JSon<>("MenuFastMeals.json", Product.class);
+        productosJSon.cargarJSon();
+        boolean result = productosJSon.addObject(newProduct);
+        productosJSon.guardarDatosEnJSon();
+        return result;
+    }
+
+    @Override
+    public boolean removeProduct(String id) throws RemoteException {
+        JSon<Product> productosJSon = new JSon<>("MenuFastMeals.json", Product.class);
+        productosJSon.cargarJSon();
+        LinkedList<Product> list = productosJSon.getList();
+        Iterator<NodeInterface<Product>> iterator = list.iterator();
+        while (iterator.hasNext()){
+            Product temp = iterator.next().getObject();
+            if (temp.getId().equals(id) || temp.getNombre().equals(id)){
+                return productosJSon.removeObject(temp);
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public Product searchProduct(String id) throws RemoteException {
+        JSon<Product> productosJSon = new JSon<>("MenuFastMeals.json", Product.class);
+        productosJSon.cargarJSon();
+        LinkedList<Product> list = productosJSon.getList();
+        Iterator<NodeInterface<Product>> iterator = list.iterator();
+        while (iterator.hasNext()){
+            Product temp = iterator.next().getObject();
+            if (temp.getId().equals(id) || temp.getNombre().equals(id)){
+                return temp;
+            }
+        }
+        return null;
+    }
+
+    @Override
     public boolean login(String username, String password) throws RemoteException {
         JSon<User> usuariosData = new JSon<>("Usuarios.json", User.class);
         usuariosData.cargarJSon();
@@ -102,5 +143,4 @@ public class ServiceAdministrador extends UnicastRemoteObject implements Service
         }
         return false;
     }
-
 }

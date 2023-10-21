@@ -1,6 +1,7 @@
 package co.edu.upb.Vistas.Administrador;
 
 import co.edu.upb.Clases.Client;
+import co.edu.upb.Clases.Product;
 import co.edu.upb.Clases.User;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
@@ -85,6 +86,39 @@ public class ServiceAdministrador implements ServiceAdministradorInterface{
         try {
             serviceAdministrador = (ServiceAdministradorInterface) Naming.lookup(this.url);
             return serviceAdministrador.removeUsuario(username);
+        } catch (NotBoundException | MalformedURLException ex) {
+            Logger.getLogger(ServiceAdministrador.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+
+    @Override
+    public boolean addProduct(Product newProduct) throws RemoteException {
+        try {
+            serviceAdministrador = (ServiceAdministradorInterface) Naming.lookup(this.url);
+            return serviceAdministrador.addProduct(newProduct);
+        } catch (NotBoundException | MalformedURLException ex) {
+            Logger.getLogger(ServiceAdministrador.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+
+    @Override
+    public Product searchProduct(String id) throws RemoteException {
+        try {
+            serviceAdministrador = (ServiceAdministradorInterface) Naming.lookup(this.url);
+            return serviceAdministrador.searchProduct(id);
+        } catch (NotBoundException | MalformedURLException ex) {
+            Logger.getLogger(ServiceAdministrador.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    @Override
+    public boolean removeProduct(String id) throws RemoteException {
+        try {
+            serviceAdministrador = (ServiceAdministradorInterface) Naming.lookup(this.url);
+            return serviceAdministrador.removeProduct(id);
         } catch (NotBoundException | MalformedURLException ex) {
             Logger.getLogger(ServiceAdministrador.class.getName()).log(Level.SEVERE, null, ex);
         }
