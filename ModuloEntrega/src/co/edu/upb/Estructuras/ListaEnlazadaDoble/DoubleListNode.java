@@ -1,9 +1,10 @@
-package co.edu.upb.Estructuras.Lista.Doble;
+package co.edu.upb.Estructuras.ListaEnlazadaDoble;
 
+import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class DoubleListNode<T> extends Node<T>{
+public class DoubleListNode<T extends Serializable> extends Node<T> implements Serializable{
 
     private DoubleListNode<T> next;
     private DoubleListNode<T> prev;
@@ -22,12 +23,7 @@ public class DoubleListNode<T> extends Node<T>{
     }
 
     public void setNext(DoubleListNode<T> next) {
-        try {
-            this.next = next;
-        }
-        catch (Exception e){
-            Logger.getLogger(this.getClass().getName()).log(Level.WARNING, e.getMessage(),e);
-        }
+        this.next = next;
     }
 
     public DoubleListNode<T> getPrev() {
@@ -35,11 +31,6 @@ public class DoubleListNode<T> extends Node<T>{
     }
 
     public void setPrev(DoubleListNode<T> prev) {
-        try {
-            this.prev = prev;
-        }
-        catch (Exception e){
-            Logger.getLogger(this.getClass().getName()).log(Level.WARNING, e.getMessage(),e);
-        }
+        this.prev = prev;
     }
 }

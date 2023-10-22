@@ -1,5 +1,6 @@
 package co.edu.upb.Vistas.Operador;
 
+import co.edu.upb.Clases.Client;
 import co.edu.upb.Clases.Order;
 import co.edu.upb.Clases.Product;
 import co.edu.upb.Estructuras.Cola.ColaPrioridad;
@@ -72,6 +73,17 @@ public class ServiceOperador implements ServiceOperadorInterface{
             Logger.getLogger(ServiceOperador.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
+    }
+
+    @Override
+    public boolean addClientOnDataBase(Client client) throws RemoteException {
+        try {
+            serviceOperador = (ServiceOperadorInterface) Naming.lookup(this.url);
+            return serviceOperador.addClientOnDataBase(client);
+        } catch (NotBoundException | MalformedURLException ex) {
+            Logger.getLogger(ServiceOperador.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
     }
  
     

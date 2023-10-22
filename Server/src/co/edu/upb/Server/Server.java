@@ -2,8 +2,10 @@ package co.edu.upb.Server;
 
 import co.edu.upb.Services.ServiceAdministrador;
 import co.edu.upb.Services.ServiceCocina;
+import co.edu.upb.Services.ServiceEntrega;
 import co.edu.upb.Vistas.Administrador.ServiceAdministradorInterface;
 import co.edu.upb.Vistas.Cocina.ServiceCocinaInterface;
+import co.edu.upb.Vistas.Entrega.ServiceEntregaInterface;
 import co.edu.upb.Vistas.Operador.ServiceOperadorInterface;
 import co.edu.upb.Services.ServicioOperador;
 
@@ -14,7 +16,6 @@ import java.rmi.registry.LocateRegistry;
 
 public class Server {
 
-
     public boolean deployServiceOperador(String ip, String port, String serviceName) {
         boolean result = false;
         if (ip == null | port == null | serviceName == null) return false;
@@ -24,8 +25,6 @@ public class Server {
 
             LocateRegistry.createRegistry(Integer.parseInt(port));
             ServiceOperadorInterface service = new ServicioOperador();
-
-
             
             Naming.rebind(url, service);
             System.out.println("Service: " + serviceName +": on");
@@ -74,6 +73,24 @@ public class Server {
         return result;
     }
 
+    public boolean deployServiceEntrega(String ip, String port, String serviceName) {
+        boolean result = false;
+        if (ip == null | port == null | serviceName == null) return false;
+        try {
+            System.setProperty( "java.rmi.server.hostname", ip);
+            String url = "//" + ip + ":" + port + "/" + serviceName;
+
+            LocateRegistry.createRegistry(Integer.parseInt(port));
+            ServiceEntregaInterface service = new ServiceEntrega();
+
+            Naming.rebind(url, service);
+            System.out.println("Service: " + serviceName +": on");
+            result = true;
+        } catch (RemoteException | MalformedURLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
 
 
 }

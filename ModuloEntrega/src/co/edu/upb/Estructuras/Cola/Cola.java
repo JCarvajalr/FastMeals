@@ -1,10 +1,13 @@
 package co.edu.upb.Estructuras.Cola;
 
-import co.edu.upb.Estructuras.Lista.Doble.LinkedList;
+
+import co.edu.upb.Estructuras.ListaEnlazadaDoble.LinkedList;
+
+import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class Cola<T> implements ColaInterface<T>{
+public class Cola<T extends Serializable> implements ColaInterface<T>, Serializable{
     LinkedList<T> contenedor = new LinkedList<>();
 
     @Override
@@ -55,7 +58,7 @@ public class Cola<T> implements ColaInterface<T>{
     public void imprimir(){
         contenedor.imprimir2();
     }
-    
+
     @Override
     public String toString() {
         if (isEmpty()){

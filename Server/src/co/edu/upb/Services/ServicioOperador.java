@@ -41,9 +41,9 @@ public class ServicioOperador extends UnicastRemoteObject implements ServiceOper
 
     @Override
     public byte[] isOnDatabase(String number) throws IOException {
-        JSon<Client> clientesData = new JSon<>("ClientesDataBase.json", Client.class);
-        clientesData.cargarJSon();
-        LinkedList<Client> clientes = clientesData.getList();
+        JSon<Client> clientesJSon = new JSon<>("ClientesDataBase.json", Client.class);
+        clientesJSon.cargarJSon();
+        LinkedList<Client> clientes = clientesJSon.getList();
         Iterator<NodeInterface<Client>> iterator = clientes.iterator();
         Client temp;
         while (iterator.hasNext()){
@@ -58,6 +58,26 @@ public class ServicioOperador extends UnicastRemoteObject implements ServiceOper
             }
         }
         return null;
+    }
+
+    @Override
+    public boolean addClientOnDataBase(Client client) throws RemoteException{
+        JSon<Client> clientesJSon = new JSon<>("ClientesDataBase.json", Client.class);
+        clientesJSon.cargarJSon();
+
+        LinkedList<Client> list = clientesJSon.getList();
+        Iterator<NodeInterface<Client>> iterator = list.iterator();
+
+        while (iterator.hasNext()){
+            Client temp = iterator.next().getObject();
+            if (temp.getNumeroTelfono().equals(client.getNumeroTelfono())){
+                clientesJSon.removeObject(temp);
+                clientesJSon.addObject(client);
+                clientesJSon.guardarDatosEnJSon();
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override

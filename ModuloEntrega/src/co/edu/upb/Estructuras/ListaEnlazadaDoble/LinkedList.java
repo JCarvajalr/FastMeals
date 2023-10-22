@@ -1,14 +1,15 @@
-package co.edu.upb.Estructuras.Lista.Doble;
+package co.edu.upb.Estructuras.ListaEnlazadaDoble;
 
-import co.edu.upb.Estructuras.Lista.Interface.LinkedListInterface;
-import co.edu.upb.Estructuras.Lista.Interface.NodeInterface;
+import co.edu.upb.Estructuras.ListaEnlazadaDoble.Inferface.LinkedListInterface;
+import co.edu.upb.Estructuras.ListaEnlazadaDoble.Inferface.NodeInterface;
+import java.io.Serializable;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class LinkedList<T> implements LinkedListInterface<T>{
-
+public class LinkedList<T extends Serializable> implements LinkedListInterface<T>, Serializable {
+    private static final long serialVersionUID = 1525693509033756841L;
     private DoubleListNode<T> head;
     private DoubleListNode<T> tail;
     private int size;
@@ -418,12 +419,16 @@ public class LinkedList<T> implements LinkedListInterface<T>{
                 DoubleListNode<T> temporal = (DoubleListNode<T>) iterator.next();
                 if (head.isEquals(object)){
                     head = head.getNext();
-                    head.setPrev(null);
+                    if (head != null){
+                        head.setPrev(null);
+                    }
 
                 } else if (tail.isEquals(object)) {
                     tail = tail.getPrev();
-                    tail.setNext(null);
-
+                    if (tail != null){
+                        tail.setNext(null);
+                    }
+                    
                 } else{
                     while (iterator.hasNext()){
                         if (temporal.getNext().isEquals(object)){
@@ -821,7 +826,7 @@ public class LinkedList<T> implements LinkedListInterface<T>{
             }
         };
     }
-    
+
     public String listToString(){
         if (!isEmpty()){
             try {
@@ -839,16 +844,4 @@ public class LinkedList<T> implements LinkedListInterface<T>{
         return null;
     }
 
-    @Override
-    public String toString() {
-        String text = "";
-        Iterator<NodeInterface<T>> iterator = iterator();
-        
-        while (iterator.hasNext()){
-            text += iterator.next().getObject().toString() + "\n";
-        }
-        return text;
-    }
-    
 }
-

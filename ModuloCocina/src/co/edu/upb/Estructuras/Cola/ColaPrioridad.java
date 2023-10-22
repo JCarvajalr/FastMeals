@@ -37,6 +37,10 @@ public class ColaPrioridad<T extends Serializable> implements Serializable {
         }
         return null;
     }
+    
+    public boolean isEmptyLastPriority(){
+        return array[array.length - 1].isEmpty();
+    }
 
     @Override
     public String toString(){

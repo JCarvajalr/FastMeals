@@ -15,7 +15,10 @@ public class Order implements Serializable{
         1-> Premium
     */
     public String direccion;
+    public String barrio;
     public int valorTotal;
+    public int cantidadProductos;
+    public String numeroTelefono;
     /*  información de cliente:
 	>Nombres
 	>Apellidos

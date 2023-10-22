@@ -40,9 +40,20 @@ public class VistaCocina extends javax.swing.JFrame {
     }
     
     //Procesos
-    public void tomarPedido(){
+    public void tomarProducto(){
         Product temp;
         verPedidos();
+        if (controlador.colaLentaIsProductPremium() || !controlador.colaRapidaIsProductPremium()){
+            if (tomarProductoLento()){
+                return;
+            }
+        }
+        tomarProductoRapido();
+    }
+    
+    public boolean tomarProductoLento(){
+        Product temp;
+        
         //Fogones lentos
         if (fogonesLentosDisp() && !controlador.colaLentaIsEmpty()){
             temp = controlador.popColaLenta();
@@ -53,11 +64,18 @@ public class VistaCocina extends javax.swing.JFrame {
                     fogones[i].LabelFg.setForeground(java.awt.SystemColor.infoText);
                     fogones[i].LabelFg.setFont(fontOn);
                     actualizarTextArea();
-                    break;
+                    return true;
                 }
             }
+        }
+        return false;
+    }
+    
+    public boolean tomarProductoRapido(){
+        Product temp;
+
         //Fogones rapidos
-        } else if (fogonesRapidosDisp() && !controlador.colaRapidaIsEmpty()){  
+        if (fogonesRapidosDisp() && !controlador.colaRapidaIsEmpty()){  
             temp = controlador.popColaRapida();
             for (int i=0; i<fogones.length; i++){
                 if ((fogones[i].getTipoCoccion() == 0) && (!fogones[i].isOn())){
@@ -66,10 +84,11 @@ public class VistaCocina extends javax.swing.JFrame {
                     fogones[i].LabelFg.setForeground(java.awt.SystemColor.infoText);
                     fogones[i].LabelFg.setFont(fontOn);
                     actualizarTextArea();
-                    break;
+                    return true;
                 }
             }
         }
+        return false;
     }
     
     public void verPedidos(){
@@ -77,9 +96,7 @@ public class VistaCocina extends javax.swing.JFrame {
             Order newOrder = service.getOrder();
             if (newOrder != null){
                 controlador.pedidosActuales.add(newOrder);
-                int cantidad = newOrder.listaProductos.size();
-                newOrder.valorTotal = cantidad;
-                System.out.println(newOrder.valorTotal);
+                int cantidad = newOrder.cantidadProductos;
                 while (!newOrder.listaProductos.isEmpty()){
                     Product temp = newOrder.listaProductos.pop();
                     temp.setPedidoId(newOrder.id);
@@ -202,6 +219,8 @@ public class VistaCocina extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         textAreaProProceso = new javax.swing.JTextArea();
@@ -268,20 +287,32 @@ public class VistaCocina extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(227, 100, 20));
 
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/Logo.png"))); // NOI18N
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/IconoLogo.png"))); // NOI18N
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/IconoCocina.png"))); // NOI18N
+
+        jLabel2.setFont(new java.awt.Font("Bahnschrift", 0, 20)); // NOI18N
+        jLabel2.setForeground(java.awt.SystemColor.control);
+        jLabel2.setText("Cocina");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(16, 16, 16)
                 .addComponent(jLabel3)
-                .addContainerGap(1475, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 1221, Short.MAX_VALUE)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel1)
+                .addGap(99, 99, 99))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)
+            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1690, 70));
@@ -649,7 +680,7 @@ public class VistaCocina extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        tomarPedido();
+        tomarProducto();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void setActionsToDoneButtons(){
@@ -670,12 +701,12 @@ public class VistaCocina extends javax.swing.JFrame {
             temp = iterator.next().getObject();
             if (temp.id.equals(fogones[i].currentProduct.getPedidoId())){
                 temp.listaProductos.add(fogones[i].currentProduct);
-                temp.valorTotal = temp.valorTotal-1;
+                temp.cantidadProductos = temp.cantidadProductos - 1;
                 break;
             }
         }
         //Todos los productos fueron cocinados
-        if (temp.valorTotal == 0){
+        if (temp.cantidadProductos == 0){
             controlador.finishOrder(temp);
         }
         fogones[i].endCooking();
@@ -751,7 +782,9 @@ public class VistaCocina extends javax.swing.JFrame {
     private javax.swing.JLabel LabelFg8;
     private javax.swing.JLabel LabelFg9;
     private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;

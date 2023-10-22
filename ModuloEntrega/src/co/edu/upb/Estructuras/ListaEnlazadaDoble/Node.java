@@ -1,10 +1,12 @@
-package co.edu.upb.Estructuras.Lista.Doble;
+package co.edu.upb.Estructuras.ListaEnlazadaDoble;
 
-import co.edu.upb.Estructuras.Lista.Interface.NodeInterface;
+import co.edu.upb.Estructuras.ListaEnlazadaDoble.Inferface.NodeInterface;
+import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class Node<T> implements NodeInterface<T> {
+public class Node<T extends Serializable> implements NodeInterface<T>, Serializable {
+    private static final long serialVersionUID = 123L;
     private T object;
 
     public Node(){

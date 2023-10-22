@@ -15,8 +15,8 @@ public class Controlador {
     
     public Controlador(ServiceCocina service){
         this.service = service;
-        colaProductos[0] = new ColaPrioridad<>(2);
-        colaProductos[1] = new ColaPrioridad<>(2);   
+        colaProductos[0] = new ColaPrioridad<>(2); //Rapido
+        colaProductos[1] = new ColaPrioridad<>(2); //Lento
     }
     
     public boolean finishOrder(Order order){
@@ -36,7 +36,6 @@ public class Controlador {
     
     public boolean verificarFogonesRapidos(){
 
-        
         return false;
     }
     
@@ -58,5 +57,12 @@ public class Controlador {
         return colaProductos[1].extraer();
     }
     
+    public boolean colaLentaIsProductPremium(){
+        return !colaProductos[1].isEmptyLastPriority();
+    }
+    
+    public boolean colaRapidaIsProductPremium(){
+        return colaProductos[0].isEmptyLastPriority();
+    }
     
 }

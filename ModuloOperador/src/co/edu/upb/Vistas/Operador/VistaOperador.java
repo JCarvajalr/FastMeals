@@ -38,6 +38,8 @@ public class VistaOperador extends javax.swing.JFrame {
     Order pedidoActual;
     ElementosVisualesProducto[] gruposSwingMenu;
     ServiceOperador service;
+    LinkedList<String[]> topProductos;
+    Boolean volver = false;
     
     public VistaOperador(ServiceOperador service){
         this.service = service;
@@ -52,6 +54,9 @@ public class VistaOperador extends javax.swing.JFrame {
         textFielNumListener();
         agruparElementos();
         asignarActionsABotonesAddProducts();
+        topProductos = new LinkedList<>();
+        jIconoProductosMasPedidos.setVisible(false);
+        jLabelProductosMasPedidos.setVisible(false);
     }
     
     @Override
@@ -91,9 +96,11 @@ public class VistaOperador extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         TextFieldBuscador = new javax.swing.JTextField();
         jPanel6 = new javax.swing.JPanel();
-        jLabel21 = new javax.swing.JLabel();
+        jLabelMenu = new javax.swing.JLabel();
         jScrollPaneMenu = new javax.swing.JScrollPane();
         jPanelMenu = new javax.swing.JPanel();
+        jIconoProductosMasPedidos = new javax.swing.JLabel();
+        jLabelProductosMasPedidos = new javax.swing.JLabel();
         Fillinfo = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
@@ -108,10 +115,8 @@ public class VistaOperador extends javax.swing.JFrame {
         jComboBoxTipoCliente = new javax.swing.JComboBox<>();
         jLabel16 = new javax.swing.JLabel();
         textFieldDirr1 = new javax.swing.JTextField();
-        jLabel18 = new javax.swing.JLabel();
         textFieldDirr3 = new javax.swing.JTextField();
         jLabel19 = new javax.swing.JLabel();
-        textFieldDirr2 = new javax.swing.JTextField();
         jLabel23 = new javax.swing.JLabel();
         textFieldLastName = new javax.swing.JTextField();
         jLabel24 = new javax.swing.JLabel();
@@ -212,9 +217,10 @@ public class VistaOperador extends javax.swing.JFrame {
             }
         });
 
+        TextAreaTotal.setEditable(false);
         TextAreaTotal.setBackground(new java.awt.Color(255, 255, 255));
         TextAreaTotal.setColumns(20);
-        TextAreaTotal.setFont(new java.awt.Font("Bahnschrift", 0, 14)); // NOI18N
+        TextAreaTotal.setFont(new java.awt.Font("Bahnschrift", 0, 18)); // NOI18N
         TextAreaTotal.setForeground(new java.awt.Color(0, 0, 0));
         TextAreaTotal.setRows(5);
 
@@ -321,9 +327,9 @@ public class VistaOperador extends javax.swing.JFrame {
 
         jPanel6.setBackground(new java.awt.Color(245, 245, 245));
 
-        jLabel21.setFont(new java.awt.Font("Bahnschrift", 1, 24)); // NOI18N
-        jLabel21.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel21.setText("Menú");
+        jLabelMenu.setFont(new java.awt.Font("Bahnschrift", 1, 24)); // NOI18N
+        jLabelMenu.setForeground(new java.awt.Color(0, 0, 0));
+        jLabelMenu.setText("Menú");
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -331,17 +337,17 @@ public class VistaOperador extends javax.swing.JFrame {
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addGap(24, 24, 24)
-                .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(911, Short.MAX_VALUE))
+                .addComponent(jLabelMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 407, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(749, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                .addGap(0, 55, Short.MAX_VALUE)
-                .addComponent(jLabel21))
+                .addGap(0, 40, Short.MAX_VALUE)
+                .addComponent(jLabelMenu))
         );
 
-        AddProduct.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 170, 1180, 85));
+        AddProduct.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 185, 1180, 70));
 
         jScrollPaneMenu.setBackground(new java.awt.Color(245, 245, 245));
         jScrollPaneMenu.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
@@ -368,6 +374,25 @@ public class VistaOperador extends javax.swing.JFrame {
         AddProduct.add(jScrollPaneMenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 254, 1180, 470));
         jScrollPaneMenu.getVerticalScrollBar().setUnitIncrement(20);
         jScrollPaneMenu.getVerticalScrollBar().setValue(0);
+
+        jIconoProductosMasPedidos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/upb/Iconos/IconoMasPedidos.png"))); // NOI18N
+        jIconoProductosMasPedidos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jIconoProductosMasPedidos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jIconoProductosMasPedidosMouseClicked(evt);
+            }
+        });
+        AddProduct.add(jIconoProductosMasPedidos, new org.netbeans.lib.awtextra.AbsoluteConstraints(1030, 90, -1, -1));
+
+        jLabelProductosMasPedidos.setFont(new java.awt.Font("Bahnschrift", 0, 24)); // NOI18N
+        jLabelProductosMasPedidos.setText("Ver Productos más pedidos");
+        jLabelProductosMasPedidos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabelProductosMasPedidos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabelProductosMasPedidosMouseClicked(evt);
+            }
+        });
+        AddProduct.add(jLabelProductosMasPedidos, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 150, -1, -1));
 
         jTabbedPane2.addTab("Agregar productos", AddProduct);
 
@@ -427,14 +452,14 @@ public class VistaOperador extends javax.swing.JFrame {
         jLabel15.setFont(new java.awt.Font("Bahnschrift", 0, 24)); // NOI18N
         jLabel15.setForeground(new java.awt.Color(0, 0, 0));
         jLabel15.setText("Tipo de cliente");
-        Fillinfo.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 460, -1, -1));
+        Fillinfo.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 360, -1, -1));
 
         jComboBoxTipoCliente.setBackground(new java.awt.Color(255, 255, 255));
         jComboBoxTipoCliente.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jComboBoxTipoCliente.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "No Premium", "Premium" }));
         jComboBoxTipoCliente.setToolTipText("");
         jComboBoxTipoCliente.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        Fillinfo.add(jComboBoxTipoCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 490, 230, 40));
+        Fillinfo.add(jComboBoxTipoCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 390, 230, 40));
 
         jLabel16.setFont(new java.awt.Font("Bahnschrift", 0, 30)); // NOI18N
         jLabel16.setForeground(new java.awt.Color(135, 135, 135));
@@ -444,21 +469,13 @@ public class VistaOperador extends javax.swing.JFrame {
         textFieldDirr1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         Fillinfo.add(textFieldDirr1, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 190, 320, 41));
 
-        jLabel18.setFont(new java.awt.Font("Bahnschrift", 0, 24)); // NOI18N
-        jLabel18.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel18.setText("Información complementaria");
-        Fillinfo.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 260, -1, -1));
-
         textFieldDirr3.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        Fillinfo.add(textFieldDirr3, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 390, 320, 41));
+        Fillinfo.add(textFieldDirr3, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 290, 320, 41));
 
         jLabel19.setFont(new java.awt.Font("Bahnschrift", 0, 24)); // NOI18N
         jLabel19.setForeground(new java.awt.Color(0, 0, 0));
         jLabel19.setText("Barrio");
-        Fillinfo.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 360, -1, -1));
-
-        textFieldDirr2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        Fillinfo.add(textFieldDirr2, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 290, 320, 41));
+        Fillinfo.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 260, -1, -1));
 
         jLabel23.setFont(new java.awt.Font("Bahnschrift", 0, 24)); // NOI18N
         jLabel23.setForeground(new java.awt.Color(0, 0, 0));
@@ -745,6 +762,12 @@ public class VistaOperador extends javax.swing.JFrame {
                 textFieldName.setText(cliente.getNombres());
                 textFieldLastName.setText(cliente.getApellidos());
                 jComboBoxTipoCliente.setSelectedIndex(cliente.getTipoCliente());
+                topProductos = cliente.leerProductos();
+                String direccion[] = cliente.getDireccion().split(", ");
+                textFieldDirr1.setText(direccion[0]);
+                textFieldDirr3.setText(direccion[1]);
+                jIconoProductosMasPedidos.setVisible(true);
+                jLabelProductosMasPedidos.setVisible(true);
             }
         } catch (RemoteException ex) {
             Logger.getLogger(VistaOperador.class.getName()).log(Level.SEVERE, null, ex);
@@ -776,7 +799,7 @@ public class VistaOperador extends javax.swing.JFrame {
     public void actualizarAreaCarritoDeCompras(){
         TextAreaCarritoCompras.setText(pedidoActual.listaProductos.listToString());
         TextAreaTotal.setText("Productos: " + pedidoActual.listaProductos.size() +
-            "\nTotal: " + pedidoActual.getTotalCompra());
+            "\nTotal: " + convertPrecio(pedidoActual.getTotalCompra()));
     }
         
     public void mostrarBusquedaNulaEnResultados(){
@@ -895,6 +918,14 @@ public class VistaOperador extends javax.swing.JFrame {
         generarResultadosBusqueda();
     }//GEN-LAST:event_TextFieldBuscadorKeyReleased
 
+    private void jIconoProductosMasPedidosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jIconoProductosMasPedidosMouseClicked
+        mostrarProductosMasPedidos();
+    }//GEN-LAST:event_jIconoProductosMasPedidosMouseClicked
+
+    private void jLabelProductosMasPedidosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelProductosMasPedidosMouseClicked
+        mostrarProductosMasPedidos();
+    }//GEN-LAST:event_jLabelProductosMasPedidosMouseClicked
+
         //Aros de cebolla
     private boolean verificarPedido(){
         String camposInvalidos = "";
@@ -948,9 +979,12 @@ public class VistaOperador extends javax.swing.JFrame {
             imprimirRecibo();
             guardarDatosPedido();
             generarId();
+            Client newClient = crearCliente();
             colaDePedidos.add(pedidoActual, pedidoActual.tipoCliente);
+            
             try {
                 service.addOrder(pedidoActual);
+                service.addClientOnDataBase(newClient);
             } catch (RemoteException ex) {
                 Logger.getLogger(VistaOperador.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException ex) {
@@ -978,24 +1012,34 @@ public class VistaOperador extends javax.swing.JFrame {
     private void reiniciarPedido(){
         pedidoActual = new Order();
         textFieldDirr1.setText("");
-        textFieldDirr2.setText("");
         textFieldDirr3.setText("");
         textFieldName.setText("");
         textFieldLastName.setText("");
         textFieldNum.setText("");
         jComboBoxTipoCliente.setSelectedIndex(0);
-        
         TextAreaCarritoCompras.setText("");
         TextAreaTotal.setText("");
+        jIconoProductosMasPedidos.setVisible(false);
+        jLabelProductosMasPedidos.setVisible(false);
+        jLabelMenu.setText("Menu");
     }
     
     private void guardarDatosPedido(){
         pedidoActual.nombres = textFieldName.getText();
         pedidoActual.apellidos = textFieldLastName.getText();
         pedidoActual.direccion = textFieldDirr1.getText();
-        pedidoActual.direccion += textFieldDirr2.getText();
-        pedidoActual.direccion += textFieldDirr3.getText();
+        pedidoActual.direccion += ",  (" + textFieldDirr3.getText() + ")";
         pedidoActual.tipoCliente = jComboBoxTipoCliente.getSelectedIndex();
+        pedidoActual.numeroTelefono = textFieldNum.getText();
+        pedidoActual.barrio = textFieldDirr3.getText();
+        pedidoActual.cantidadProductos = pedidoActual.listaProductos.size();
+    }
+    
+    public Client crearCliente(){
+        Client newClient = new Client(textFieldName.getText(), textFieldLastName.getText(), jComboBoxTipoCliente.getSelectedIndex(), 
+                textFieldDirr1.getText() + ", (" + textFieldDirr3.getText() + ")", textFieldNum.getText());
+        newClient.addProductos(pedidoActual.listaProductos, topProductos);
+        return newClient;
     }
     
     private void llenarMenu(){
@@ -1041,6 +1085,31 @@ public class VistaOperador extends javax.swing.JFrame {
             });
         }
     }
+    
+    public void mostrarProductosMasPedidos(){
+        if (!volver){
+            Iterator<NodeInterface<String[]>> iterator = topProductos.iterator();
+            ElementosVisualesProducto[] newResultados = new ElementosVisualesProducto[topProductos.size()];
+            int contadorPos = 0;
+            while (iterator.hasNext()){
+                String idTemp = iterator.next().getObject()[0];
+                for (int i=0; i<gruposSwingMenu.length; i++){
+                    if (gruposSwingMenu[i].getId().equals(idTemp)){
+                        newResultados[contadorPos] = gruposSwingMenu[i];
+                        contadorPos++;
+                    }
+                }
+            }
+            jLabelMenu.setText("Menu  (Productos más pedidos)");
+            volver = true;
+            mostrarProductoEnMenu(newResultados);
+        } else {
+            volver = false;
+            mostrarProductoEnMenu(gruposSwingMenu);
+            jLabelMenu.setText("Menu");
+        }
+        
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel AddProduct;
@@ -1054,6 +1123,7 @@ public class VistaOperador extends javax.swing.JFrame {
     private javax.swing.JTextField TextFieldBuscador;
     private javax.swing.JButton jButton1;
     private javax.swing.JComboBox<String> jComboBoxTipoCliente;
+    private javax.swing.JLabel jIconoProductosMasPedidos;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1062,11 +1132,9 @@ public class VistaOperador extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
-    private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel26;
@@ -1078,6 +1146,8 @@ public class VistaOperador extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel jLabelMenu;
+    private javax.swing.JLabel jLabelProductosMasPedidos;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel6;
@@ -1093,7 +1163,6 @@ public class VistaOperador extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator5;
     private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JTextField textFieldDirr1;
-    private javax.swing.JTextField textFieldDirr2;
     private javax.swing.JTextField textFieldDirr3;
     private javax.swing.JTextField textFieldLastName;
     private javax.swing.JTextField textFieldName;

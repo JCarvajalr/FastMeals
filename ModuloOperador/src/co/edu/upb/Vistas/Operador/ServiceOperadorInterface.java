@@ -16,4 +16,6 @@ public interface ServiceOperadorInterface extends Remote {
     public byte[] isOnDatabase(String number) throws RemoteException;
 
     public LinkedList<Product> getMenu() throws RemoteException;
+    
+    public boolean addClientOnDataBase(Client client) throws RemoteException;
 }

@@ -13,7 +13,6 @@ import java.util.logging.Logger;
 
 public class ServiceCocina implements ServiceCocinaInterface {
     private ServiceCocinaInterface serviceCocina;
-    private ServiceCocinaInterface service;
     private String ip;
     private String port;
     private String serviceName;
@@ -21,7 +20,6 @@ public class ServiceCocina implements ServiceCocinaInterface {
     
     //Constructor
     public ServiceCocina(String ip, String port, String serviceName) {
-        this.service = null;
         this.ip = ip;
         this.port = port;
         this.serviceName = serviceName;
