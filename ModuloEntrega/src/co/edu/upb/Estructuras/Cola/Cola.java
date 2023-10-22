@@ -7,6 +7,10 @@ import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * @author JuanDavidCarvajal
+ * @param <T> 
+ */
 public class Cola<T extends Serializable> implements ColaInterface<T>, Serializable{
     LinkedList<T> contenedor = new LinkedList<>();
 

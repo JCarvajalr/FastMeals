@@ -16,6 +16,10 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+/**
+ * Interfaz grafica de modulo entrega
+ * @author JuanDavidCarvajal
+ */
 public class VistaEntrega extends javax.swing.JFrame {
     ServiceEntrega service;
     Order[] domicilioActual;
@@ -24,6 +28,7 @@ public class VistaEntrega extends javax.swing.JFrame {
         initComponents();
         initComponents2();
         this.service = service;
+        setLocationRelativeTo(null);
         setIconImage(getIconImage());
     }
     
@@ -257,6 +262,10 @@ public class VistaEntrega extends javax.swing.JFrame {
         cursorClickeable = new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR);
     }
     
+    /**
+     * Generación de tabla para observar la información de los pedidos para el domicilio actual
+     * @param pedidos -> Pedidos recibidos a partir de la busqueda en el servidor con la clase "ServiceEntrega"
+     */
     public void initTable(Order[] pedidos){
         int y = 10;
         
@@ -322,7 +331,7 @@ public class VistaEntrega extends javax.swing.JFrame {
         }
     }
 
-    public String convertPrecio(int precio){
+    public String convertPrecio(double precio){
         DecimalFormat formato = new DecimalFormat("###,###");
         String string = formato.format(precio);
         return "$" + string;

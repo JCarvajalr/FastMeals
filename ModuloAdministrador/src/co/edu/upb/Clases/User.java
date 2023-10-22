@@ -14,7 +14,7 @@ public class User implements Serializable {
         this.password = password;
         this.tipoUsuario = tipoUsuario;
     }
-    
+
     public User(String username, String password, int tipoUsuario) {
         this.username = username;
         this.password = password;
@@ -24,7 +24,7 @@ public class User implements Serializable {
             case 3 -> this.tipoUsuario = TipoUsuario.ENTREGA;
         }
     }
-    
+
     public boolean verificateLogin(String user, String pass){
         return username.equals(user) && password.equals(pass);
     }

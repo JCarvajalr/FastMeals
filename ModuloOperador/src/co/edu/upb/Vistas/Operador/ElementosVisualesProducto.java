@@ -5,6 +5,10 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
 
+/**
+ * Clase para agrupar todos los elementos visuales que conforman los productos en la interfaz grafica.
+ * @author JuanDavidCarvajal
+ */
 public class ElementosVisualesProducto {
     public Product producto;
     public String id;

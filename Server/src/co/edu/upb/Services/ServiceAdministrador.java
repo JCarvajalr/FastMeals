@@ -28,6 +28,7 @@ public class ServiceAdministrador extends UnicastRemoteObject implements Service
         clientesData.cargarJSon();
         LinkedList<Client> clientes = clientesData.getList();
         Iterator<NodeInterface<Client>> iterator = clientes.iterator();
+        number = number.replace(" ", "");
         while (iterator.hasNext()){
             Client temp = iterator.next().getObject();
             if (temp.getNumeroTelfono().equals(number)){
@@ -43,6 +44,7 @@ public class ServiceAdministrador extends UnicastRemoteObject implements Service
         clientesData.cargarJSon();
         LinkedList<Client> clientes = clientesData.getList();
         Iterator<NodeInterface<Client>> iterator = clientes.iterator();
+        number = number.replace(" ", "");
         while (iterator.hasNext()){
             Client temp = iterator.next().getObject();
             if (temp.getNumeroTelfono().equals(number)){
@@ -104,10 +106,13 @@ public class ServiceAdministrador extends UnicastRemoteObject implements Service
         productosJSon.cargarJSon();
         LinkedList<Product> list = productosJSon.getList();
         Iterator<NodeInterface<Product>> iterator = list.iterator();
+        id = id.replace(" ", "");
+        id = id.toLowerCase();
         while (iterator.hasNext()){
             Product temp = iterator.next().getObject();
-            if (temp.getId().equals(id) || temp.getNombre().equals(id)){
-                return productosJSon.removeObject(temp);
+            if (temp.getId().equals(id) || temp.getNombre().replace(" ", "").toLowerCase().equals(id)){
+                productosJSon.removeObject(temp);
+                return productosJSon.guardarDatosEnJSon();
             }
         }
         return false;
@@ -119,6 +124,7 @@ public class ServiceAdministrador extends UnicastRemoteObject implements Service
         productosJSon.cargarJSon();
         LinkedList<Product> list = productosJSon.getList();
         Iterator<NodeInterface<Product>> iterator = list.iterator();
+        id = id.replace(" ", "");
         while (iterator.hasNext()){
             Product temp = iterator.next().getObject();
             if (temp.getId().equals(id) || temp.getNombre().equals(id)){

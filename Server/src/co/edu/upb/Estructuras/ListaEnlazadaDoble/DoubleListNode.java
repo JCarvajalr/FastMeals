@@ -4,6 +4,10 @@ import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * @author JuanDavidCarvajal
+ * @param <T>
+ */
 public class DoubleListNode<T extends Serializable> extends Node<T> implements Serializable{
 
     private DoubleListNode<T> next;

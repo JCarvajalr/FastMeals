@@ -1,20 +1,18 @@
 package co.edu.upb.Vistas;
 
-
 import co.edu.upb.Vistas.Administrador.ServiceAdministrador;
 import co.edu.upb.Vistas.Administrador.VistaAdministrador;
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.rmi.RemoteException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.ImageIcon;
-import javax.swing.Timer;
 
-
+/**
+ * Login inicial para acceder al módulo administrador
+ * @author JuanDavidCarvajal
+ */
 public class LogIn extends javax.swing.JFrame {
     ServiceAdministrador service = new ServiceAdministrador("localhost", "4999", "serviceAdministrador");
     
@@ -25,9 +23,7 @@ public class LogIn extends javax.swing.JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setTitle("FastMeals - Login");
         setIconImage(getIconImage());
-
         jButton1.requestFocusInWindow();
-        
     }
 
     @Override

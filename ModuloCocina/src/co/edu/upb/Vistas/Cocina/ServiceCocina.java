@@ -11,6 +11,10 @@ import java.rmi.NotBoundException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Clase que implementa interfaz para conectar el módulo cocina y el servidor.
+ * @author JuanDavidCarvajal
+ */
 public class ServiceCocina implements ServiceCocinaInterface {
     private ServiceCocinaInterface serviceCocina;
     private String ip;

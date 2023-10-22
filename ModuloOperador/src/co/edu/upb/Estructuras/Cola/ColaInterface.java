@@ -2,6 +2,10 @@ package co.edu.upb.Estructuras.Cola;
 
 import java.io.Serializable;
 
+/**
+ * @author JuanDavidCarvajal
+ * @param <T> 
+ */
 public interface ColaInterface<T extends Serializable> {
     public boolean clear();
 

@@ -12,6 +12,11 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Iterator;
 
+/**
+ * Clase que implementa la interfaz que módulo de entrega y servidor
+ * @author JuanDavidCarvajal
+ */
+
 public class ServiceEntrega extends UnicastRemoteObject implements ServiceEntregaInterface {
     public ServiceEntrega() throws RemoteException {
     }

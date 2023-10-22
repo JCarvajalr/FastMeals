@@ -12,6 +12,10 @@ import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Interfaz grafica de modulo cocina.
+ * @author JuanDavidCarvajal
+ */
 public class VistaCocina extends javax.swing.JFrame {
     ServiceCocina service;
     Fogon[] fogones = new Fogon[16];
@@ -39,7 +43,13 @@ public class VistaCocina extends javax.swing.JFrame {
         return retvalue;
     }
     
-    //Procesos
+    /**
+     * Metodo para tomar un producto de manera que:
+     * 1. Se comunica al servidor y trae una orden si es posible (Funcion "verPedidos").
+     * 2. Buscar en las dos colas de prioridad (Productos lentos y rapidos) en busca de un producto premium.
+     * 3. Vacia primero la cola de productos lentos, ya que solo tienen 4 fogones, una vez llenos los 
+     *      fogones lentos, toma productos de la cola de productos rapidos.
+     */
     public void tomarProducto(){
         Product temp;
         verPedidos();
@@ -50,10 +60,13 @@ public class VistaCocina extends javax.swing.JFrame {
         }
         tomarProductoRapido();
     }
-    
+    /**
+     * Metodo para tomar productos de la cola lenta en caso de ser posible.
+     * (Fogones disponibles, productos en la cola)
+     * @return Verdadero en caso de haber podido tomar el producto, Falso en caso contrario
+     */
     public boolean tomarProductoLento(){
         Product temp;
-        
         //Fogones lentos
         if (fogonesLentosDisp() && !controlador.colaLentaIsEmpty()){
             temp = controlador.popColaLenta();
@@ -71,9 +84,13 @@ public class VistaCocina extends javax.swing.JFrame {
         return false;
     }
     
+    /**
+     * Metodo para tomar productos de la cola rapida en caso de ser posible.
+     * (Fogones disponibles, productos en la cola)
+     * @return Verdadero en caso de haber podido tomar el producto, Falso en caso contrario
+     */
     public boolean tomarProductoRapido(){
         Product temp;
-
         //Fogones rapidos
         if (fogonesRapidosDisp() && !controlador.colaRapidaIsEmpty()){  
             temp = controlador.popColaRapida();
@@ -91,12 +108,16 @@ public class VistaCocina extends javax.swing.JFrame {
         return false;
     }
     
+    /**
+     * Metodo para comunicarse al server en busca de pedidos.
+     * En caso de poder tomar un pedido, divide la lista de productos para clasificarlos en dos colas de pedidos 
+     * rapidos y lentos.
+     */
     public void verPedidos(){
         try {
             Order newOrder = service.getOrder();
             if (newOrder != null){
                 controlador.pedidosActuales.add(newOrder);
-                int cantidad = newOrder.cantidadProductos;
                 while (!newOrder.listaProductos.isEmpty()){
                     Product temp = newOrder.listaProductos.pop();
                     temp.setPedidoId(newOrder.id);
@@ -209,9 +230,7 @@ public class VistaCocina extends javax.swing.JFrame {
             fogones[i].CheckFogon.setVisible(false);
         }
     }
-    
-    //
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -694,6 +713,13 @@ public class VistaCocina extends javax.swing.JFrame {
         }
     }
     
+    /**
+     * Metodo para terminar de cocinar un producto.
+     * A partir del Id del producto, vuelve a asignarlo al pedido y se resta -1 a la cantidad de productos del pedido,
+     * en el momento en que la cantidad de productos de un pedido llegue a 0, significa que todos sus productos fueron cocinados
+     * y se envia al servidor para añadir a la lista de pedido hechos.
+     * @param i Número de fogon
+     */
     private void turnOff(int i){
         Iterator<NodeInterface<Order>> iterator = controlador.pedidosActuales.iterator();
         Order temp = null;

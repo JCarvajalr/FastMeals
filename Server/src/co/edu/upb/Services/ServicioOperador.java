@@ -11,6 +11,10 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Iterator;
 
+/**
+ * Clase que implementa la interfaz para conectar al módulo Operador.
+ * @author JuanDavidCarvajal
+ */
 public class ServicioOperador extends UnicastRemoteObject implements ServiceOperadorInterface {
     ColaPrioridad<Order> colaPedidos = new ColaPrioridad<>(2);
 
@@ -46,6 +50,7 @@ public class ServicioOperador extends UnicastRemoteObject implements ServiceOper
         LinkedList<Client> clientes = clientesJSon.getList();
         Iterator<NodeInterface<Client>> iterator = clientes.iterator();
         Client temp;
+        number = number.replace(" ", "");
         while (iterator.hasNext()){
             temp = iterator.next().getObject();
             if (temp.getNumeroTelfono().equals(number)){
@@ -77,6 +82,8 @@ public class ServicioOperador extends UnicastRemoteObject implements ServiceOper
                 return true;
             }
         }
+        clientesJSon.addObject(client);
+        clientesJSon.guardarDatosEnJSon();
         return false;
     }
 

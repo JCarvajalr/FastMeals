@@ -13,6 +13,10 @@ import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.Timer;
 
+/**
+ * Login inicial para acceder al módulo entrega
+ * @author JuanDavidCarvajal
+ */
 public class LogIn extends javax.swing.JFrame {
     
     ServiceEntrega service = new ServiceEntrega("localhost","5300","serviceEntrega");

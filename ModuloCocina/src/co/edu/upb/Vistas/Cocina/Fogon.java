@@ -3,6 +3,11 @@ package co.edu.upb.Vistas.Cocina;
 import co.edu.upb.Clases.Product;
 import javax.swing.JLabel;
 
+/**
+ * Objeto para manejar los fogones, tanto en como se procesan los productos como los 
+ * elementos a mostrar en pantalla.
+ * @author Kz
+ */
 public class Fogon {
     public Product currentProduct;
     boolean on;

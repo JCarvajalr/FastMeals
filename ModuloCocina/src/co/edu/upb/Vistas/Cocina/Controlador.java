@@ -8,6 +8,10 @@ import java.rmi.RemoteException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Clase para manejar las colas de prioridades de cocina.
+ * @author Kz
+ */
 public class Controlador {
     LinkedList<Order> pedidosActuales = new LinkedList<>();
     ColaPrioridad<Product>[] colaProductos = new ColaPrioridad[2];
@@ -27,16 +31,6 @@ public class Controlador {
             Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
-    }
-    
-    public Product tomarProducto(){
-        
-        return null;
-    }
-    
-    public boolean verificarFogonesRapidos(){
-
-        return false;
     }
     
     public boolean insertarProducto(Product product, int prioridad){

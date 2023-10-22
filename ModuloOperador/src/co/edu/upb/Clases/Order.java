@@ -16,7 +16,7 @@ public class Order implements Serializable{
     */
     public String direccion;
     public String barrio;
-    public int valorTotal;
+    public double valorTotal;
     public int cantidadProductos;
     public String numeroTelefono;
     /*  información de cliente:
@@ -53,7 +53,7 @@ public class Order implements Serializable{
         return direccion;
     }
 
-    public int getValorTotal() {
+    public double getValorTotal() {
         return valorTotal;
     }
 
@@ -66,10 +66,6 @@ public class Order implements Serializable{
         if (listaProductos.remove(producto)){
             valorTotal -= producto.precio;
         }
-    }
-
-    public int getTotalCompra(){
-        return valorTotal;
     }
 
     public void imprimir(){

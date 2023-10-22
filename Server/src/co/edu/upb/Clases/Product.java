@@ -2,11 +2,18 @@ package co.edu.upb.Clases;
 
 import java.io.Serializable;
 
+/**
+ * @author JuanDavidCarvajal
+ */
 public class Product implements Serializable{
     private static final long serialVersionUID = 12234523L;
     int precio;
     String nombre;
-    int tiempoCoccion; //0 -> Rapida, 1 -> Lenta
+    int tiempoCoccion;
+    /** TiempoCoccion:
+     * 0 -> Rapido
+     * 1 -> Lento
+     */
     String id;
     String descripcion;
     String pedidoId;

@@ -13,6 +13,10 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Iterator;
 
+/**
+ * Clase que implementa interfaz para conectar el módulo cocina y el servidor.
+ * @author JuanDavidCarvajal
+ */
 public class ServiceCocina extends UnicastRemoteObject implements ServiceCocinaInterface {
 
 

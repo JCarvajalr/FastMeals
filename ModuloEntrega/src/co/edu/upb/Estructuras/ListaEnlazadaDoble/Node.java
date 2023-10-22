@@ -5,6 +5,10 @@ import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * @author JuanDavidCarvajal
+ * @param <T> 
+ */
 public class Node<T extends Serializable> implements NodeInterface<T>, Serializable {
     private static final long serialVersionUID = 123L;
     private T object;

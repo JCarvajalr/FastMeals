@@ -13,7 +13,10 @@ import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.Timer;
 
-
+/**
+ * Login inicial para acceder al módulo operador
+ * @author JuanDavidCarvajal
+ */
 public class LogIn extends javax.swing.JFrame {
     
     ServiceOperador service = new ServiceOperador("localhost","5001","serviceOperador");

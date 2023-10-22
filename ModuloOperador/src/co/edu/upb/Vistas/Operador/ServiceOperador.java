@@ -15,6 +15,10 @@ import java.rmi.NotBoundException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Clase que implementa la interfaz para conectar al servidor.
+ * @author JuanDavidCarvajal
+ */
 public class ServiceOperador implements ServiceOperadorInterface{
     private ServiceOperadorInterface serviceOperador;
     private String ip;

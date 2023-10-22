@@ -15,12 +15,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.rmi.RemoteException;
 import java.text.DecimalFormat;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Iterator;
 import java.util.logging.Level;
@@ -32,7 +30,12 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 
+/**
+ * Interfaz grafica del modulo operador
+ * @author JuanDavidCarvajal
+ */
 public class VistaOperador extends javax.swing.JFrame {
+    double valorIVA = 1.19;
     ColaPrioridad<Order> colaDePedidos = new ColaPrioridad<>(2);
     Product[] menu;
     Order pedidoActual;
@@ -88,6 +91,7 @@ public class VistaOperador extends javax.swing.JFrame {
         TextAreaCarritoCompras = new javax.swing.JTextArea();
         jPanel3 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
         jTabbedPane2 = new javax.swing.JTabbedPane();
         AddProduct = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
@@ -276,6 +280,14 @@ public class VistaOperador extends javax.swing.JFrame {
         jLabel5.setForeground(new java.awt.Color(0, 0, 0));
         jLabel5.setText("Nuevo Pedido");
         jPanel3.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(21, 23, -1, -1));
+
+        jButton2.setText("Restart");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        jPanel3.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(1090, 20, -1, -1));
 
         PanelNuevoPedido.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1390, 90));
 
@@ -564,6 +576,10 @@ public class VistaOperador extends javax.swing.JFrame {
         jTabbedPane2.setSelectedIndex(0);
     }//GEN-LAST:event_jLabel13MouseClicked
 
+    /**
+     * Metodo que apartir del String dado en el buscador, genera un nuevo menu con los productos con nombres similares
+     * y los muestra en pantalla.
+     */
     public void generarResultadosBusqueda(){
         //jScrollPaneResults.getVerticalScrollBar().setValue(0);
         //jPanelResults.removeAll();
@@ -688,8 +704,11 @@ public class VistaOperador extends javax.swing.JFrame {
         }
         mostrarProductoEnMenu(gruposSwingMenu);
     }
-
     
+    /**
+     * Metodo para recrear el panel de menu y mostrar los productos que se necesiten.
+     * @param elementos Array de elementos graficos que se desean mostrar.
+     */
     public void mostrarProductoEnMenu(ElementosVisualesProducto[] elementos){
         jPanelMenu.removeAll();
         int posX = 30;
@@ -799,7 +818,7 @@ public class VistaOperador extends javax.swing.JFrame {
     public void actualizarAreaCarritoDeCompras(){
         TextAreaCarritoCompras.setText(pedidoActual.listaProductos.listToString());
         TextAreaTotal.setText("Productos: " + pedidoActual.listaProductos.size() +
-            "\nTotal: " + convertPrecio(pedidoActual.getTotalCompra()));
+            "\nTotal: " + convertPrecio(pedidoActual.getValorTotal()));
     }
         
     public void mostrarBusquedaNulaEnResultados(){
@@ -834,6 +853,11 @@ public class VistaOperador extends javax.swing.JFrame {
         return newResultados;
     }
     
+    /**
+     * Metodo que usa el algoritmo de "Distancia de Hamming" modificado para dar resultados a la busqueda.
+     * @param stringBusqueda Texto ingresado en el buscador.
+     * @return Array de elementos graficos asociados a cada producto.
+     */
     public ElementosVisualesProducto[] distanciaHammingMod(String stringBusqueda){
         LinkedList<String> resultadoBusqueda = new LinkedList<>();
         //Iterar todos los productos del menu
@@ -926,7 +950,10 @@ public class VistaOperador extends javax.swing.JFrame {
         mostrarProductosMasPedidos();
     }//GEN-LAST:event_jLabelProductosMasPedidosMouseClicked
 
-        //Aros de cebolla
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        reiniciarPedido();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
     private boolean verificarPedido(){
         String camposInvalidos = "";
         boolean validate = true;
@@ -974,14 +1001,17 @@ public class VistaOperador extends javax.swing.JFrame {
         return validate;
     }
     
+    /**
+     * Metodo para confirmar el pedido en proceso y enviarlo al servidor a traves de la clase servicio.
+     * @throws RemoteException 
+     */
     private void confirmarPedido() throws RemoteException{
         if (verificarPedido()){
-            imprimirRecibo();
             guardarDatosPedido();
             generarId();
+            imprimirRecibo();
             Client newClient = crearCliente();
             colaDePedidos.add(pedidoActual, pedidoActual.tipoCliente);
-            
             try {
                 service.addOrder(pedidoActual);
                 service.addClientOnDataBase(newClient);
@@ -995,6 +1025,10 @@ public class VistaOperador extends javax.swing.JFrame {
         }
     }
     
+    /**
+     * Generación de Id para cada pedido a partir de:
+     * Hora en segundos, Horas, Minutos y Letras del nombre del Cliente.
+     */
     public void generarId(){
         LocalDateTime localDateTime = LocalDateTime.now();
         String id = localDateTime.getHour() + "-" + pedidoActual.nombres.charAt(0);
@@ -1004,9 +1038,21 @@ public class VistaOperador extends javax.swing.JFrame {
         pedidoActual.id = id;
     }
     
+    /**
+     * Metodo para mostrar el recibo del pedido en pantalla al finalizar el pedido.
+     */
     public void imprimirRecibo(){
         Icon icono = new ImageIcon(getClass().getResource("/co/edu/upb/Iconos/IconoFactura.png"));
-        JOptionPane.showMessageDialog(null, "Imprimir recibo", "Recibo", JOptionPane.PLAIN_MESSAGE, icono);
+        String recibo = "--------------------------------------" +
+                "\nPedido: " + pedidoActual.id +
+                "\nTitular: " + pedidoActual.nombres + " " + pedidoActual.apellidos +
+                "\n--------------------------------------" +
+                "\nProductos:\n" + pedidoActual.listaProductos.listToString() +
+                "\nValor productos: $" + pedidoActual.valorTotal;
+        pedidoActual.valorTotal = pedidoActual.valorTotal * valorIVA;
+        recibo += "\nValor Total con IVA: \n$" + pedidoActual.valorTotal;
+        
+        JOptionPane.showMessageDialog(null, recibo, "Recibo", JOptionPane.PLAIN_MESSAGE, icono);
     }
     
     private void reiniciarPedido(){
@@ -1042,6 +1088,9 @@ public class VistaOperador extends javax.swing.JFrame {
         return newClient;
     }
     
+    /**
+     * Metodo para comunicarse al servidor a traves de la clase Service y obtener el menu en la base de datos.
+     */
     private void llenarMenu(){
         LinkedList<Product> listaMenu = null;
         try {
@@ -1058,7 +1107,7 @@ public class VistaOperador extends javax.swing.JFrame {
         }
     }
     
-    public String convertPrecio(int precio){
+    public String convertPrecio(double precio){
         DecimalFormat formato = new DecimalFormat("###,###");
         String string = formato.format(precio);
         return "$" + string;
@@ -1122,6 +1171,7 @@ public class VistaOperador extends javax.swing.JFrame {
     private javax.swing.JTextArea TextAreaTotal;
     private javax.swing.JTextField TextFieldBuscador;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JComboBox<String> jComboBoxTipoCliente;
     private javax.swing.JLabel jIconoProductosMasPedidos;
     private javax.swing.JLabel jLabel1;

@@ -8,6 +8,10 @@ import java.util.NoSuchElementException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * @author JuanDavidCarvajal
+ * @param <T> 
+ */
 public class LinkedList<T extends Serializable> implements LinkedListInterface<T>, Serializable {
     private static final long serialVersionUID = 1525693509033756841L;
     private DoubleListNode<T> head;

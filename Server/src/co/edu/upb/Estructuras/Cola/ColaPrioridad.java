@@ -4,6 +4,10 @@ import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * @author JuanDavidCarvajal
+ * @param <T>
+ */
 public class ColaPrioridad<T extends Serializable> implements Serializable {
     Cola<T>[] array;
     int contador;
