@@ -4,26 +4,85 @@
     "nombres": "Juan",
     "apellidos": "Carvajal",
     "tipoCliente": 1,
-    "direccion": "Calle 1-23, (Piedecuesta)",
+    "direccion": "Calle 1-23, Piedecuesta",
     "productosMasPedidos": [
+      [
+        "002",
+        "4"
+      ],
+      [
+        "003",
+        "2"
+      ],
       [
         "005",
         "1"
       ],
       [
-        "003",
-        "1"
-      ],
-      [
-        "002",
-        "3"
-      ],
-      [
         "007",
-        "1"
+        "2"
       ],
       [
         "008",
+        "1"
+      ],
+      [
+        "006",
+        "1"
+      ]
+    ]
+  },
+  {
+    "numeroTelefono": "3205997152",
+    "nombres": "Carlos",
+    "apellidos": "Sainz",
+    "tipoCliente": 0,
+    "direccion": "Carrera 904-1341, Lagos",
+    "productosMasPedidos": [
+      [
+        "009",
+        "1"
+      ],
+      [
+        "004",
+        "1"
+      ],
+      [
+        "011",
+        "1"
+      ]
+    ]
+  },
+  {
+    "numeroTelefono": "3000000000",
+    "nombres": "Jhon",
+    "apellidos": "Doe",
+    "tipoCliente": 1,
+    "direccion": "Calle 1 - 1# 01, Cañaveral",
+    "productosMasPedidos": [
+      [
+        "003",
+        "16"
+      ]
+    ]
+  },
+  {
+    "numeroTelefono": "312169849544",
+    "nombres": "Yeyas",
+    "apellidos": "Santamaria",
+    "tipoCliente": 0,
+    "direccion": "Calle 5555, El hueco",
+    "productosMasPedidos": [
+      [
+        "004",
+        "1"
+      ],
+      [
+        "009",
+        "1"
+      ],
+      [
+        "006",
         "1"
       ]
     ]

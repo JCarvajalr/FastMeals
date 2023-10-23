@@ -5,7 +5,12 @@ import co.edu.upb.Vistas.Administrador.VistaAdministrador;
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.rmi.RemoteException;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -14,7 +19,9 @@ import java.util.logging.Logger;
  * @author JuanDavidCarvajal
  */
 public class LogIn extends javax.swing.JFrame {
-    ServiceAdministrador service = new ServiceAdministrador("localhost", "4999", "serviceAdministrador");
+    
+    Properties properties = new Properties();
+    ServiceAdministrador service;
     
     public LogIn() {
         initComponents();
@@ -24,6 +31,20 @@ public class LogIn extends javax.swing.JFrame {
         setTitle("FastMeals - Login");
         setIconImage(getIconImage());
         jButton1.requestFocusInWindow();
+        try {
+            deployService();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(LogIn.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void deployService() throws FileNotFoundException{
+        try {
+            properties.load(new FileInputStream(new File("configAdmin.properties")));
+            service = new ServiceAdministrador((String) properties.get("IP"), (String) properties.get("PORT"), (String) properties.get("SERVICENAME")); 
+        } catch (IOException ex) {
+            Logger.getLogger(LogIn.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override

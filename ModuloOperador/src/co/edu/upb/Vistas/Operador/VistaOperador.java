@@ -1,5 +1,6 @@
 package co.edu.upb.Vistas.Operador;
 
+import co.edu.upb.Clases.NodoHashMap;
 import co.edu.upb.Clases.Order;
 import co.edu.upb.Clases.Product;
 import co.edu.upb.Clases.Client;
@@ -714,7 +715,6 @@ public class VistaOperador extends javax.swing.JFrame {
         int posX = 30;
         int posY1 = 10, posY2 = 210, posY3 = 240, posY4 = 270;
         for (int i=0; i < elementos.length; i++){
-            System.out.println(elementos[i].producto.getId());
             
             JLabel imagenProducto = elementos[i].imagenProducto;
             JLabel nombreProducto = elementos[i].nombreProducto;
@@ -834,15 +834,15 @@ public class VistaOperador extends javax.swing.JFrame {
         jPanelMenu.repaint();
     }
     
-    public ElementosVisualesProducto[] convertirResultados(LinkedList<String> resultados){
+    public ElementosVisualesProducto[] convertirResultados(LinkedList<NodoHashMap> resultados){
         if (resultados.isEmpty()){
             return null;
         }
-        Iterator<NodeInterface<String>> iterator = resultados.iterator();
+        Iterator<NodeInterface<NodoHashMap>> iterator = resultados.iterator();
         ElementosVisualesProducto[] newResultados = new ElementosVisualesProducto[resultados.size()];
         int contadorPos = 0;
         while (iterator.hasNext()){
-            String temp = iterator.next().getObject();
+            String temp = iterator.next().getObject().producto;
             for (int i=0; i<gruposSwingMenu.length; i++){
                 if (gruposSwingMenu[i].getId().equals(temp)){
                     newResultados[contadorPos] = gruposSwingMenu[i];
@@ -859,7 +859,7 @@ public class VistaOperador extends javax.swing.JFrame {
      * @return Array de elementos graficos asociados a cada producto.
      */
     public ElementosVisualesProducto[] distanciaHammingMod(String stringBusqueda){
-        LinkedList<String> resultadoBusqueda = new LinkedList<>();
+        LinkedList<NodoHashMap> productosSimilares = new LinkedList<>();
         //Iterar todos los productos del menu
         for (int j = 0; j < menu.length; j++){
             /*Dividir las palabras del nombre de cada producto en una array con 
@@ -874,7 +874,6 @@ public class VistaOperador extends javax.swing.JFrame {
             } else {
                 stringProductoActual = palabras;
             }
-            
             //Pasar busqueda a minusculas y quitar espacios
             stringBusqueda = stringBusqueda.toLowerCase().replace(" ", "");
             for (int i = 0; i < stringProductoActual.length; i++){
@@ -912,18 +911,30 @@ public class VistaOperador extends javax.swing.JFrame {
                     }
                     iterador++;
                 }
-                /* --- Determinar si la busqueda se parece al producto y agregarlo a los resultados ---
-                Similitud = Dividir la cantidad de caracteres en las iguales para tener una proporción
-                Sí la similitud es menor o igual a 1.5, si son similares.
-                */
-                if ((igualdades > 0) && ((double)stringBusqueda.length() / igualdades) <= 1.5){
-                    resultadoBusqueda.add(productoActual.getId());
+                /**
+                 * Determinar si la busqueda tiene similitud con el producto actual y ser agregado a la lista de resultados.
+                 * Calcular similitud:
+                 * Se calcula la diferencia dividiendo la cantidad de caracteres en las iguales para tener una proporción si
+                 * la diferencia es menor a 1.5, si son similares. 
+                 */
+
+                double diferencia = (double)stringBusqueda.length() / igualdades;
+                if ((igualdades > 0) && (diferencia < 1.5)){
+                    if (!productosSimilares.isEmpty()){
+                        if (productosSimilares.get().diferencia >= diferencia){
+                            productosSimilares.addOnHead(new NodoHashMap(productoActual.getId(), diferencia));
+                        } else {
+                            productosSimilares.add(new NodoHashMap(productoActual.getId(), diferencia));
+                        }
+                    } else {
+                        productosSimilares.add(new NodoHashMap(productoActual.getId(), diferencia));
+                    }
                     //Romper el ciclo en caso de encontrar una similitud con cualquiera de los strings de cada producto
                     break;
                 }
             }
         }
-        return convertirResultados(resultadoBusqueda);
+        return convertirResultados(productosSimilares);
     }
     
     private void TextFieldBuscadorFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_TextFieldBuscadorFocusGained
@@ -1083,7 +1094,7 @@ public class VistaOperador extends javax.swing.JFrame {
     
     public Client crearCliente(){
         Client newClient = new Client(textFieldName.getText(), textFieldLastName.getText(), jComboBoxTipoCliente.getSelectedIndex(), 
-                textFieldDirr1.getText() + ", (" + textFieldDirr3.getText() + ")", textFieldNum.getText());
+                textFieldDirr1.getText() + ", " + textFieldDirr3.getText(), textFieldNum.getText());
         newClient.addProductos(pedidoActual.listaProductos, topProductos);
         return newClient;
     }

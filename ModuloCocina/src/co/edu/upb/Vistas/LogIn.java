@@ -7,7 +7,12 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.rmi.RemoteException;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
@@ -19,7 +24,8 @@ import javax.swing.Timer;
  */
 public class LogIn extends javax.swing.JFrame {
 
-    ServiceCocina service = new ServiceCocina("localhost","5020","serviceCocina");
+    Properties properties = new Properties();
+    ServiceCocina service;
     
     public LogIn() {
         initComponents();
@@ -30,7 +36,20 @@ public class LogIn extends javax.swing.JFrame {
         setIconImage(getIconImage());
 
         jButton1.requestFocusInWindow();
-        
+        try {
+            deployService();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(LogIn.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void deployService() throws FileNotFoundException{
+        try {
+            properties.load(new FileInputStream(new File("configCocina.properties")));
+            service = new ServiceCocina((String) properties.get("IP"), (String) properties.get("PORT"), (String) properties.get("SERVICENAME")); 
+        } catch (IOException ex) {
+            Logger.getLogger(LogIn.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override

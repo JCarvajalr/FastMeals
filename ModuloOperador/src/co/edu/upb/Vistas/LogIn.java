@@ -7,7 +7,12 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.rmi.RemoteException;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
@@ -19,6 +24,7 @@ import javax.swing.Timer;
  */
 public class LogIn extends javax.swing.JFrame {
     
+    Properties properties = new Properties();
     ServiceOperador service = new ServiceOperador("localhost","5001","serviceOperador");
     
     public LogIn() {
@@ -30,9 +36,26 @@ public class LogIn extends javax.swing.JFrame {
         setIconImage(getIconImage());
 
         jButton1.requestFocusInWindow();
-        
+        try {
+            deployService();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(LogIn.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
-
+    
+    /**
+     * Metodo para iniciar el objeto service
+     * @throws FileNotFoundException 
+     */
+    public void deployService() throws FileNotFoundException{
+        try {
+            properties.load(new FileInputStream(new File("configOperador.properties")));
+            service = new ServiceOperador((String) properties.get("IP"), (String) properties.get("PORT"), (String) properties.get("SERVICENAME")); 
+        } catch (IOException ex) {
+            Logger.getLogger(LogIn.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     @Override
     public Image getIconImage(){
         Image retvalue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("co/edu/upb/Iconos/Icono.png"));

@@ -68,6 +68,6 @@ public class Cola<T extends Serializable> implements ColaInterface<T>, Serializa
         if (isEmpty()){
             return "";
         }
-        return contenedor.toString();
+        return contenedor.listToString();
     }
 }
