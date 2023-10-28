@@ -60,13 +60,13 @@ public class Server {
             result[0] = deployServiceAdministrador((String) properties.get("PORT1"), (String) properties.get("SERVICENAME1")) ? true : false;
             //result[0] = deployServiceAdministrador((String) properties.get("PORT1"), (String) properties.get("SERVICENAME1")) ? "Service: Administrador: On" : "Service: Administrador: Off";
 
-            result[1] = deployServiceAdministrador((String) properties.get("PORT2"), (String) properties.get("SERVICENAME2")) ? true : false;
+            result[1] = deployServiceOperador((String) properties.get("PORT2"), (String) properties.get("SERVICENAME2")) ? true : false;
             //result[1] = deployServiceOperador((String) properties.get("PORT2"), (String) properties.get("SERVICENAME2")) ? "Service: Operador: On" : "Service: Operador: Off";
 
-            result[2] = deployServiceAdministrador((String) properties.get("PORT3"), (String) properties.get("SERVICENAME3")) ? true : false;
+            result[2] = deployServiceCocina((String) properties.get("PORT3"), (String) properties.get("SERVICENAME3")) ? true : false;
             //result[2] = deployServiceCocina((String) properties.get("PORT3"), (String) properties.get("SERVICENAME3")) ? "Service: Cocina: On" : "Service: Cocina: Off";
 
-            result[3] = deployServiceAdministrador((String) properties.get("PORT4"), (String) properties.get("SERVICENAME4")) ? true : false;
+            result[3] = deployServiceEntrega((String) properties.get("PORT4"), (String) properties.get("SERVICENAME4")) ? true : false;
             //result[3] = deployServiceEntrega((String) properties.get("PORT4"), (String) properties.get("SERVICENAME4")) ? "Service: Entrega: On" : "Service: Entrega: Off";
 
             return result;
