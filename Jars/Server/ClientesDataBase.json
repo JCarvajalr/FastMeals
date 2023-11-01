@@ -1,0 +1,140 @@
+[
+  {
+    "numeroTelefono": "3205997152",
+    "nombres": "Carlos",
+    "apellidos": "Sainz",
+    "tipoCliente": 0,
+    "direccion": "Carrera 904-1341, Lagos",
+    "productosMasPedidos": [
+      [
+        "009",
+        "1"
+      ],
+      [
+        "004",
+        "1"
+      ],
+      [
+        "011",
+        "1"
+      ]
+    ]
+  },
+  {
+    "numeroTelefono": "3000000000",
+    "nombres": "Jhon",
+    "apellidos": "Doe",
+    "tipoCliente": 1,
+    "direccion": "Calle 1 - 1# 01, Cañaveral",
+    "productosMasPedidos": [
+      [
+        "003",
+        "16"
+      ]
+    ]
+  },
+  {
+    "numeroTelefono": "312169849544",
+    "nombres": "Yeyas",
+    "apellidos": "Santamaria",
+    "tipoCliente": 0,
+    "direccion": "Calle 5555, El hueco",
+    "productosMasPedidos": [
+      [
+        "004",
+        "1"
+      ],
+      [
+        "009",
+        "1"
+      ],
+      [
+        "006",
+        "1"
+      ]
+    ]
+  },
+  {
+    "numeroTelefono": "3207690939",
+    "nombres": "Fabian",
+    "apellidos": "Solano",
+    "tipoCliente": 1,
+    "direccion": "Calle 342, Giron",
+    "productosMasPedidos": [
+      [
+        "002",
+        "1"
+      ],
+      [
+        "006",
+        "1"
+      ],
+      [
+        "009",
+        "1"
+      ],
+      [
+        "004",
+        "1"
+      ]
+    ]
+  },
+  {
+    "numeroTelefono": "3188210834",
+    "nombres": "Juan",
+    "apellidos": "Carvajal",
+    "tipoCliente": 1,
+    "direccion": "Calle 1-23, Piedecuesta",
+    "productosMasPedidos": [
+      [
+        "002",
+        "4"
+      ],
+      [
+        "003",
+        "4"
+      ],
+      [
+        "005",
+        "2"
+      ],
+      [
+        "007",
+        "3"
+      ],
+      [
+        "008",
+        "2"
+      ],
+      [
+        "006",
+        "1"
+      ],
+      [
+        "001",
+        "2"
+      ]
+    ]
+  },
+  {
+    "numeroTelefono": "3333333333",
+    "nombres": "Pablo",
+    "apellidos": "Escobar",
+    "tipoCliente": 0,
+    "direccion": "Avenida siempreviva, Giron",
+    "productosMasPedidos": [
+      [
+        "007",
+        "1"
+      ],
+      [
+        "006",
+        "1"
+      ],
+      [
+        "002",
+        "1"
+      ]
+    ]
+  }
+]

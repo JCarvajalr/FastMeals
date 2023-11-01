@@ -1,38 +1,5 @@
 [
   {
-    "numeroTelefono": "3188210834",
-    "nombres": "Juan",
-    "apellidos": "Carvajal",
-    "tipoCliente": 1,
-    "direccion": "Calle 1-23, Piedecuesta",
-    "productosMasPedidos": [
-      [
-        "002",
-        "4"
-      ],
-      [
-        "003",
-        "2"
-      ],
-      [
-        "005",
-        "1"
-      ],
-      [
-        "007",
-        "2"
-      ],
-      [
-        "008",
-        "1"
-      ],
-      [
-        "006",
-        "1"
-      ]
-    ]
-  },
-  {
     "numeroTelefono": "3205997152",
     "nombres": "Carlos",
     "apellidos": "Sainz",
@@ -105,6 +72,43 @@
       [
         "009",
         "1"
+      ],
+      [
+        "004",
+        "1"
+      ]
+    ]
+  },
+  {
+    "numeroTelefono": "3188210834",
+    "nombres": "Juan",
+    "apellidos": "Carvajal",
+    "tipoCliente": 1,
+    "direccion": "Calle 1-23, Piedecuesta",
+    "productosMasPedidos": [
+      [
+        "002",
+        "5"
+      ],
+      [
+        "003",
+        "3"
+      ],
+      [
+        "005",
+        "2"
+      ],
+      [
+        "007",
+        "2"
+      ],
+      [
+        "008",
+        "2"
+      ],
+      [
+        "006",
+        "2"
       ],
       [
         "004",
